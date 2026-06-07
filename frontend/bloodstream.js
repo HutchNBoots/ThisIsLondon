@@ -665,9 +665,9 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     const zoom = map.getZoom();
-    // Hide all canvas art below zoom 10; fade boluses at zoom 11
-    if (zoom < 10) { animFrame = requestAnimationFrame(draw); return; }
-    const bolusAlpha = zoom <= 11 ? (zoom - 10) * 0.7 : 1;
+    // Hide all canvas art below zoom 12; fade in 12→13
+    if (zoom < 12) { animFrame = requestAnimationFrame(draw); return; }
+    const bolusAlpha = zoom <= 13 ? (zoom - 12) * 0.9 : 1;
     ctx.globalAlpha = bolusAlpha;
 
     // Victoria

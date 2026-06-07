@@ -190,7 +190,7 @@ map.on('zoomend', () => {
   Object.entries(stationMarkers).forEach(([id, marker]) => {
     const s = stationData[id];
     if (!s) return;
-    if (zoom <= 10) {
+    if (zoom <= 12) {
       marker.setOpacity(0);
     } else {
       marker.setOpacity(1);
@@ -279,8 +279,9 @@ async function loadStations() {
       const { name, lat, lng, line } = station;
       stationData[station_id] = station;
 
-      const icon = makeRoundelIcon(line, map.getZoom(), name);
-      const marker = L.marker([lat, lng], { icon }).addTo(map);
+      const zoom = map.getZoom();
+      const icon = makeRoundelIcon(line, zoom, name);
+      const marker = L.marker([lat, lng], { icon, opacity: zoom <= 12 ? 0 : 1 }).addTo(map);
 
       marker.on('click', () => {
         if (journeyMode) { resolveJourney(station_id); return; }
