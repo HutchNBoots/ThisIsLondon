@@ -408,20 +408,10 @@ async function pollLineStatus() {
   } catch (_) {}
 }
 
-function renderStatusBanner(statuses) {
+function renderStatusBanner(_statuses) {
+  // Banner removed per design decision
   const banner = document.getElementById('status-banner');
-  if (!banner) return;
-  const disrupted = statuses.filter(s => s.disrupted);
-  if (disrupted.length === 0) {
-    banner.classList.add('hidden');
-    return;
-  }
-  banner.classList.remove('hidden');
-  banner.innerHTML = disrupted.map(s => {
-    const dot = `<span class="status-dot status-${s.severity <= 5 ? 'red' : 'amber'}"></span>`;
-    const reason = s.reason ? ` — ${s.reason.substring(0, 80)}` : '';
-    return `<span class="status-item">${dot}${s.line.toUpperCase()}: ${s.description}${reason}</span>`;
-  }).join('');
+  if (banner) banner.classList.add('hidden');
 }
 
 // ── Air quality ───────────────────────────────────────────────────────────────

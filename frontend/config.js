@@ -1,4 +1,4 @@
 // Injected at deploy time by Vercel environment variable or build step
 // Falls back to localhost for local development
 window.BACKEND_URL = window.BACKEND_URL || 'https://thisislondon-production.up.railway.app';
-window.BUILD_ID = '9ce81fb · 2026-06-07';
+window.BUILD_ID = '5a2a9b0 · 2026-06-07';
