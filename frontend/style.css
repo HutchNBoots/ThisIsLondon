@@ -1,5 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
+/* ── CSS custom properties (theming) ─────────────────────── */
+
+:root {
+  --accent:       #ff9900;
+  --accent-dim:   #ff990088;
+  --accent-faint: #ff990033;
+  --accent-ghost: #ff990011;
+  --bg-body:      #0a0a0a;
+  --bg-panel:     #0d0d0d;
+  --bg-arrivals:  #0a0500;
+  --text:         #ff9900;
+  --text-dim:     #ff9900aa;
+  --text-faint:   #ff990066;
+  --border:       #ff990033;
+  --border-mid:   #ff990044;
+}
+
+/* Green mode — dark map, green accent */
+body.mode-green {
+  --accent:       #00cc66;
+  --accent-dim:   #00cc6688;
+  --accent-faint: #00cc6633;
+  --accent-ghost: #00cc6611;
+  --text:         #00cc66;
+  --text-dim:     #00cc66aa;
+  --text-faint:   #00cc6666;
+  --border:       #00cc6633;
+  --border-mid:   #00cc6644;
+  --bg-arrivals:  #000a05;
+}
+
+/* Light mode — light map, TfL navy accent */
+body.mode-light {
+  --accent:       #003688;
+  --accent-dim:   #00368888;
+  --accent-faint: #00368833;
+  --accent-ghost: #00368811;
+  --bg-body:      #f5f0e8;
+  --bg-panel:     #ffffff;
+  --bg-arrivals:  #eef0f8;
+  --text:         #003688;
+  --text-dim:     #003688aa;
+  --text-faint:   #00368866;
+  --border:       #00368833;
+  --border-mid:   #00368844;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -7,9 +54,9 @@
 }
 
 body {
-  background: #0a0a0a;
+  background: var(--bg-body);
   font-family: 'Share Tech Mono', monospace;
-  color: #ff9900;
+  color: var(--text);
   overflow: hidden;
 }
 
@@ -18,11 +65,13 @@ body {
 #map-container {
   position: absolute;
   inset: 0;
+  touch-action: none;
 }
 
 #map {
   width: 100%;
   height: 100%;
+  touch-action: none;
 }
 
 /* Atmosphere tint: subliminal colour temperature shift with map position */
@@ -54,13 +103,13 @@ body {
   top: 0;
   height: 100vh;
   width: 360px;
-  background: #0d0d0d;
-  border-left: 1px solid #ff990033;
+  background: var(--bg-panel);
+  border-left: 1px solid var(--border);
   transform: translateX(100%);
   transition: transform 300ms ease-out;
   z-index: 1000;
   padding: 20px;
-  overflow: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -76,36 +125,41 @@ body {
   position: absolute;
   top: 14px;
   right: 14px;
-  font-size: 22px;
-  color: #ff990088;
+  font-size: 26px;
+  color: var(--accent-dim);
   cursor: pointer;
   line-height: 1;
   transition: color 150ms;
   z-index: 10;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #panel-close:hover {
-  color: #ff9900;
+  color: var(--accent);
 }
 
 /* Panel header: station name + borough */
 #panel-header {
   padding-right: 24px;
-  border-bottom: 1px solid #ff990044;
+  border-bottom: 1px solid var(--border-mid);
   padding-bottom: 10px;
 }
 
 #panel-station-name {
   font-size: 16px;
   letter-spacing: 4px;
-  color: #ff9900;
+  color: var(--text);
   text-transform: uppercase;
 }
 
 #panel-borough-name {
   font-size: 10px;
   letter-spacing: 3px;
-  color: #ff990066;
+  color: var(--text-faint);
   margin-top: 3px;
   text-transform: uppercase;
 }
@@ -115,7 +169,7 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 5px 0;
-  border-bottom: 1px solid #ff990022;
+  border-bottom: 1px solid var(--accent-ghost);
   font-size: 12px;
 }
 
@@ -126,7 +180,7 @@ body {
 }
 
 .arrival-time {
-  color: #ff9900;
+  color: var(--accent);
   font-weight: bold;
   min-width: 60px;
   text-align: right;
@@ -139,7 +193,7 @@ body {
 /* Cursor blink */
 .cursor-blink {
   display: inline-block;
-  color: #ff9900;
+  color: var(--accent);
   animation: blink 1s step-end infinite;
 }
 
@@ -150,9 +204,9 @@ body {
 /* Dot-matrix arrivals board */
 #panel-arrivals {
   font-family: 'Share Tech Mono', monospace;
-  color: #ff9900;
-  background: #0a0500;
-  border: 1px solid #ff990055;
+  color: var(--accent);
+  background: var(--bg-arrivals);
+  border: 1px solid var(--accent-dim);
   padding: 12px;
   font-size: 11px;
   line-height: 1.8;
@@ -169,22 +223,22 @@ body {
 .section-label {
   font-size: 8px;
   letter-spacing: 3px;
-  color: #ff990055;
+  color: var(--text-faint);
   text-transform: uppercase;
-  border-top: 1px solid #ff990022;
+  border-top: 1px solid var(--accent-ghost);
   padding-top: 8px;
   margin-bottom: 6px;
 }
 
 .section-content {
   font-size: 11px;
-  color: #ff9900aa;
+  color: var(--text-dim);
   line-height: 1.6;
 }
 
 /* Place section — static inscriptions, slightly brighter */
 #panel-place-content {
-  color: #ff9900cc;
+  color: var(--text-dim);
 }
 
 /* Data lines for People / Right Now sections */
@@ -193,11 +247,11 @@ body {
   justify-content: space-between;
   padding: 2px 0;
   font-size: 11px;
-  border-bottom: 1px solid #ff990011;
+  border-bottom: 1px solid var(--accent-ghost);
 }
 
 .data-label {
-  color: #ff990066;
+  color: var(--text-faint);
   font-size: 9px;
   letter-spacing: 2px;
   flex-shrink: 0;
@@ -206,7 +260,7 @@ body {
 }
 
 .data-value {
-  color: #ff9900cc;
+  color: var(--text-dim);
   text-align: right;
   letter-spacing: 1px;
 }
@@ -226,11 +280,11 @@ body {
 /* Borough facts — static, no scroll */
 .fact-static {
   display: block;
-  color: #ff9900cc;
+  color: var(--text-dim);
   font-size: 11px;
   line-height: 1.7;
   padding: 3px 0;
-  border-bottom: 1px solid #ff990011;
+  border-bottom: 1px solid var(--accent-ghost);
 }
 
 .fact-static:last-child {
@@ -239,8 +293,8 @@ body {
 
 /* On This Day entry — slightly highlighted */
 .fact-static.on-this-day {
-  color: #ff9900;
-  border-top: 1px solid #ff990033;
+  color: var(--accent);
+  border-top: 1px solid var(--border);
   margin-top: 4px;
   padding-top: 6px;
 }
@@ -264,8 +318,8 @@ body {
 #gauge-bar {
   flex: 1;
   width: 6px;
-  background: #ff990022;
-  border: 1px solid #ff990044;
+  background: var(--accent-ghost);
+  border: 1px solid var(--accent-faint);
   border-radius: 3px;
   position: relative;
   overflow: hidden;
@@ -278,7 +332,7 @@ body {
   left: 0;
   right: 0;
   height: 40%;
-  background: linear-gradient(to top, #ff9900, #ff990066);
+  background: linear-gradient(to top, var(--accent), var(--accent-dim));
   border-radius: 0 0 3px 3px;
   transition: height 1s ease;
 }
@@ -286,7 +340,7 @@ body {
 #gauge-label {
   font-size: 7px;
   letter-spacing: 2px;
-  color: #ff990066;
+  color: var(--text-faint);
   writing-mode: vertical-lr;
   text-orientation: mixed;
   transform: rotate(180deg);
@@ -306,7 +360,7 @@ body {
   display: block;
   font-size: 11px;
   letter-spacing: 4px;
-  color: #ff9900;
+  color: var(--text);
   opacity: 0.9;
 }
 
@@ -314,7 +368,7 @@ body {
   display: block;
   font-size: 9px;
   letter-spacing: 3px;
-  color: #ff990066;
+  color: var(--text-faint);
   margin-top: 4px;
 }
 
@@ -326,7 +380,7 @@ body {
 }
 
 .victoria-station:hover {
-  filter: drop-shadow(0 0 6px #ff9900);
+  filter: drop-shadow(0 0 6px var(--accent));
 }
 
 .district-station {
@@ -340,21 +394,21 @@ body {
 
 /* Leaflet popup overrides */
 .leaflet-popup-content-wrapper {
-  background: #0d0d0d;
-  border: 1px solid #ff990055;
+  background: var(--bg-panel);
+  border: 1px solid var(--accent-dim);
   border-radius: 2px;
-  color: #ff9900;
+  color: var(--text);
   font-family: 'Share Tech Mono', monospace;
   font-size: 11px;
   letter-spacing: 1px;
 }
 
 .leaflet-popup-tip {
-  background: #0d0d0d;
+  background: var(--bg-panel);
 }
 
 .leaflet-popup-close-button {
-  color: #ff990088 !important;
+  color: var(--accent-dim) !important;
 }
 
 /* ── Station label tooltip fix (M4) ──────────────────── */
@@ -375,23 +429,23 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: var(--bg-body);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ff990055;
+  background: var(--accent-dim);
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff9900aa;
+  background: var(--accent);
 }
 
 /* ── Station label typography ─────────────────────────── */
 
 .station-label {
   font-family: 'Share Tech Mono', monospace !important;
-  color: #ff9900 !important;
+  color: var(--text) !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -407,7 +461,7 @@ body {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  color: #ff9900 !important;
+  color: var(--text) !important;
 }
 
 /* Font-weight variants (50px steps matching Math.round(weight/50)*50) */
@@ -425,76 +479,48 @@ body {
   display: block;
   background: none;
   border: none;
-  color: #ff9900;
+  color: var(--text);
   font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 2px;
   opacity: 0.7;
   cursor: pointer;
-  padding: 0;
+  padding: 4px 6px;
   margin-top: 6px;
   transition: opacity 150ms;
   pointer-events: all;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 #mute-toggle:hover {
   opacity: 1;
 }
 
-/* ── Mobile responsive (M6) ──────────────────────────────────── */
-
-@media (max-width: 480px) {
-  /* Panel slides up from bottom instead of in from right */
-  #station-panel {
-    width: 100vw;
-    height: 70vh;
-    top: auto;
-    bottom: 0;
-    right: 0;
-    border-left: none;
-    border-top: 1px solid #ff990033;
-    transform: translateY(100%);
-    transition: transform 300ms ease-out;
-    overflow-y: auto;
-  }
-
-  #station-panel.open {
-    transform: translateY(0);
-  }
-
-  /* Pressure gauge hidden on mobile */
-  #pressure-gauge {
-    display: none;
-  }
-
-  /* Station labels hidden on mobile */
-  .station-label {
-    display: none !important;
-  }
-}
-
 /* ── Title controls group ─────────────────────────────────── */
 
 #title-controls {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   margin-top: 6px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 #mode-toggle,
 #thermal-toggle {
   background: none;
   border: none;
-  color: #ff9900;
+  color: var(--text);
   font-family: 'Share Tech Mono', monospace;
   font-size: 9px;
   letter-spacing: 2px;
   opacity: 0.6;
   cursor: pointer;
-  padding: 0;
+  padding: 4px 6px;
   transition: opacity 150ms;
   pointer-events: all;
+  min-height: 44px;
 }
 
 #mode-toggle:hover,
@@ -514,58 +540,33 @@ body {
   border: none !important;
 }
 
-/* ── Tube line polylines (drawn by Leaflet, not canvas) ───── */
-/* No CSS needed — styled via Leaflet options */
-
 /* ── Map colour modes ────────────────────────────────────── */
-
-body.mode-green #map {
-  filter: hue-rotate(120deg) saturate(0.75) brightness(0.9);
-}
-
-body.mode-green #gauge-bar::after {
-  background: linear-gradient(to top, #00cc66, #00cc6666);
-}
-
-body.mode-blue #map {
-  filter: hue-rotate(200deg) saturate(0.85) brightness(0.85);
-}
-
-body.mode-blue #gauge-bar::after {
-  background: linear-gradient(to top, #0088ff, #0088ff66);
-}
-
-body.mode-mono #map {
-  filter: grayscale(90%) brightness(0.75);
-}
-
-body.mode-mono #gauge-bar::after {
-  background: linear-gradient(to top, #aaaaaa, #aaaaaa66);
-}
+/* Tile swap handled by JS for light mode; green stays on dark tiles */
 
 /* ── Compare panel ───────────────────────────────────────── */
 
 #compare-toggle {
   background: none;
-  border: 1px solid #ff990033;
-  color: #ff990066;
+  border: 1px solid var(--border);
+  color: var(--text-faint);
   font-family: 'Share Tech Mono', monospace;
   font-size: 8px;
   letter-spacing: 2px;
-  padding: 3px 6px;
+  padding: 6px 10px;
   cursor: pointer;
   margin-top: 6px;
   transition: all 150ms;
+  min-height: 36px;
 }
 
 #compare-toggle:hover,
 #compare-toggle.active {
-  color: #ff9900;
-  border-color: #ff990088;
+  color: var(--accent);
+  border-color: var(--accent-dim);
 }
 
 #panel-compare-content {
-  border-top: 1px solid #ff990033;
+  border-top: 1px solid var(--border);
   padding-top: 8px;
   font-size: 10px;
 }
@@ -578,7 +579,7 @@ body.mode-mono #gauge-bar::after {
 }
 
 .compare-head {
-  color: #ff9900;
+  color: var(--accent);
   font-size: 9px;
   letter-spacing: 1px;
   text-align: center;
@@ -589,18 +590,18 @@ body.mode-mono #gauge-bar::after {
   grid-template-columns: 60px 1fr 1fr;
   gap: 4px;
   padding: 3px 0;
-  border-bottom: 1px solid #ff990011;
+  border-bottom: 1px solid var(--accent-ghost);
 }
 
 .compare-label {
-  color: #ff990055;
+  color: var(--text-faint);
   font-size: 8px;
   letter-spacing: 1px;
   align-self: center;
 }
 
 .compare-val {
-  color: #ff9900aa;
+  color: var(--text-dim);
   font-size: 9px;
   text-align: center;
   letter-spacing: 1px;
@@ -614,8 +615,8 @@ body.mode-mono #gauge-bar::after {
   top: 0;
   height: 100vh;
   width: 320px;
-  background: #0d0d0d;
-  border-right: 1px solid #ff990033;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
   transform: translateX(-100%);
   transition: transform 300ms ease-out;
   z-index: 1000;
@@ -635,19 +636,24 @@ body.mode-mono #gauge-bar::after {
   position: absolute;
   top: 14px;
   right: 14px;
-  font-size: 22px;
-  color: #ff990088;
+  font-size: 26px;
+  color: var(--accent-dim);
   cursor: pointer;
   line-height: 1;
   transition: color 150ms;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #borough-panel-close:hover {
-  color: #ff9900;
+  color: var(--accent);
 }
 
 #borough-panel-header {
-  border-bottom: 1px solid #ff990044;
+  border-bottom: 1px solid var(--border-mid);
   padding-bottom: 10px;
   padding-right: 24px;
 }
@@ -655,21 +661,21 @@ body.mode-mono #gauge-bar::after {
 #borough-panel-name {
   font-size: 15px;
   letter-spacing: 3px;
-  color: #ff9900;
+  color: var(--text);
   text-transform: uppercase;
 }
 
 #borough-panel-sub {
   font-size: 8px;
   letter-spacing: 3px;
-  color: #ff990055;
+  color: var(--text-faint);
   margin-top: 3px;
   text-transform: uppercase;
 }
 
 #borough-panel-facts {
   font-size: 11px;
-  color: #ff9900cc;
+  color: var(--text-dim);
   line-height: 1.7;
 }
 
@@ -677,22 +683,110 @@ body.mode-mono #gauge-bar::after {
   font-size: 11px;
 }
 
-/* Borough boundary hover state — handled via Leaflet layer style */
+/* ── Mobile responsive ───────────────────────────────────── */
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  /* Station panel slides up from bottom */
+  #station-panel {
+    width: 100vw;
+    height: 72vh;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: 2px solid var(--border-mid);
+    transform: translateY(100%);
+    transition: transform 300ms ease-out;
+    padding: 16px;
+    gap: 10px;
+  }
+
+  #station-panel.open {
+    transform: translateY(0);
+  }
+
+  #panel-station-name {
+    font-size: 15px;
+    letter-spacing: 3px;
+  }
+
+  #panel-borough-name {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+
+  #panel-arrivals {
+    font-size: 13px;
+    line-height: 2;
+  }
+
+  .arrival-row {
+    font-size: 13px;
+    padding: 7px 0;
+  }
+
+  .section-label {
+    font-size: 10px;
+  }
+
+  .section-content,
+  .data-line,
+  .data-label,
+  .data-value,
+  .fact-static {
+    font-size: 13px;
+  }
+
+  /* Pressure gauge hidden on mobile */
+  #pressure-gauge {
+    display: none;
+  }
+
+  /* Station labels hidden on mobile */
+  .station-label {
+    display: none !important;
+  }
+
+  /* Borough panel slides up from bottom */
   #borough-panel {
     width: 100vw;
-    height: 60vh;
+    height: 65vh;
     top: auto;
     bottom: 0;
     left: 0;
     border-right: none;
-    border-top: 1px solid #ff990033;
+    border-top: 2px solid var(--border-mid);
     transform: translateY(100%);
     transition: transform 300ms ease-out;
+    padding: 16px;
   }
 
   #borough-panel.open {
     transform: translateY(0);
+  }
+
+  #borough-panel-name {
+    font-size: 14px;
+  }
+
+  #borough-panel-facts,
+  #borough-panel-data {
+    font-size: 13px;
+  }
+
+  /* Title overlay: smaller, stays readable */
+  #title-overlay {
+    top: 12px;
+    left: 12px;
+  }
+
+  #title-text {
+    font-size: 10px;
+    letter-spacing: 3px;
+  }
+
+  #subtitle-text {
+    font-size: 8px;
+    letter-spacing: 2px;
   }
 }
