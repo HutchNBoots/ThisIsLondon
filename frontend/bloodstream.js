@@ -461,13 +461,9 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
         playArrivalTone(line);
       }
 
-      const trailOffsets = [0.06, 0.04, 0.02];
-      const trailOpacities = [0.1, 0.2, 0.3];
-      for (let i = 0; i < 3; i++) {
-        const trailT = Math.max(0, t - trailOffsets[i]);
-        const trailPos = getPos(bolus, trailT);
-        if (trailPos) drawBolus(trailPos, colours, trailOpacities[i]);
-      }
+      // Single trailing echo — direction hint without the blob effect
+      const trailPos = getPos(bolus, Math.max(0, t - 0.03));
+      if (trailPos) drawBolus(trailPos, colours, 0.18);
       drawBolus(pos, colours, 1);
     }
   }
@@ -478,14 +474,14 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
       const station = stationList[si];
       const { r, g, b } = station.halo_rgb;
 
-      // Ambient pulse
+      // Ambient pulse — barely visible, just a heartbeat hint
       const ambientPhase = (now / 3000 + si * 0.7) % 1;
-      const ambientR = lerp(3, 6, Math.abs(Math.sin(ambientPhase * Math.PI)));
-      const ambientOpacity = 0.18 + 0.08 * Math.sin(ambientPhase * Math.PI * 2);
+      const ambientR = lerp(2, 4, Math.abs(Math.sin(ambientPhase * Math.PI)));
+      const ambientOpacity = 0.08 + 0.04 * Math.sin(ambientPhase * Math.PI * 2);
       ctx.beginPath();
       ctx.arc(station.x, station.y, ambientR, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${ambientOpacity})`;
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = 1;
       ctx.stroke();
 
       // Check approaching boluses
@@ -521,26 +517,20 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
       }
 
       const p = closestProximity;
-      const r1 = lerp(6, 40, p);
-      const o1 = lerp(0.8, 0, p);
+      // Tight arrival flare — a small glow, not an explosion
+      const r1 = lerp(4, 14, p);
+      const o1 = lerp(0.6, 0, p);
       ctx.beginPath();
       ctx.arc(station.x, station.y, r1, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${o1})`;
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1;
       ctx.stroke();
 
-      const r2 = lerp(6, 60, p) * 0.7;
+      const r2 = lerp(4, 9, p);
       ctx.beginPath();
       ctx.arc(station.x, station.y, r2, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${o1 * 0.5})`;
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-
-      const r3 = lerp(6, 80, p) * 0.4;
-      ctx.beginPath();
-      ctx.arc(station.x, station.y, r3, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${o1 * 0.25})`;
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${o1 * 0.4})`;
+      ctx.lineWidth = 0.5;
       ctx.stroke();
     }
   }

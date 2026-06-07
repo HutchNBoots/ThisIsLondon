@@ -82,11 +82,11 @@ const ROUNDEL_RED  = '#E21836';
 const ROUNDEL_NAVY = '#003688';
 
 function getRoundelCircleSize(zoom) {
-  if (zoom <= 11) return 12;
+  if (zoom <= 11) return 10;
   if (zoom <= 12) return 16;
-  if (zoom <= 13) return 22;
-  if (zoom <= 14) return 30;
-  return 38;
+  if (zoom <= 13) return 24;
+  if (zoom <= 14) return 32;
+  return 40;
 }
 
 function escSvg(s) {
@@ -94,19 +94,27 @@ function escSvg(s) {
 }
 
 function makeRoundelIcon(line, zoom, name) {
-  const cs  = getRoundelCircleSize(zoom);   // circle diameter
+  const cs  = getRoundelCircleSize(zoom);
   const half = cs / 2;
-  const r   = (cs * 0.37).toFixed(1);
-  const sw  = (cs * 0.22).toFixed(1);
-  const barH = (cs * 0.32).toFixed(1);
-  const barY = (half - cs * 0.16).toFixed(1);
-
-  const showName = zoom >= 13 && name;
 
   let totalW, cx, svg;
 
-  if (!showName) {
-    // Compact bullseye — bar width = circle diameter
+  if (zoom <= 11) {
+    // Minimal dot — white fill + red outer ring, clean at tiny sizes
+    const dot = (cs * 0.38).toFixed(1);
+    const ring = (cs * 0.5).toFixed(1);
+    totalW = cs;
+    cx = half;
+    svg = `<svg width="${cs}" height="${cs}" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="${half}" cy="${half}" r="${ring}" fill="${ROUNDEL_RED}"/>
+      <circle cx="${half}" cy="${half}" r="${dot}" fill="white"/>
+    </svg>`;
+  } else if (zoom <= 12) {
+    // Compact roundel — ring + bar, no name
+    const r   = (cs * 0.37).toFixed(1);
+    const sw  = (cs * 0.24).toFixed(1);
+    const barH = (cs * 0.34).toFixed(1);
+    const barY = (half - cs * 0.17).toFixed(1);
     totalW = cs;
     cx = half;
     svg = `<svg width="${cs}" height="${cs}" xmlns="http://www.w3.org/2000/svg">
@@ -114,23 +122,36 @@ function makeRoundelIcon(line, zoom, name) {
       <circle cx="${half}" cy="${half}" r="${r}" fill="none" stroke="${ROUNDEL_RED}" stroke-width="${sw}"/>
     </svg>`;
   } else {
-    // Full TfL roundel: name on bar, bar extends both sides of ring
-    const fontSize = Math.max(10, cs * 0.32);
-    // Monospace char width ≈ 0.61× font-size
-    const textW = name.length * fontSize * 0.61;
-    totalW = Math.max(cs + 16, Math.ceil(textW + cs * 0.5));
-    cx = totalW / 2;
-    const textY = (half + fontSize * 0.36).toFixed(1);
+    const showName = zoom >= 13 && name;
+    const r   = (cs * 0.37).toFixed(1);
+    const sw  = (cs * 0.22).toFixed(1);
+    const barH = (cs * 0.32).toFixed(1);
+    const barY = (half - cs * 0.16).toFixed(1);
 
-    svg = `<svg width="${totalW}" height="${cs}" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="${barY}" width="${totalW}" height="${barH}" fill="${ROUNDEL_NAVY}"/>
-      <circle cx="${cx.toFixed(1)}" cy="${half}" r="${r}" fill="none" stroke="${ROUNDEL_RED}" stroke-width="${sw}"/>
-      <text x="${cx.toFixed(1)}" y="${textY}"
-            text-anchor="middle" fill="white"
-            font-family="'Share Tech Mono',monospace"
-            font-size="${fontSize.toFixed(1)}"
-            font-weight="bold">${escSvg(name.toUpperCase())}</text>
-    </svg>`;
+    if (!showName) {
+      totalW = cs;
+      cx = half;
+      svg = `<svg width="${cs}" height="${cs}" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="${barY}" width="${cs}" height="${barH}" fill="${ROUNDEL_NAVY}"/>
+        <circle cx="${half}" cy="${half}" r="${r}" fill="none" stroke="${ROUNDEL_RED}" stroke-width="${sw}"/>
+      </svg>`;
+    } else {
+      // Full TfL roundel with station name on bar
+      const fontSize = Math.max(10, cs * 0.30);
+      const textW = name.length * fontSize * 0.61;
+      totalW = Math.max(cs + 16, Math.ceil(textW + cs * 0.5));
+      cx = totalW / 2;
+      const textY = (half + fontSize * 0.36).toFixed(1);
+      svg = `<svg width="${totalW}" height="${cs}" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="${barY}" width="${totalW}" height="${barH}" fill="${ROUNDEL_NAVY}"/>
+        <circle cx="${cx.toFixed(1)}" cy="${half}" r="${r}" fill="none" stroke="${ROUNDEL_RED}" stroke-width="${sw}"/>
+        <text x="${cx.toFixed(1)}" y="${textY}"
+              text-anchor="middle" fill="white"
+              font-family="'Share Tech Mono',monospace"
+              font-size="${fontSize.toFixed(1)}"
+              font-weight="bold">${escSvg(name.toUpperCase())}</text>
+      </svg>`;
+    }
   }
 
   return L.divIcon({
@@ -273,7 +294,7 @@ function drawTubePolylines() {
     .filter(Boolean)
     .map(s => [s.lat, s.lng]);
   if (vCoords.length > 1) {
-    L.polyline(vCoords, { color: '#009DDC', weight: 4, opacity: 0.65 }).addTo(map);
+    L.polyline(vCoords, { color: '#009DDC', weight: 5, opacity: 0.85 }).addTo(map);
   }
 
   // District line branches — official TfL green #007229
@@ -285,8 +306,8 @@ function drawTubePolylines() {
     if (coords.length > 1) {
       L.polyline(coords, {
         color: '#007229',
-        weight: branch === 'spine' ? 4 : 3,
-        opacity: branch === 'spine' ? 0.65 : 0.4,
+        weight: branch === 'spine' ? 5 : 3,
+        opacity: branch === 'spine' ? 0.85 : 0.6,
       }).addTo(map);
     }
   }
