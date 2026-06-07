@@ -195,8 +195,6 @@ map.on('zoomend', () => {
 
 // ── Borough boundaries ────────────────────────────────────────────────────────
 
-let boroughLayer = null;
-
 async function loadBoroughBoundaries() {
   try {
     const res = await fetch(`${BACKEND}/api/borough-boundaries`);
