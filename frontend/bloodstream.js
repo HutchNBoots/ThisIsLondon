@@ -163,6 +163,12 @@ function lerpPoint(p1, p2, t) {
 let audioCtx = null;
 let soundMuted = false;
 
+let thermalMode = false;
+
+export function setThermalMode(enabled) {
+  thermalMode = enabled;
+}
+
 function getAudioContext() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -421,14 +427,22 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     ctx.stroke();
   }
 
+  function getCrowdingRadius() {
+    const hour = new Date().getHours();
+    if ((hour >= 7 && hour <= 9) || (hour >= 17 && hour <= 19)) return 22;
+    if (hour >= 6 && hour <= 22) return 16;
+    return 12;
+  }
+
   function drawBolus(pos, colours, opacityMultiplier = 1) {
     const { x, y } = pos;
-    const grad = ctx.createRadialGradient(x, y, 0, x, y, 18);
+    const r = getCrowdingRadius();
+    const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
     grad.addColorStop(0,    `${colours.core}${0.95 * opacityMultiplier})`);
     grad.addColorStop(0.44, `${colours.mid}${0.6  * opacityMultiplier})`);
     grad.addColorStop(1,    colours.edge);
     ctx.beginPath();
-    ctx.arc(x, y, 18, 0, Math.PI * 2);
+    ctx.arc(x, y, r, 0, Math.PI * 2);
     ctx.fillStyle = grad;
     ctx.fill();
   }
@@ -531,6 +545,48 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     }
   }
 
+  function drawPulseRings() {
+    const now = Date.now();
+    const allStations = [...victoriaStations, ...Object.values(districtStationMap)];
+    for (const s of allStations) {
+      // Higher wealth_score = sparser/wealthier = slower pulse
+      const densityFactor = 1 - (s.wealth_score || 0.5);
+      const pulseMs = lerp(3500, 8000, 1 - densityFactor);
+      const phase = (now % pulseMs) / pulseMs;
+      const r = lerp(6, 55, phase);
+      const opacity = lerp(0.18, 0, phase);
+      const { r: cr, g: cg, b: cb } = s.halo_rgb;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, ${opacity})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  }
+
+  function drawThermal() {
+    ctx.save();
+    ctx.globalCompositeOperation = 'screen';
+    const allStations = [...victoriaStations, ...Object.values(districtStationMap)];
+    for (const s of allStations) {
+      const heat = s.wealth_score || 0.5;
+      const r = lerp(40, 130, heat);
+      const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, r);
+      // Wealthy = white-gold, poor = deep red-orange
+      const hotR = Math.round(lerp(200, 255, heat));
+      const hotG = Math.round(lerp(30, 210, heat));
+      const hotB = Math.round(lerp(0, 60, heat));
+      grad.addColorStop(0,   `rgba(${hotR},${hotG},${hotB},0.75)`);
+      grad.addColorStop(0.5, `rgba(${hotR},${hotG},${hotB},0.25)`);
+      grad.addColorStop(1,   'rgba(0,0,0,0)');
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
   // ── Main draw loop ───────────────────────────────────────────────────────────
 
   function draw() {
@@ -567,6 +623,12 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
 
     // District boluses
     drawBolusSet(districtBoluses, getDistrictBolusScreenPos, DISTRICT_BOLUS_COLOURS, 'district');
+
+    // Borough pulse rings (density-driven ambient animation)
+    drawPulseRings();
+
+    // Thermal portrait overlay
+    if (thermalMode) drawThermal();
 
     // Check for new train data
     const ts = getTrainState();
@@ -605,3 +667,5 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     },
   };
 }
+
+export { VICTORIA_SEQUENCE_IDS, DISTRICT_BRANCHES };

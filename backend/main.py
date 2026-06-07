@@ -36,6 +36,10 @@ _on_this_day_date: str | None = None  # "MM-DD"
 # Police API cache — station_id -> {data, fetched_at}
 _police_cache: dict[str, dict] = {}
 
+# Weather cache — refreshed every 30 minutes
+_weather_cache: dict = {}
+_weather_fetched_at: datetime | None = None
+
 # ---------------------------------------------------------------------------
 # App
 # ---------------------------------------------------------------------------
@@ -263,6 +267,16 @@ async def _get_police_incidents(station_id: str, lat: float, lng: float) -> dict
     return result
 
 
+def _weather_condition(code: int) -> str:
+    if code == 0: return "clear"
+    if code <= 3: return "cloudy"
+    if code in (45, 48): return "fog"
+    if code <= 67: return "rain"
+    if code <= 77: return "snow"
+    if code <= 82: return "showers"
+    return "storm"
+
+
 # ---------------------------------------------------------------------------
 # Endpoints
 # ---------------------------------------------------------------------------
@@ -421,3 +435,34 @@ async def on_this_day():
         "date": _on_this_day_date,
         "events": _on_this_day_cache,
     }
+
+
+@app.get("/api/weather")
+async def weather():
+    global _weather_cache, _weather_fetched_at
+    now = datetime.now(timezone.utc)
+    if _weather_fetched_at and (now - _weather_fetched_at).total_seconds() < 1800:
+        return _weather_cache
+    try:
+        async with httpx.AsyncClient(timeout=8.0) as client:
+            resp = await client.get(
+                "https://api.open-meteo.com/v1/forecast",
+                params={
+                    "latitude": 51.5074,
+                    "longitude": -0.1278,
+                    "current_weather": "true",
+                },
+            )
+            if resp.status_code == 200:
+                cw = resp.json().get("current_weather", {})
+                code = int(cw.get("weathercode", 0))
+                _weather_cache = {
+                    "weathercode": code,
+                    "temperature_c": cw.get("temperature"),
+                    "condition": _weather_condition(code),
+                    "windspeed_kmh": cw.get("windspeed"),
+                }
+                _weather_fetched_at = now
+    except Exception as exc:
+        logger.warning("Weather API failed: %s", exc)
+    return _weather_cache or {"weathercode": 0, "condition": "clear", "temperature_c": None}

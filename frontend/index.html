@@ -39,7 +39,11 @@
     <div id="panel-header">
       <div id="panel-station-name"></div>
       <div id="panel-borough-name"></div>
+      <button id="compare-toggle" aria-label="Compare with another station">COMPARE +</button>
     </div>
+
+    <!-- Comparison section — hidden until compare mode -->
+    <div id="panel-compare-content" style="display:none"></div>
 
     <!-- Dot-matrix arrivals board — signature visual, unchanged -->
     <div id="panel-arrivals">FETCHING...</div>
@@ -67,7 +71,11 @@
   <div id="title-overlay">
     <span id="title-text">THIS IS LONDON</span>
     <span id="subtitle-text">VICTORIA &amp; DISTRICT — LIVE</span>
-    <button id="mute-toggle" aria-label="Toggle sound">♪</button>
+    <div id="title-controls">
+      <button id="mute-toggle" aria-label="Toggle sound">♪</button>
+      <button id="mode-toggle" aria-label="Cycle map mode">AMBER</button>
+      <button id="thermal-toggle" aria-label="Toggle thermal mode">THERMAL</button>
+    </div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
