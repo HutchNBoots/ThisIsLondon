@@ -6,7 +6,7 @@
   <title>This is London</title>
   <meta name="description" content="A data art installation — the pulse of London's underground lines, live.">
   <meta property="og:title" content="This is London">
-  <meta property="og:description" content="Live data art. Victoria and District lines as a circulatory system.">
+  <meta property="og:description" content="Live data art. Five Underground lines as a circulatory system.">
   <script src="config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +16,17 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- B5: Curtain raise — first-load moment -->
+  <div id="curtain-raise">
+    <div id="curtain-text">
+      <div id="curtain-line1">THIS IS LONDON</div>
+      <div id="curtain-line2">FIVE LINES · 200 STATIONS · 5 MILLION JOURNEYS TODAY</div>
+    </div>
+  </div>
+
+  <!-- B1: Service status banner -->
+  <div id="status-banner" class="hidden"></div>
 
   <!-- Gauge: left edge, vertical -->
   <div id="pressure-gauge">
@@ -39,13 +50,19 @@
     <div id="panel-header">
       <div id="panel-station-name"></div>
       <div id="panel-borough-name"></div>
-      <button id="compare-toggle" aria-label="Compare with another station">COMPARE +</button>
+      <div id="panel-header-actions">
+        <button id="compare-toggle" aria-label="Compare with another station">COMPARE +</button>
+        <button id="journey-btn" aria-label="Plan journey from this station">JOURNEY FROM HERE</button>
+      </div>
     </div>
 
-    <!-- Comparison section — hidden until compare mode -->
+    <!-- Comparison section -->
     <div id="panel-compare-content" style="display:none"></div>
 
-    <!-- Dot-matrix arrivals board — signature visual, unchanged -->
+    <!-- Journey clear -->
+    <button id="journey-clear" style="display:none">CLEAR ROUTE</button>
+
+    <!-- Dot-matrix arrivals board -->
     <div id="panel-arrivals">FETCHING...</div>
 
     <!-- People section -->
@@ -73,20 +90,28 @@
     <div id="borough-panel-header">
       <div id="borough-panel-name"></div>
       <div id="borough-panel-sub">LONDON BOROUGH</div>
+      <button id="borough-story-btn" style="display:none" aria-label="Enter borough story mode">STORY MODE →</button>
     </div>
     <div id="borough-panel-facts"></div>
     <div id="borough-panel-data"></div>
   </div>
 
+  <!-- B15: Borough story mode exit -->
+  <button id="story-exit" style="display:none" aria-label="Exit story mode">EXIT STORY MODE</button>
+
   <!-- Title overlay: top left, always visible -->
   <div id="title-overlay">
     <span id="title-text">THIS IS LONDON</span>
-    <span id="subtitle-text">VICTORIA &amp; DISTRICT — LIVE</span>
+    <span id="subtitle-text">FIVE LINES — LIVE</span>
     <div id="title-controls">
       <button id="mute-toggle" aria-label="Toggle sound">♪</button>
       <button id="mode-toggle" aria-label="Cycle map mode">DARK</button>
       <button id="thermal-toggle" aria-label="Toggle thermal mode">THERMAL</button>
+      <button id="lang-toggle" aria-label="Language portrait">LANG</button>
+      <button id="gent-toggle" aria-label="Gentrification gradient">GENT</button>
     </div>
+    <!-- Air quality indicator -->
+    <div id="aq-indicator"></div>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

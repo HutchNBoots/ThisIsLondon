@@ -1,0 +1,128 @@
+[
+  {
+    "id": "ghost-down-street",
+    "name": "Down Street",
+    "lat": 51.5043,
+    "lng": -0.1478,
+    "closed": 1932,
+    "line": "Piccadilly",
+    "fact": "Churchill used the tunnels as a Cabinet War Room during the Blitz before moving to Whitehall. The platform is sealed but largely intact."
+  },
+  {
+    "id": "ghost-brompton-road",
+    "name": "Brompton Road",
+    "lat": 51.4934,
+    "lng": -0.1706,
+    "closed": 1934,
+    "line": "Piccadilly",
+    "fact": "Closed due to low passenger numbers. The surface building became an anti-aircraft gun operations centre in WWII and is now used by the MoD."
+  },
+  {
+    "id": "ghost-aldwych",
+    "name": "Aldwych",
+    "lat": 51.5113,
+    "lng": -0.1178,
+    "closed": 1994,
+    "line": "Piccadilly",
+    "fact": "Closed as uneconomic — just 450 passengers used it daily. The BBC has filmed here so often that the platform is instantly recognisable from dozens of films."
+  },
+  {
+    "id": "ghost-charing-cross-jubilee",
+    "name": "Charing Cross (Jubilee)",
+    "lat": 51.5076,
+    "lng": -0.1246,
+    "closed": 1999,
+    "line": "Jubilee",
+    "fact": "Closed when the Jubilee line was extended eastward to Stratford. The tunnels and platforms remain sealed beneath the Strand."
+  },
+  {
+    "id": "ghost-british-museum",
+    "name": "British Museum",
+    "lat": 51.5178,
+    "lng": -0.1215,
+    "closed": 1933,
+    "line": "Central",
+    "fact": "Closed because Holborn station was so close. The 1935 film Bulldog Jack featured a fictional ghost train from this station — the urban legend spread further than the truth."
+  },
+  {
+    "id": "ghost-york-road",
+    "name": "York Road",
+    "lat": 51.5378,
+    "lng": -0.1151,
+    "closed": 1932,
+    "line": "Piccadilly",
+    "fact": "Used only by workers at the nearby goods depot. The station building still stands on York Way, now converted to residential use."
+  },
+  {
+    "id": "ghost-south-kentish-town",
+    "name": "South Kentish Town",
+    "lat": 51.5494,
+    "lng": -0.1419,
+    "closed": 1924,
+    "line": "Northern",
+    "fact": "A passenger was once stranded here after accidentally exiting at the wrong station — the lifts were already being decommissioned and he had to be rescued by Underground staff."
+  },
+  {
+    "id": "ghost-marlborough-road",
+    "name": "Marlborough Road",
+    "lat": 51.5295,
+    "lng": -0.1744,
+    "closed": 1939,
+    "line": "Metropolitan",
+    "fact": "Replaced by the adjacent St John's Wood station. The building on Queen's Grove has been converted to private use and retains its Leslie Green oxblood terracotta facade."
+  },
+  {
+    "id": "ghost-city-road",
+    "name": "City Road",
+    "lat": 51.5258,
+    "lng": -0.0982,
+    "closed": 1922,
+    "line": "Northern (predecessor)",
+    "fact": "One of the original 1901 City & South London Railway stations. Closed during post-WWI reconstruction works and never reopened. The building has since been demolished."
+  },
+  {
+    "id": "ghost-king-william-street",
+    "name": "King William Street",
+    "lat": 51.5106,
+    "lng": -0.0879,
+    "closed": 1900,
+    "line": "Northern (predecessor)",
+    "fact": "The original southern terminus of the world's first deep-level electric tube railway, opened 1890. Its awkward curved approach was why it closed — trains could barely navigate the bend."
+  },
+  {
+    "id": "ghost-shoreditch",
+    "name": "Shoreditch",
+    "lat": 51.5225,
+    "lng": -0.0741,
+    "closed": 2006,
+    "line": "East London",
+    "fact": "Closed when the East London line was handed to London Overground. The station's Brutalist surface building became a pop-up venue space much loved by the neighbourhood it once served."
+  },
+  {
+    "id": "ghost-ongar",
+    "name": "Ongar",
+    "lat": 51.7034,
+    "lng": 0.2476,
+    "closed": 1994,
+    "line": "Central",
+    "fact": "The most remote station in TfL history — 35 miles from central London, served by a steam locomotive on a branch that ran through open countryside. Now a heritage railway."
+  },
+  {
+    "id": "ghost-bulls-bridge",
+    "name": "Bull & Bush (never opened)",
+    "lat": 51.5760,
+    "lng": -0.1924,
+    "closed": null,
+    "line": "Northern",
+    "fact": "Construction was completed in 1906 but the station was never opened to passengers. The tunnels exist beneath Hampstead Heath. Part of the unfinished Charing Cross, Euston & Hampstead Railway extension."
+  },
+  {
+    "id": "ghost-wood-lane",
+    "name": "Wood Lane",
+    "lat": 51.5073,
+    "lng": -0.2258,
+    "closed": 1959,
+    "line": "Circle/Hammersmith",
+    "fact": "Original name for what is now Latimer Road. The 1908 station opened for the Franco-British Exhibition and remained in use for 51 years before being superseded."
+  }
+]
