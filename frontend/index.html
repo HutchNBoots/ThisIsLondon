@@ -1,16 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>This is London</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body style="background:#0a0a0a;">
-  <div id="map"></div>
+<body>
+
+  <!-- Gauge: left edge, vertical -->
+  <div id="pressure-gauge">
+    <div id="gauge-bar"></div>
+    <div id="gauge-label">FLOW</div>
+  </div>
+
+  <!-- Main map container -->
+  <div id="map-container">
+    <div id="map"></div>
+    <canvas id="art-layer"></canvas>
+  </div>
+
+  <!-- Station panel: slides in from right -->
+  <div id="station-panel" class="hidden">
+    <div id="panel-close">×</div>
+    <div id="panel-station-name"></div>
+    <div id="panel-arrivals">FETCHING...</div>
+    <div id="panel-facts"></div>
+  </div>
+
+  <!-- Title overlay: top left, always visible -->
+  <div id="title-overlay">
+    <span id="title-text">THIS IS LONDON</span>
+    <span id="subtitle-text">VICTORIA LINE — LIVE</span>
+  </div>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="main.js"></script>
+  <script type="module" src="main.js"></script>
+  <script type="module" src="bloodstream.js"></script>
+  <script type="module" src="panel.js"></script>
+  <script type="module" src="gauge.js"></script>
 </body>
 </html>
