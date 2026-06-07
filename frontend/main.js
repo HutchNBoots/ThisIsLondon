@@ -467,33 +467,58 @@ function applyAirQualityTint(aq) {
 }
 
 // ── Language Portrait mode ────────────────────────────────────────────────────
+async function ensureBoroughLayer() {
+  if (boroughLayer) return true;
+  await loadBoroughBoundaries();
+  return !!boroughLayer;
+}
+
 async function toggleLanguagePortrait() {
-  if (!languageData) {
-    try {
+  const btn = document.getElementById('lang-toggle');
+  const mobBtn = document.getElementById('mob-lang-btn');
+  if (btn) btn.textContent = 'LOADING…';
+  try {
+    if (!languageData) {
       const res = await fetch(`${BACKEND}/api/language-map`);
+      if (!res.ok) throw new Error(res.status);
       languageData = await res.json();
-    } catch (_) { return; }
+    }
+    await ensureBoroughLayer();
+  } catch (_) {
+    if (btn) btn.textContent = 'LANG';
+    return;
   }
   languagePortraitActive = !languagePortraitActive;
   gentrificationActive = false;
   applyBoroughOverlay();
-  document.getElementById('lang-toggle')?.classList.toggle('active', languagePortraitActive);
-  document.getElementById('gent-toggle')?.classList.toggle('active', false);
+  if (btn) { btn.textContent = 'LANG'; btn.classList.toggle('active', languagePortraitActive); }
+  if (mobBtn) mobBtn.classList.toggle('active', languagePortraitActive);
+  document.getElementById('gent-toggle')?.classList.remove('active');
+  document.getElementById('mob-gent-btn')?.classList.remove('active');
 }
 
-// ── Gentrification gradient ───────────────────────────────────────────────────
 async function toggleGentrification() {
-  if (!gentrificationData) {
-    try {
+  const btn = document.getElementById('gent-toggle');
+  const mobBtn = document.getElementById('mob-gent-btn');
+  if (btn) btn.textContent = 'LOADING…';
+  try {
+    if (!gentrificationData) {
       const res = await fetch(`${BACKEND}/api/gentrification`);
+      if (!res.ok) throw new Error(res.status);
       gentrificationData = await res.json();
-    } catch (_) { return; }
+    }
+    await ensureBoroughLayer();
+  } catch (_) {
+    if (btn) btn.textContent = 'GENT';
+    return;
   }
   gentrificationActive = !gentrificationActive;
   languagePortraitActive = false;
   applyBoroughOverlay();
-  document.getElementById('gent-toggle')?.classList.toggle('active', gentrificationActive);
-  document.getElementById('lang-toggle')?.classList.toggle('active', false);
+  if (btn) { btn.textContent = 'GENT'; btn.classList.toggle('active', gentrificationActive); }
+  if (mobBtn) mobBtn.classList.toggle('active', gentrificationActive);
+  document.getElementById('lang-toggle')?.classList.remove('active');
+  document.getElementById('mob-lang-btn')?.classList.remove('active');
 }
 
 function applyBoroughOverlay() {
