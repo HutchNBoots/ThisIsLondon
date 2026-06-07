@@ -429,9 +429,9 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
 
   function getCrowdingRadius() {
     const hour = new Date().getHours();
-    if ((hour >= 7 && hour <= 9) || (hour >= 17 && hour <= 19)) return 22;
-    if (hour >= 6 && hour <= 22) return 16;
-    return 12;
+    if ((hour >= 7 && hour <= 9) || (hour >= 17 && hour <= 19)) return 9;
+    if (hour >= 6 && hour <= 22) return 7;
+    return 5;
   }
 
   function drawBolus(pos, colours, opacityMultiplier = 1) {
@@ -549,17 +549,16 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     const now = Date.now();
     const allStations = [...victoriaStations, ...Object.values(districtStationMap)];
     for (const s of allStations) {
-      // Higher wealth_score = sparser/wealthier = slower pulse
       const densityFactor = 1 - (s.wealth_score || 0.5);
-      const pulseMs = lerp(3500, 8000, 1 - densityFactor);
+      const pulseMs = lerp(4000, 9000, 1 - densityFactor);
       const phase = (now % pulseMs) / pulseMs;
-      const r = lerp(6, 55, phase);
-      const opacity = lerp(0.18, 0, phase);
+      const r = lerp(4, 18, phase);
+      const opacity = lerp(0.07, 0, phase);
       const { r: cr, g: cg, b: cb } = s.halo_rgb;
       ctx.beginPath();
       ctx.arc(s.x, s.y, r, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(${cr}, ${cg}, ${cb}, ${opacity})`;
-      ctx.lineWidth = 1;
+      ctx.lineWidth = 0.5;
       ctx.stroke();
     }
   }
@@ -592,27 +591,10 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Victoria line
+    // Victoria line — no canvas artery (Leaflet polylines serve that role)
     if (victoriaStations.length > 1) {
-      drawArtery(victoriaStations, VICTORIA_BOLUS_COLOURS);
       drawFlares(victoriaStations, victoriaBoluses, getVictoriaBolusScreenPos);
       drawBolusSet(victoriaBoluses, getVictoriaBolusScreenPos, VICTORIA_BOLUS_COLOURS, 'victoria');
-    }
-
-    // District line — draw each branch
-    for (const [branchName, branchStations] of Object.entries(districtBranches)) {
-      if (branchStations.length < 2) continue;
-      const branchColours = {
-        ...DISTRICT_BOLUS_COLOURS,
-        // Spur branches slightly less opaque than spine
-        artery_outer: branchName === 'spine'
-          ? DISTRICT_BOLUS_COLOURS.artery_outer
-          : 'rgba(14, 184, 130, 0.08)',
-        artery_inner: branchName === 'spine'
-          ? DISTRICT_BOLUS_COLOURS.artery_inner
-          : 'rgba(14, 184, 130, 0.04)',
-      };
-      drawArtery(branchStations, branchColours);
     }
 
     // District flares — draw for all district stations

@@ -84,16 +84,16 @@ async function loadStations() {
 
       const cssClass = line === 'district' ? 'district-station' : 'victoria-station';
       const roundelColour = line === 'district' ? '#007229' : '#009DDC';
-      const roundelSvg = `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="10" cy="10" r="8" fill="none" stroke="${roundelColour}" stroke-width="3"/>
-        <rect x="1.5" y="7.5" width="17" height="5" fill="${roundelColour}" rx="0.5"/>
+      const roundelSvg = `<svg width="14" height="14" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="7" cy="7" r="5.5" fill="none" stroke="${roundelColour}" stroke-width="2.2"/>
+        <rect x="1" y="5.2" width="12" height="3.6" fill="${roundelColour}" rx="0.3"/>
       </svg>`;
       const icon = L.divIcon({
         html: roundelSvg,
         className: `roundel-marker ${cssClass}`,
-        iconSize: [20, 20],
-        iconAnchor: [10, 10],
-        tooltipAnchor: [12, 0],
+        iconSize: [14, 14],
+        iconAnchor: [7, 7],
+        tooltipAnchor: [9, 0],
       });
 
       const marker = L.marker([lat, lng], { icon }).addTo(map);
@@ -101,7 +101,7 @@ async function loadStations() {
       marker.on('click', () => openPanel(station_id));
       const fontWeight = station.font_weight || 400;
       marker.bindTooltip(name, {
-        permanent: true,
+        permanent: false,
         direction: 'right',
         className: `station-label weight-${Math.round(fontWeight / 50) * 50}`,
       });
@@ -142,7 +142,7 @@ function drawTubePolylines() {
     .filter(Boolean)
     .map(s => [s.lat, s.lng]);
   if (vCoords.length > 1) {
-    L.polyline(vCoords, { color: '#009DDC', weight: 3, opacity: 0.35 }).addTo(map);
+    L.polyline(vCoords, { color: '#009DDC', weight: 4, opacity: 0.65 }).addTo(map);
   }
 
   // District line branches — official TfL green #007229
@@ -154,8 +154,8 @@ function drawTubePolylines() {
     if (coords.length > 1) {
       L.polyline(coords, {
         color: '#007229',
-        weight: branch === 'spine' ? 3 : 2,
-        opacity: branch === 'spine' ? 0.35 : 0.2,
+        weight: branch === 'spine' ? 4 : 3,
+        opacity: branch === 'spine' ? 0.65 : 0.4,
       }).addTo(map);
     }
   }
