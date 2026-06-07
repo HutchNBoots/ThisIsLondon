@@ -17,15 +17,23 @@ let primaryStationId = null;
 let primaryStationData = null;
 
 // ── Map init ──────────────────────────────────────────────────────────────────
-const map = L.map('map', { zoomControl: false });
+const map = L.map('map', {
+  zoomControl: false,
+  tap: true,
+  tapTolerance: 15,
+  touchZoom: true,
+  bounceAtZoomLimits: true,
+});
 
 // Will be set once stations load; start with a rough London view
 map.setView([51.505, -0.09], 11);
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  attribution:
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
-    '&copy; <a href="https://carto.com/attributions">CARTO</a>',
+const TILE_DARK  = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+const TILE_LIGHT = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+const TILE_ATTR  = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
+let currentTileLayer = L.tileLayer(TILE_DARK, {
+  attribution: TILE_ATTR,
   subdomains: 'abcd',
   maxZoom: 20,
 }).addTo(map);
@@ -458,15 +466,27 @@ if (muteBtn) {
 }
 
 // ── Map mode cycling ──────────────────────────────────────────────────────────
-const MODES = ['amber', 'green', 'blue', 'mono'];
+const MODES = ['dark', 'green', 'light'];
 let currentModeIdx = 0;
 const modeBtn = document.getElementById('mode-toggle');
 if (modeBtn) {
   modeBtn.addEventListener('click', () => {
     document.body.classList.remove(`mode-${MODES[currentModeIdx]}`);
     currentModeIdx = (currentModeIdx + 1) % MODES.length;
-    document.body.classList.add(`mode-${MODES[currentModeIdx]}`);
-    modeBtn.textContent = MODES[currentModeIdx].toUpperCase();
+    const nextMode = MODES[currentModeIdx];
+    document.body.classList.add(`mode-${nextMode}`);
+    modeBtn.textContent = nextMode.toUpperCase();
+
+    // Swap tile layer for light mode
+    const tileUrl = nextMode === 'light' ? TILE_LIGHT : TILE_DARK;
+    map.removeLayer(currentTileLayer);
+    currentTileLayer = L.tileLayer(tileUrl, {
+      attribution: TILE_ATTR,
+      subdomains: 'abcd',
+      maxZoom: 20,
+    }).addTo(map);
+    // Ensure tile layer stays below everything else
+    currentTileLayer.bringToBack();
   });
 }
 
