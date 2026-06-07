@@ -418,3 +418,57 @@ body {
 .weight-500 { font-weight: 500 !important; }
 .weight-550 { font-weight: 550 !important; }
 .weight-600 { font-weight: 600 !important; }
+
+/* ── Mute toggle (M5) ────────────────────────────────────────── */
+
+#mute-toggle {
+  display: block;
+  background: none;
+  border: none;
+  color: #ff9900;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  opacity: 0.7;
+  cursor: pointer;
+  padding: 0;
+  margin-top: 6px;
+  transition: opacity 150ms;
+  pointer-events: all;
+}
+
+#mute-toggle:hover {
+  opacity: 1;
+}
+
+/* ── Mobile responsive (M6) ──────────────────────────────────── */
+
+@media (max-width: 480px) {
+  /* Panel slides up from bottom instead of in from right */
+  #station-panel {
+    width: 100vw;
+    height: 70vh;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: 1px solid #ff990033;
+    transform: translateY(100%);
+    transition: transform 300ms ease-out;
+    overflow-y: auto;
+  }
+
+  #station-panel.open {
+    transform: translateY(0);
+  }
+
+  /* Pressure gauge hidden on mobile */
+  #pressure-gauge {
+    display: none;
+  }
+
+  /* Station labels hidden on mobile */
+  .station-label {
+    display: none !important;
+  }
+}
