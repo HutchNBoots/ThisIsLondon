@@ -158,5 +158,585 @@
     "font_weight": 405,
     "bg_tint": "#130800",
     "description": "Clean amber, slightly melancholy — the end of the line, William Morris's birthplace, the longest street market in Europe closing its stalls at dusk"
+  },
+  {
+    "station_id": "940GZZLUWIM",
+    "name": "Wimbledon",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.60,
+    "font_weight": 495,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — prosperity and tennis lawns, Tamil households and the oldest statute on the books"
+  },
+  {
+    "station_id": "940GZZLUWIP",
+    "name": "Wimbledon Park",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.60,
+    "font_weight": 495,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — the quiet station beside the lake that most visitors never notice"
+  },
+  {
+    "station_id": "940GZZLUSWF",
+    "name": "Southfields",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.60,
+    "font_weight": 495,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — orderly Victorian streets, the world's press descending for two weeks each summer, unbothered the other fifty"
+  },
+  {
+    "station_id": "940GZZLUEPY",
+    "name": "East Putney",
+    "halo_hex": "#10c090",
+    "halo_rgb": [16, 192, 144],
+    "wealth_score": 0.66,
+    "font_weight": 509,
+    "bg_tint": "#001209",
+    "description": "Brighter teal — Wandsworth's respectable riverside edge, where the Thames and the common meet"
+  },
+  {
+    "station_id": "940GZZLUPYB",
+    "name": "Putney Bridge",
+    "halo_hex": "#10c090",
+    "halo_rgb": [16, 192, 144],
+    "wealth_score": 0.63,
+    "font_weight": 502,
+    "bg_tint": "#001008",
+    "description": "Teal — the start of the Boat Race and the edge of three boroughs in one bend of the river"
+  },
+  {
+    "station_id": "940GZZLUPSG",
+    "name": "Parsons Green",
+    "halo_hex": "#10c090",
+    "halo_rgb": [16, 192, 144],
+    "wealth_score": 0.63,
+    "font_weight": 502,
+    "bg_tint": "#001008",
+    "description": "Teal — the village green that survived the Victorian expansion, quiet money on a quiet road"
+  },
+  {
+    "station_id": "940GZZLUFBY",
+    "name": "Fulham Broadway",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.60,
+    "font_weight": 495,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — Chelsea's working neighbour, the football ground before the fans, the high street before the boutiques"
+  },
+  {
+    "station_id": "940GZZLUWBP",
+    "name": "West Brompton",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.60,
+    "font_weight": 495,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — the junction of branches, the cemetery to the west, the exhibition district to the east"
+  },
+  {
+    "station_id": "940GZZLUERC",
+    "name": "Earl's Court",
+    "halo_hex": "#00c4a0",
+    "halo_rgb": [0, 196, 160],
+    "wealth_score": 0.85,
+    "font_weight": 551,
+    "bg_tint": "#001410",
+    "description": "Bright teal — the confluence of four branches, where every direction of the District converges"
+  },
+  {
+    "station_id": "940GZZLUGTR",
+    "name": "Gloucester Road",
+    "halo_hex": "#00c8a5",
+    "halo_rgb": [0, 200, 165],
+    "wealth_score": 0.87,
+    "font_weight": 556,
+    "bg_tint": "#001412",
+    "description": "Bright cyan-teal — South Ken adjacency, the museums two streets over, quiet money in quiet streets"
+  },
+  {
+    "station_id": "940GZZLUSKN",
+    "name": "South Kensington",
+    "halo_hex": "#00caa8",
+    "halo_rgb": [0, 202, 168],
+    "wealth_score": 0.90,
+    "font_weight": 563,
+    "bg_tint": "#001514",
+    "description": "Bright cyan-teal — the museum quarter and the French quarter in the same postal district"
+  },
+  {
+    "station_id": "940GZZLUSSQ",
+    "name": "Sloane Square",
+    "halo_hex": "#00caa8",
+    "halo_rgb": [0, 202, 168],
+    "wealth_score": 0.90,
+    "font_weight": 563,
+    "bg_tint": "#001514",
+    "description": "Bright cyan-teal — the Royal Court, the King's Road, the river in the pipe above the platform"
+  },
+  {
+    "station_id": "940GZZLUVIC",
+    "name": "Victoria (District)",
+    "halo_hex": "#00c8a5",
+    "halo_rgb": [0, 200, 165],
+    "wealth_score": 0.85,
+    "font_weight": 551,
+    "bg_tint": "#001412",
+    "description": "Bright teal — the junction of lines and nations, coaches for everywhere else"
+  },
+  {
+    "station_id": "940GZZLUSJP",
+    "name": "St James's Park",
+    "halo_hex": "#00c8a5",
+    "halo_rgb": [0, 200, 165],
+    "wealth_score": 0.85,
+    "font_weight": 551,
+    "bg_tint": "#001412",
+    "description": "Bright teal — the oldest Royal Park, the pelicans, the palace at the western end of the lake"
+  },
+  {
+    "station_id": "940GZZLUWSM",
+    "name": "Westminster",
+    "halo_hex": "#00c4a0",
+    "halo_rgb": [0, 196, 160],
+    "wealth_score": 0.83,
+    "font_weight": 547,
+    "bg_tint": "#001310",
+    "description": "Bright teal — Parliament, Big Ben, the machine of the state visible from the platform steps"
+  },
+  {
+    "station_id": "940GZZLUEMB",
+    "name": "Embankment",
+    "halo_hex": "#00c4a0",
+    "halo_rgb": [0, 196, 160],
+    "wealth_score": 0.83,
+    "font_weight": 547,
+    "bg_tint": "#001310",
+    "description": "Bright teal — the river and the sewer builder's monument, Hungerford Bridge overhead"
+  },
+  {
+    "station_id": "940GZZLUTEM",
+    "name": "Temple",
+    "halo_hex": "#00c4a0",
+    "halo_rgb": [0, 196, 160],
+    "wealth_score": 0.82,
+    "font_weight": 545,
+    "bg_tint": "#001310",
+    "description": "Bright teal — the Inns of Court above, the Fleet river below, law on all sides"
+  },
+  {
+    "station_id": "940GZZLUBLF",
+    "name": "Blackfriars",
+    "halo_hex": "#00c8a5",
+    "halo_rgb": [0, 200, 165],
+    "wealth_score": 0.88,
+    "font_weight": 558,
+    "bg_tint": "#001412",
+    "description": "Bright teal — the Fleet's mouth, the City's western edge, the Blackfriars monks long gone"
+  },
+  {
+    "station_id": "940GZZLUMSH",
+    "name": "Mansion House",
+    "halo_hex": "#00caa8",
+    "halo_rgb": [0, 202, 168],
+    "wealth_score": 0.90,
+    "font_weight": 563,
+    "bg_tint": "#001514",
+    "description": "Bright cyan-teal — the Lord Mayor's residence, the Bank of England two streets away, the Square Mile at its most confident"
+  },
+  {
+    "station_id": "940GZZLUCST",
+    "name": "Cannon Street",
+    "halo_hex": "#00caa8",
+    "halo_rgb": [0, 202, 168],
+    "wealth_score": 0.90,
+    "font_weight": 563,
+    "bg_tint": "#001514",
+    "description": "Bright cyan-teal — the Roman stone, the medieval street, the twenty-first century glass"
+  },
+  {
+    "station_id": "940GZZLUMMT",
+    "name": "Monument",
+    "halo_hex": "#00caa8",
+    "halo_rgb": [0, 202, 168],
+    "wealth_score": 0.90,
+    "font_weight": 563,
+    "bg_tint": "#001514",
+    "description": "Bright cyan-teal — the memorial to the fire, exactly as tall as it is far from Pudding Lane"
+  },
+  {
+    "station_id": "940GZZLUTOH",
+    "name": "Tower Hill",
+    "halo_hex": "#00c8a5",
+    "halo_rgb": [0, 200, 165],
+    "wealth_score": 0.88,
+    "font_weight": 558,
+    "bg_tint": "#001412",
+    "description": "Bright teal — the Tower, the scaffold site, where the City ends and the East End begins"
+  },
+  {
+    "station_id": "940GZZLUADE",
+    "name": "Aldgate East",
+    "halo_hex": "#0e9e72",
+    "halo_rgb": [14, 158, 114],
+    "wealth_score": 0.32,
+    "font_weight": 432,
+    "bg_tint": "#000e08",
+    "description": "Darker teal — the gate and the ghetto, every immigrant wave visible in the architecture above ground"
+  },
+  {
+    "station_id": "940GZZLUWCH",
+    "name": "Whitechapel",
+    "halo_hex": "#0d8a64",
+    "halo_rgb": [13, 138, 100],
+    "wealth_score": 0.30,
+    "font_weight": 428,
+    "bg_tint": "#000c07",
+    "description": "Deep teal — the foundry, the murders, the Bangladeshi restaurants, all on the same street"
+  },
+  {
+    "station_id": "940GZZLUSTG",
+    "name": "Stepney Green",
+    "halo_hex": "#0d8a64",
+    "halo_rgb": [13, 138, 100],
+    "wealth_score": 0.30,
+    "font_weight": 428,
+    "bg_tint": "#000c07",
+    "description": "Deep teal — the green triangle that survived, surrounded by the densest streets in Europe"
+  },
+  {
+    "station_id": "940GZZLUMLE",
+    "name": "Mile End",
+    "halo_hex": "#0d8a64",
+    "halo_rgb": [13, 138, 100],
+    "wealth_score": 0.30,
+    "font_weight": 428,
+    "bg_tint": "#000c07",
+    "description": "Deep teal — the Peasants' Revolt, the canal, the university built for the working-class East End"
+  },
+  {
+    "station_id": "940GZZLUBWR",
+    "name": "Bow Road",
+    "halo_hex": "#0d8a64",
+    "halo_rgb": [13, 138, 100],
+    "wealth_score": 0.30,
+    "font_weight": 428,
+    "bg_tint": "#000c07",
+    "description": "Deep teal — the match factory, the suffragettes, the industries of the east in slow transition"
+  },
+  {
+    "station_id": "940GZZLUBBB",
+    "name": "Bromley-by-Bow",
+    "halo_hex": "#0d8a64",
+    "halo_rgb": [13, 138, 100],
+    "wealth_score": 0.30,
+    "font_weight": 428,
+    "bg_tint": "#000c07",
+    "description": "Deep teal — the delta of industrial waterways, the Olympic precinct beginning just over the river"
+  },
+  {
+    "station_id": "940GZZLUWEH",
+    "name": "West Ham",
+    "halo_hex": "#0d7a58",
+    "halo_rgb": [13, 122, 88],
+    "wealth_score": 0.22,
+    "font_weight": 410,
+    "bg_tint": "#000b06",
+    "description": "Darker teal — the most linguistically diverse borough in England, a hundred languages in a square mile"
+  },
+  {
+    "station_id": "940GZZLUPLA",
+    "name": "Plaistow",
+    "halo_hex": "#0d7a58",
+    "halo_rgb": [13, 122, 88],
+    "wealth_score": 0.22,
+    "font_weight": 410,
+    "bg_tint": "#000b06",
+    "description": "Darker teal — the munitions factory, the market, the 100 languages in constant negotiation"
+  },
+  {
+    "station_id": "940GZZLUUPK",
+    "name": "Upton Park",
+    "halo_hex": "#0d7a58",
+    "halo_rgb": [13, 122, 88],
+    "wealth_score": 0.22,
+    "font_weight": 410,
+    "bg_tint": "#000b06",
+    "description": "Darker teal — Green Street market, the Boleyn Ground where it stood, the stadium moved on"
+  },
+  {
+    "station_id": "940GZZLUEHA",
+    "name": "East Ham",
+    "halo_hex": "#0d7a58",
+    "halo_rgb": [13, 122, 88],
+    "wealth_score": 0.22,
+    "font_weight": 410,
+    "bg_tint": "#000b06",
+    "description": "Darker teal — the Norman church among the terraces, the industrial history not quite erased"
+  },
+  {
+    "station_id": "940GZZLUBKG",
+    "name": "Barking",
+    "halo_hex": "#0d6e4e",
+    "halo_rgb": [13, 110, 78],
+    "wealth_score": 0.20,
+    "font_weight": 405,
+    "bg_tint": "#000a05",
+    "description": "Dark teal — the junction, the medieval abbey, the railway tracks splitting east and north"
+  },
+  {
+    "station_id": "940GZZLUUPN",
+    "name": "Upney",
+    "halo_hex": "#0d6e4e",
+    "halo_rgb": [13, 110, 78],
+    "wealth_score": 0.20,
+    "font_weight": 405,
+    "bg_tint": "#000a05",
+    "description": "Dark teal — the edge of Becontree, where the estate's ambition began to thin toward the market gardens"
+  },
+  {
+    "station_id": "940GZZLUBEC",
+    "name": "Becontree",
+    "halo_hex": "#0d6e4e",
+    "halo_rgb": [13, 110, 78],
+    "wealth_score": 0.20,
+    "font_weight": 405,
+    "bg_tint": "#000a05",
+    "description": "Dark teal — the estate built in a single stroke, 4,000 acres of planned dignity"
+  },
+  {
+    "station_id": "940GZZLUDGN",
+    "name": "Dagenham Heathway",
+    "halo_hex": "#0d6e4e",
+    "halo_rgb": [13, 110, 78],
+    "wealth_score": 0.20,
+    "font_weight": 405,
+    "bg_tint": "#000a05",
+    "description": "Dark teal — the Ford plant in view to the south, the workers' suburb to the north"
+  },
+  {
+    "station_id": "940GZZLUDGE",
+    "name": "Dagenham East",
+    "halo_hex": "#0d6e4e",
+    "halo_rgb": [13, 110, 78],
+    "wealth_score": 0.20,
+    "font_weight": 405,
+    "bg_tint": "#000a05",
+    "description": "Dark teal — the city fading into Essex, farmland visible from the platform"
+  },
+  {
+    "station_id": "940GZZLUELP",
+    "name": "Elm Park",
+    "halo_hex": "#0e8e66",
+    "halo_rgb": [14, 142, 102],
+    "wealth_score": 0.42,
+    "font_weight": 455,
+    "bg_tint": "#000d08",
+    "description": "Mid-dark teal — the garden suburb built into Essex farmland in 1935"
+  },
+  {
+    "station_id": "940GZZLUHCH",
+    "name": "Hornchurch",
+    "halo_hex": "#0e8e66",
+    "halo_rgb": [14, 142, 102],
+    "wealth_score": 0.42,
+    "font_weight": 455,
+    "bg_tint": "#000d08",
+    "description": "Mid-dark teal — the RAF airfield nearby, the Battle of Britain fought in the air above this suburb"
+  },
+  {
+    "station_id": "940GZZLUUMB",
+    "name": "Upminster Bridge",
+    "halo_hex": "#0e8e66",
+    "halo_rgb": [14, 142, 102],
+    "wealth_score": 0.42,
+    "font_weight": 455,
+    "bg_tint": "#000d08",
+    "description": "Mid-dark teal — the penultimate station, the bridge over a stream that no longer exists"
+  },
+  {
+    "station_id": "940GZZLUUPM",
+    "name": "Upminster",
+    "halo_hex": "#0e8e66",
+    "halo_rgb": [14, 142, 102],
+    "wealth_score": 0.42,
+    "font_weight": 455,
+    "bg_tint": "#000d08",
+    "description": "Mid-dark teal — the end of the line, the windmill that still turns, the point where London runs out of road"
+  },
+  {
+    "station_id": "940GZZLURIC",
+    "name": "Richmond",
+    "halo_hex": "#00caa8",
+    "halo_rgb": [0, 202, 168],
+    "wealth_score": 0.90,
+    "font_weight": 563,
+    "bg_tint": "#001514",
+    "description": "Bright cyan-teal — the deer park, the riverside, the highest-income borough in Greater London"
+  },
+  {
+    "station_id": "940GZZLUKWG",
+    "name": "Kew Gardens",
+    "halo_hex": "#00caa8",
+    "halo_rgb": [0, 202, 168],
+    "wealth_score": 0.90,
+    "font_weight": 563,
+    "bg_tint": "#001514",
+    "description": "Bright cyan-teal — 50,000 plant species, the glass houses, the UNESCO designation"
+  },
+  {
+    "station_id": "940GZZLUGNY",
+    "name": "Gunnersbury",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.55,
+    "font_weight": 484,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — the Rothschild estate given to the public, the Punjabi community, the A4"
+  },
+  {
+    "station_id": "940GZZLUTNG",
+    "name": "Turnham Green",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.55,
+    "font_weight": 484,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — the fork in the line, the common where the Civil War briefly paused"
+  },
+  {
+    "station_id": "940GZZLUSTB",
+    "name": "Stamford Brook",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.55,
+    "font_weight": 484,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — the buried stream, the Edwardian terraces, the quiet branch west of Hammersmith"
+  },
+  {
+    "station_id": "940GZZLURVP",
+    "name": "Ravenscourt Park",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.55,
+    "font_weight": 484,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — the private estate made public, the park that outlasted the manor"
+  },
+  {
+    "station_id": "940GZZLUHSD",
+    "name": "Hammersmith",
+    "halo_hex": "#10c090",
+    "halo_rgb": [16, 192, 144],
+    "wealth_score": 0.65,
+    "font_weight": 506,
+    "bg_tint": "#001209",
+    "description": "Bright teal — the Apollo, the Lyric, the Broadway, four lines converging under a single roof"
+  },
+  {
+    "station_id": "940GZZLUBRC",
+    "name": "Barons Court",
+    "halo_hex": "#10c090",
+    "halo_rgb": [16, 192, 144],
+    "wealth_score": 0.63,
+    "font_weight": 502,
+    "bg_tint": "#001008",
+    "description": "Teal — the fringe theatre below, the Edwardian streets above, the traffic of Fulham all around"
+  },
+  {
+    "station_id": "940GZZLUEBY",
+    "name": "Ealing Broadway",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.55,
+    "font_weight": 484,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — the oldest film studio, the Sikh community, the end of the western branch"
+  },
+  {
+    "station_id": "940GZZLUECM",
+    "name": "Ealing Common",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.55,
+    "font_weight": 484,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — the common that survived the Victorian expansion, the green at the end of the line"
+  },
+  {
+    "station_id": "940GZZLUACT",
+    "name": "Acton Town",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.52,
+    "font_weight": 477,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — the garden suburb idea, the junction of the Piccadilly line, the place London first tried to plan itself"
+  },
+  {
+    "station_id": "940GZZLUCYP",
+    "name": "Chiswick Park",
+    "halo_hex": "#0eb882",
+    "halo_rgb": [14, 184, 130],
+    "wealth_score": 0.55,
+    "font_weight": 484,
+    "bg_tint": "#00100a",
+    "description": "Mid teal — the quieter northern loop, Chiswick's respectable streets, the A4 nearby and unforgiveable"
+  },
+  {
+    "station_id": "940GZZLUHSK",
+    "name": "High Street Kensington",
+    "halo_hex": "#00caa8",
+    "halo_rgb": [0, 202, 168],
+    "wealth_score": 0.90,
+    "font_weight": 563,
+    "bg_tint": "#001514",
+    "description": "Bright cyan-teal — the high street, the embassies, the borough where money has always felt at home"
+  },
+  {
+    "station_id": "940GZZLUNHG",
+    "name": "Notting Hill Gate",
+    "halo_hex": "#00c8a5",
+    "halo_rgb": [0, 200, 165],
+    "wealth_score": 0.87,
+    "font_weight": 556,
+    "bg_tint": "#001412",
+    "description": "Bright teal — the Carnival that began in response to riots, now the largest street festival in Europe"
+  },
+  {
+    "station_id": "940GZZLUBWT",
+    "name": "Bayswater",
+    "halo_hex": "#00c4a0",
+    "halo_rgb": [0, 196, 160],
+    "wealth_score": 0.82,
+    "font_weight": 545,
+    "bg_tint": "#001310",
+    "description": "Bright teal — the transient borough, the hotels and bedsits, the Arabic restaurants, Hyde Park at the end of every street"
+  },
+  {
+    "station_id": "940GZZLUPAC",
+    "name": "Paddington",
+    "halo_hex": "#00c4a0",
+    "halo_rgb": [0, 196, 160],
+    "wealth_score": 0.83,
+    "font_weight": 547,
+    "bg_tint": "#001310",
+    "description": "Bright teal — Brunel's roof, the bear from darkest Peru, the original underground station"
+  },
+  {
+    "station_id": "940GZZLUEGR",
+    "name": "Edgware Road",
+    "halo_hex": "#00c4a0",
+    "halo_rgb": [0, 196, 160],
+    "wealth_score": 0.83,
+    "font_weight": 547,
+    "bg_tint": "#001310",
+    "description": "Bright teal — Watling Street below, the Arabic high street above, two thousand years of through-traffic"
   }
 ]

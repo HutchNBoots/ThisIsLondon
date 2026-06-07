@@ -222,5 +222,1544 @@
     "population_density_per_km2": 10200,
     "fact_sentence": "William Morris was born here in 1834; Europe's longest outdoor street market still runs daily along the high road he would have walked.",
     "history_sentence": "Walthamstow Central became the northern terminus of the Victoria Line in 1968, the final station in the original plan — the end of the line, for now."
+  },
+  {
+    "station_id": "940GZZLUWIM",
+    "name": "Wimbledon",
+    "ward": "Village",
+    "borough": "Merton",
+    "median_income_gbp": 42300,
+    "deprivation_index": 0.38,
+    "pct_born_outside_uk": 0.28,
+    "top_languages": [
+      { "language": "Tamil", "percent": 3.8 },
+      { "language": "Polish", "percent": 2.1 },
+      { "language": "Urdu", "percent": 1.9 }
+    ],
+    "pct_no_qualifications": 0.09,
+    "population_density_per_km2": 5811,
+    "median_age": 37,
+    "green_space_pct": 38,
+    "life_expectancy": 81.4,
+    "fact_sentence": "Every July, half a million extra people pour into this borough for Wimbledon. For two weeks, the entire world watches a patch of SW19 grass.",
+    "history_sentence": "The District line reached Wimbledon in 1889, threading through what was then still a semi-rural village — the All England Club itself opened only fourteen years earlier.",
+    "borough_facts": [
+      "The Statutes of Merton, signed here in 1235, are the oldest statute law still on the English books — the first brick in the foundations of Parliament.",
+      "Every July, half a million extra people pour into this borough for Wimbledon. For two weeks, the entire world watches a patch of SW19 grass.",
+      "Tamil is spoken in roughly 1 in 25 Merton homes — one of the highest concentrations in Europe outside Tamil Nadu itself.",
+      "William Morris ran his workshop on the River Wandle here in the 1880s. The borough has always attracted makers who need water and quiet."
+    ]
+  },
+  {
+    "station_id": "940GZZLUWIP",
+    "name": "Wimbledon Park",
+    "ward": "Abbey",
+    "borough": "Merton",
+    "median_income_gbp": 42300,
+    "deprivation_index": 0.38,
+    "pct_born_outside_uk": 0.26,
+    "top_languages": [
+      { "language": "Tamil", "percent": 3.8 },
+      { "language": "Polish", "percent": 2.1 },
+      { "language": "Urdu", "percent": 1.9 }
+    ],
+    "pct_no_qualifications": 0.09,
+    "population_density_per_km2": 5811,
+    "median_age": 37,
+    "green_space_pct": 38,
+    "life_expectancy": 81.4,
+    "fact_sentence": "Wimbledon Park station sits beside the actual Wimbledon Park Lake — one of the quiet boundaries between the suburb and the tournament.",
+    "history_sentence": "The station opened in 1889 as part of the District line extension; the park itself, landscaped by Capability Brown, is now largely occupied by the All England Club.",
+    "borough_facts": [
+      "The Statutes of Merton, signed here in 1235, are the oldest statute law still on the English books — the first brick in the foundations of Parliament.",
+      "Every July, half a million extra people pour into this borough for Wimbledon. For two weeks, the entire world watches a patch of SW19 grass.",
+      "Tamil is spoken in roughly 1 in 25 Merton homes — one of the highest concentrations in Europe outside Tamil Nadu itself.",
+      "William Morris ran his workshop on the River Wandle here in the 1880s. The borough has always attracted makers who need water and quiet."
+    ]
+  },
+  {
+    "station_id": "940GZZLUSWF",
+    "name": "Southfields",
+    "ward": "Southfields",
+    "borough": "Merton",
+    "median_income_gbp": 42300,
+    "deprivation_index": 0.38,
+    "pct_born_outside_uk": 0.24,
+    "top_languages": [
+      { "language": "Tamil", "percent": 3.8 },
+      { "language": "Polish", "percent": 2.1 },
+      { "language": "Urdu", "percent": 1.9 }
+    ],
+    "pct_no_qualifications": 0.09,
+    "population_density_per_km2": 5811,
+    "median_age": 37,
+    "green_space_pct": 38,
+    "life_expectancy": 81.4,
+    "fact_sentence": "Southfields fills with strawberry-eaters for two weeks each June. For the other fifty, it is one of the quieter SW postcodes, utterly unbothered.",
+    "history_sentence": "Southfields station was built in 1889 by the District Railway; the area around it developed as a Victorian suburb specifically because the line made it viable.",
+    "borough_facts": [
+      "The Statutes of Merton, signed here in 1235, are the oldest statute law still on the English books — the first brick in the foundations of Parliament.",
+      "Every July, half a million extra people pour into this borough for Wimbledon. For two weeks, the entire world watches a patch of SW19 grass.",
+      "Tamil is spoken in roughly 1 in 25 Merton homes — one of the highest concentrations in Europe outside Tamil Nadu itself.",
+      "William Morris ran his workshop on the River Wandle here in the 1880s. The borough has always attracted makers who need water and quiet."
+    ]
+  },
+  {
+    "station_id": "940GZZLUEPY",
+    "name": "East Putney",
+    "ward": "Putney",
+    "borough": "Wandsworth",
+    "median_income_gbp": 48200,
+    "deprivation_index": 0.32,
+    "pct_born_outside_uk": 0.29,
+    "top_languages": [
+      { "language": "French", "percent": 2.8 },
+      { "language": "Spanish", "percent": 2.6 },
+      { "language": "Polish", "percent": 2.2 }
+    ],
+    "pct_no_qualifications": 0.08,
+    "population_density_per_km2": 7845,
+    "median_age": 35,
+    "green_space_pct": 33,
+    "life_expectancy": 82.1,
+    "fact_sentence": "Wandsworth has more open space than any other inner London borough — one third of its land is park, common, or recreation ground.",
+    "history_sentence": "East Putney station opened in 1880 as part of the London & South Western Railway before the District line took over the route a decade later.",
+    "borough_facts": [
+      "Wandsworth Prison has stood on Heathfield Road since 1851 — London's largest, and the one that held Oscar Wilde before his transfer to Reading Gaol.",
+      "The Wandle river, which gives the borough its name, once powered fifty-seven mills within a four-mile stretch of its banks.",
+      "Wandsworth has more open space than any other inner London borough — 33% of its land is park, common, or recreation ground.",
+      "Young's Brewery stood here for over two centuries until 2006. The yeast still lives — reactivated, it is used in craft breweries today."
+    ]
+  },
+  {
+    "station_id": "940GZZLUPYB",
+    "name": "Putney Bridge",
+    "ward": "Fulham",
+    "borough": "Hammersmith & Fulham",
+    "median_income_gbp": 44100,
+    "deprivation_index": 0.40,
+    "pct_born_outside_uk": 0.32,
+    "top_languages": [
+      { "language": "Polish", "percent": 4.2 },
+      { "language": "French", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.8 }
+    ],
+    "pct_no_qualifications": 0.10,
+    "population_density_per_km2": 8520,
+    "median_age": 34,
+    "green_space_pct": 22,
+    "life_expectancy": 81.8,
+    "fact_sentence": "Putney Bridge is the starting point of the Oxford-Cambridge Boat Race — a tradition so embedded it is simply called The Boat Race.",
+    "history_sentence": "The station opened in 1880 on the north bank of the Thames; the bridge it is named for is stone, built 1729, replacing a medieval ferry crossing.",
+    "borough_facts": [
+      "Stamford Bridge has stood at Fulham Road since 1877. Chelsea FC was an afterthought — the ground was built first, the club formed four years later to fill it.",
+      "Hammersmith Apollo has hosted everyone from The Beatles to David Bowie. Its capacity of 5,000 is the same as when it opened in 1932 as the Gaumont Palace.",
+      "The Lyric Theatre Hammersmith has been producing theatre since 1895, the same year the Lumière brothers projected their first film. Both still run.",
+      "Polish is spoken in 1 in 24 households here — a legacy of the RAF pilots who stayed after flying from nearby airfields in 1940–45."
+    ]
+  },
+  {
+    "station_id": "940GZZLUPSG",
+    "name": "Parsons Green",
+    "ward": "Parsons Green & Walham",
+    "borough": "Hammersmith & Fulham",
+    "median_income_gbp": 44100,
+    "deprivation_index": 0.40,
+    "pct_born_outside_uk": 0.30,
+    "top_languages": [
+      { "language": "Polish", "percent": 4.2 },
+      { "language": "French", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.8 }
+    ],
+    "pct_no_qualifications": 0.10,
+    "population_density_per_km2": 8520,
+    "median_age": 34,
+    "green_space_pct": 22,
+    "life_expectancy": 81.8,
+    "fact_sentence": "Parsons Green is named for a rectory that stood on the common in the seventeenth century. The green still exists; the parsons do not.",
+    "history_sentence": "The station opened in 1880 and gave the area its first rail link to central London, turning a rural patch of Fulham into a commuter suburb within a decade.",
+    "borough_facts": [
+      "Stamford Bridge has stood at Fulham Road since 1877. Chelsea FC was an afterthought — the ground was built first, the club formed four years later to fill it.",
+      "Hammersmith Apollo has hosted everyone from The Beatles to David Bowie. Its capacity of 5,000 is the same as when it opened in 1932 as the Gaumont Palace.",
+      "The Lyric Theatre Hammersmith has been producing theatre since 1895, the same year the Lumière brothers projected their first film. Both still run.",
+      "Polish is spoken in 1 in 24 households here — a legacy of the RAF pilots who stayed after flying from nearby airfields in 1940–45."
+    ]
+  },
+  {
+    "station_id": "940GZZLUFBY",
+    "name": "Fulham Broadway",
+    "ward": "Fulham Broadway",
+    "borough": "Hammersmith & Fulham",
+    "median_income_gbp": 44100,
+    "deprivation_index": 0.40,
+    "pct_born_outside_uk": 0.33,
+    "top_languages": [
+      { "language": "Polish", "percent": 4.2 },
+      { "language": "French", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.8 }
+    ],
+    "pct_no_qualifications": 0.10,
+    "population_density_per_km2": 8520,
+    "median_age": 34,
+    "green_space_pct": 22,
+    "life_expectancy": 81.8,
+    "fact_sentence": "Stamford Bridge, the home of Chelsea FC, is a six-minute walk from this platform — the ground was built before the club existed.",
+    "history_sentence": "Fulham Broadway opened in 1880 as part of the District Railway's expansion westward through what was then the semi-rural outskirts of the city.",
+    "borough_facts": [
+      "Stamford Bridge has stood at Fulham Road since 1877. Chelsea FC was an afterthought — the ground was built first, the club formed four years later to fill it.",
+      "Hammersmith Apollo has hosted everyone from The Beatles to David Bowie. Its capacity of 5,000 is the same as when it opened in 1932 as the Gaumont Palace.",
+      "The Lyric Theatre Hammersmith has been producing theatre since 1895, the same year the Lumière brothers projected their first film. Both still run.",
+      "Polish is spoken in 1 in 24 households here — a legacy of the RAF pilots who stayed after flying from nearby airfields in 1940–45."
+    ]
+  },
+  {
+    "station_id": "940GZZLUWBP",
+    "name": "West Brompton",
+    "ward": "Earls Court",
+    "borough": "Hammersmith & Fulham",
+    "median_income_gbp": 44100,
+    "deprivation_index": 0.40,
+    "pct_born_outside_uk": 0.36,
+    "top_languages": [
+      { "language": "Polish", "percent": 4.2 },
+      { "language": "French", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.8 }
+    ],
+    "pct_no_qualifications": 0.10,
+    "population_density_per_km2": 8520,
+    "median_age": 34,
+    "green_space_pct": 22,
+    "life_expectancy": 81.8,
+    "fact_sentence": "West Brompton Cemetery, opened in 1840, holds over 65,000 graves including writers, artists, and the founder of the Women's Institute.",
+    "history_sentence": "West Brompton station opened in 1866, making it one of the older District line stations; it has since become the junction point between the Wimbledon and Richmond branches.",
+    "borough_facts": [
+      "Stamford Bridge has stood at Fulham Road since 1877. Chelsea FC was an afterthought — the ground was built first, the club formed four years later to fill it.",
+      "Hammersmith Apollo has hosted everyone from The Beatles to David Bowie. Its capacity of 5,000 is the same as when it opened in 1932 as the Gaumont Palace.",
+      "The Lyric Theatre Hammersmith has been producing theatre since 1895, the same year the Lumière brothers projected their first film. Both still run.",
+      "Polish is spoken in 1 in 24 households here — a legacy of the RAF pilots who stayed after flying from nearby airfields in 1940–45."
+    ]
+  },
+  {
+    "station_id": "940GZZLUERC",
+    "name": "Earl's Court",
+    "ward": "Earls Court",
+    "borough": "Kensington & Chelsea",
+    "median_income_gbp": 82300,
+    "deprivation_index": 0.15,
+    "pct_born_outside_uk": 0.51,
+    "top_languages": [
+      { "language": "French", "percent": 4.8 },
+      { "language": "Arabic", "percent": 4.1 },
+      { "language": "Spanish", "percent": 3.9 }
+    ],
+    "pct_no_qualifications": 0.06,
+    "population_density_per_km2": 13100,
+    "median_age": 37,
+    "green_space_pct": 24,
+    "life_expectancy": 83.9,
+    "fact_sentence": "Four distinct District line branches converge at Earl's Court, making it the nervous system of the entire western half of the line.",
+    "history_sentence": "Earl's Court Exhibition Centre, demolished in 2014, hosted The Beatles, the Daily Mail Ideal Home Show, and the first ever motorbike to be shown in Britain.",
+    "borough_facts": [
+      "The Royal Borough of Kensington and Chelsea has the highest population density and the highest property prices of any local authority in England.",
+      "The Natural History Museum, Science Museum, and V&A sit within 600 metres of each other — the legacy of a single Victorian idea: that culture should be free.",
+      "Freddie Mercury lived at 1 Logan Place for six years. His studio, his garden, his cats — all within the most expensive borough in Britain.",
+      "More foreign embassies are located here than in any other London borough. On a single street, forty nations conduct their official business."
+    ]
+  },
+  {
+    "station_id": "940GZZLUGTR",
+    "name": "Gloucester Road",
+    "ward": "Brompton",
+    "borough": "Kensington & Chelsea",
+    "median_income_gbp": 82300,
+    "deprivation_index": 0.15,
+    "pct_born_outside_uk": 0.49,
+    "top_languages": [
+      { "language": "French", "percent": 4.8 },
+      { "language": "Arabic", "percent": 4.1 },
+      { "language": "Spanish", "percent": 3.9 }
+    ],
+    "pct_no_qualifications": 0.06,
+    "population_density_per_km2": 13100,
+    "median_age": 37,
+    "green_space_pct": 24,
+    "life_expectancy": 83.9,
+    "fact_sentence": "The Natural History Museum is a twelve-minute walk from this platform. It sees six million visitors a year and charges nothing to enter.",
+    "history_sentence": "Gloucester Road station opened in 1868, part of the original Metropolitan District Railway; the area above ground has barely changed in character since Victorian times.",
+    "borough_facts": [
+      "The Royal Borough of Kensington and Chelsea has the highest population density and the highest property prices of any local authority in England.",
+      "The Natural History Museum, Science Museum, and V&A sit within 600 metres of each other — the legacy of a single Victorian idea: that culture should be free.",
+      "Freddie Mercury lived at 1 Logan Place for six years. His studio, his garden, his cats — all within the most expensive borough in Britain.",
+      "More foreign embassies are located here than in any other London borough. On a single street, forty nations conduct their official business."
+    ]
+  },
+  {
+    "station_id": "940GZZLUSKN",
+    "name": "South Kensington",
+    "ward": "Hans Town",
+    "borough": "Kensington & Chelsea",
+    "median_income_gbp": 82300,
+    "deprivation_index": 0.15,
+    "pct_born_outside_uk": 0.52,
+    "top_languages": [
+      { "language": "French", "percent": 4.8 },
+      { "language": "Arabic", "percent": 4.1 },
+      { "language": "Spanish", "percent": 3.9 }
+    ],
+    "pct_no_qualifications": 0.06,
+    "population_density_per_km2": 13100,
+    "median_age": 37,
+    "green_space_pct": 24,
+    "life_expectancy": 83.9,
+    "fact_sentence": "South Kensington is nicknamed 'Paris on the Thames' — the French lycée, the French consulate, and the Institut français all stand within five minutes of the station.",
+    "history_sentence": "South Kensington station opened in 1868; the museum district it serves was built on land bought with profits from the 1851 Great Exhibition, Prince Albert's great project.",
+    "borough_facts": [
+      "The Royal Borough of Kensington and Chelsea has the highest population density and the highest property prices of any local authority in England.",
+      "The Natural History Museum, Science Museum, and V&A sit within 600 metres of each other — the legacy of a single Victorian idea: that culture should be free.",
+      "Freddie Mercury lived at 1 Logan Place for six years. His studio, his garden, his cats — all within the most expensive borough in Britain.",
+      "More foreign embassies are located here than in any other London borough. On a single street, forty nations conduct their official business."
+    ]
+  },
+  {
+    "station_id": "940GZZLUSSQ",
+    "name": "Sloane Square",
+    "ward": "Royal Hospital",
+    "borough": "Kensington & Chelsea",
+    "median_income_gbp": 82300,
+    "deprivation_index": 0.15,
+    "pct_born_outside_uk": 0.47,
+    "top_languages": [
+      { "language": "French", "percent": 4.8 },
+      { "language": "Arabic", "percent": 4.1 },
+      { "language": "Spanish", "percent": 3.9 }
+    ],
+    "pct_no_qualifications": 0.06,
+    "population_density_per_km2": 13100,
+    "median_age": 37,
+    "green_space_pct": 24,
+    "life_expectancy": 83.9,
+    "fact_sentence": "The Royal Court Theatre at Sloane Square has launched the careers of John Osborne, Harold Pinter, and Sarah Kane — each generation of anger starts here.",
+    "history_sentence": "Sloane Square station opened in 1868; a river — the Westbourne — flows through a cast-iron pipe suspended above the platforms, visible to anyone who looks up.",
+    "borough_facts": [
+      "The Royal Borough of Kensington and Chelsea has the highest population density and the highest property prices of any local authority in England.",
+      "The Natural History Museum, Science Museum, and V&A sit within 600 metres of each other — the legacy of a single Victorian idea: that culture should be free.",
+      "Freddie Mercury lived at 1 Logan Place for six years. His studio, his garden, his cats — all within the most expensive borough in Britain.",
+      "More foreign embassies are located here than in any other London borough. On a single street, forty nations conduct their official business."
+    ]
+  },
+  {
+    "station_id": "940GZZLUSJP",
+    "name": "St James's Park",
+    "ward": "St James's",
+    "borough": "Westminster",
+    "median_income_gbp": 62100,
+    "deprivation_index": 0.32,
+    "pct_born_outside_uk": 0.46,
+    "top_languages": [
+      { "language": "French", "percent": 4.2 },
+      { "language": "Arabic", "percent": 3.6 },
+      { "language": "Spanish", "percent": 3.1 }
+    ],
+    "pct_no_qualifications": 0.07,
+    "population_density_per_km2": 10100,
+    "median_age": 38,
+    "green_space_pct": 27,
+    "life_expectancy": 82.8,
+    "fact_sentence": "Buckingham Palace and the Home Office are both within a five-minute walk of this platform — monarchy and bureaucracy sharing the same postcode.",
+    "history_sentence": "St James's Park station opened in 1868, steps from the oldest Royal Park in London, which Charles II opened to the public after the Restoration.",
+    "borough_facts": [
+      "Westminster contains more UNESCO World Heritage Sites within its boundaries than most countries: the Palace of Westminster, Westminster Abbey, and St James's Park form a single designation.",
+      "The daytime population of Westminster is estimated at five times its residential population — office workers, tourists, and civil servants outnumber residents before noon.",
+      "The Metropolitan Police was founded here in 1829 by Robert Peel. Its officers were called Peelers. They were controversial. Some things do not change.",
+      "Paddington station opened in 1854 as Brunel's masterwork. The original roof span was the widest wrought-iron structure in the world at the time."
+    ]
+  },
+  {
+    "station_id": "940GZZLUWSM",
+    "name": "Westminster",
+    "ward": "St James's",
+    "borough": "Westminster",
+    "median_income_gbp": 62100,
+    "deprivation_index": 0.32,
+    "pct_born_outside_uk": 0.46,
+    "top_languages": [
+      { "language": "French", "percent": 4.2 },
+      { "language": "Arabic", "percent": 3.6 },
+      { "language": "Spanish", "percent": 3.1 }
+    ],
+    "pct_no_qualifications": 0.07,
+    "population_density_per_km2": 10100,
+    "median_age": 38,
+    "green_space_pct": 27,
+    "life_expectancy": 82.8,
+    "fact_sentence": "The House of Commons, the House of Lords, the Supreme Court, and Westminster Abbey are all within a two-minute walk of the surface exits.",
+    "history_sentence": "Westminster station opened in 1868 and was dramatically rebuilt in the 1990s when the Jubilee Line extension was added — the raw concrete cavern beneath the clock tower.",
+    "borough_facts": [
+      "Westminster contains more UNESCO World Heritage Sites within its boundaries than most countries: the Palace of Westminster, Westminster Abbey, and St James's Park form a single designation.",
+      "The daytime population of Westminster is estimated at five times its residential population — office workers, tourists, and civil servants outnumber residents before noon.",
+      "The Metropolitan Police was founded here in 1829 by Robert Peel. Its officers were called Peelers. They were controversial. Some things do not change.",
+      "Paddington station opened in 1854 as Brunel's masterwork. The original roof span was the widest wrought-iron structure in the world at the time."
+    ]
+  },
+  {
+    "station_id": "940GZZLUEMB",
+    "name": "Embankment",
+    "ward": "St James's",
+    "borough": "Westminster",
+    "median_income_gbp": 62100,
+    "deprivation_index": 0.32,
+    "pct_born_outside_uk": 0.44,
+    "top_languages": [
+      { "language": "French", "percent": 4.2 },
+      { "language": "Arabic", "percent": 3.6 },
+      { "language": "Spanish", "percent": 3.1 }
+    ],
+    "pct_no_qualifications": 0.07,
+    "population_density_per_km2": 10100,
+    "median_age": 38,
+    "green_space_pct": 27,
+    "life_expectancy": 82.8,
+    "fact_sentence": "The Victoria Embankment was built in 1870 by Joseph Bazalgette — the same engineer who built the sewers that saved London from cholera, both invisible achievements.",
+    "history_sentence": "Embankment station opened in 1870 on reclaimed riverbed, part of the same Bazalgette project that moved the Thames's edge northward by more than a hundred metres.",
+    "borough_facts": [
+      "Westminster contains more UNESCO World Heritage Sites within its boundaries than most countries: the Palace of Westminster, Westminster Abbey, and St James's Park form a single designation.",
+      "The daytime population of Westminster is estimated at five times its residential population — office workers, tourists, and civil servants outnumber residents before noon.",
+      "The Metropolitan Police was founded here in 1829 by Robert Peel. Its officers were called Peelers. They were controversial. Some things do not change.",
+      "Paddington station opened in 1854 as Brunel's masterwork. The original roof span was the widest wrought-iron structure in the world at the time."
+    ]
+  },
+  {
+    "station_id": "940GZZLUTEM",
+    "name": "Temple",
+    "ward": "St James's",
+    "borough": "Westminster",
+    "median_income_gbp": 62100,
+    "deprivation_index": 0.32,
+    "pct_born_outside_uk": 0.44,
+    "top_languages": [
+      { "language": "French", "percent": 4.2 },
+      { "language": "Arabic", "percent": 3.6 },
+      { "language": "Spanish", "percent": 3.1 }
+    ],
+    "pct_no_qualifications": 0.07,
+    "population_density_per_km2": 10100,
+    "median_age": 38,
+    "green_space_pct": 27,
+    "life_expectancy": 82.8,
+    "fact_sentence": "The Temple, just above this station, is one of four Inns of Court — the only institutions in England and Wales that can call someone to the Bar.",
+    "history_sentence": "Temple station opened in 1870 and is notable for closing on Sundays — one of very few Underground stations that still observes the old rest day.",
+    "borough_facts": [
+      "Westminster contains more UNESCO World Heritage Sites within its boundaries than most countries: the Palace of Westminster, Westminster Abbey, and St James's Park form a single designation.",
+      "The daytime population of Westminster is estimated at five times its residential population — office workers, tourists, and civil servants outnumber residents before noon.",
+      "The Metropolitan Police was founded here in 1829 by Robert Peel. Its officers were called Peelers. They were controversial. Some things do not change.",
+      "Paddington station opened in 1854 as Brunel's masterwork. The original roof span was the widest wrought-iron structure in the world at the time."
+    ]
+  },
+  {
+    "station_id": "940GZZLUBWT",
+    "name": "Bayswater",
+    "ward": "Hyde Park",
+    "borough": "Westminster",
+    "median_income_gbp": 62100,
+    "deprivation_index": 0.32,
+    "pct_born_outside_uk": 0.50,
+    "top_languages": [
+      { "language": "French", "percent": 4.2 },
+      { "language": "Arabic", "percent": 3.6 },
+      { "language": "Spanish", "percent": 3.1 }
+    ],
+    "pct_no_qualifications": 0.07,
+    "population_density_per_km2": 10100,
+    "median_age": 38,
+    "green_space_pct": 27,
+    "life_expectancy": 82.8,
+    "fact_sentence": "Bayswater is the most densely transient district in London — hotels, bedsits, boarding houses. A quarter of residents have been here less than a year.",
+    "history_sentence": "Bayswater station opened in 1868; the area above was developed as the place wealthy Victorians moved when Mayfair got too crowded.",
+    "borough_facts": [
+      "Westminster contains more UNESCO World Heritage Sites within its boundaries than most countries: the Palace of Westminster, Westminster Abbey, and St James's Park form a single designation.",
+      "The daytime population of Westminster is estimated at five times its residential population — office workers, tourists, and civil servants outnumber residents before noon.",
+      "The Metropolitan Police was founded here in 1829 by Robert Peel. Its officers were called Peelers. They were controversial. Some things do not change.",
+      "Paddington station opened in 1854 as Brunel's masterwork. The original roof span was the widest wrought-iron structure in the world at the time."
+    ]
+  },
+  {
+    "station_id": "940GZZLUPAC",
+    "name": "Paddington",
+    "ward": "Hyde Park",
+    "borough": "Westminster",
+    "median_income_gbp": 62100,
+    "deprivation_index": 0.32,
+    "pct_born_outside_uk": 0.48,
+    "top_languages": [
+      { "language": "French", "percent": 4.2 },
+      { "language": "Arabic", "percent": 3.6 },
+      { "language": "Spanish", "percent": 3.1 }
+    ],
+    "pct_no_qualifications": 0.07,
+    "population_density_per_km2": 10100,
+    "median_age": 38,
+    "green_space_pct": 27,
+    "life_expectancy": 82.8,
+    "fact_sentence": "Paddington mainline station was designed by Brunel in 1854. The wrought-iron roof span was the widest of any structure in the world at the time.",
+    "history_sentence": "Paddington was one of the original stations on the Metropolitan Railway — the world's first underground railway — which opened in January 1863.",
+    "borough_facts": [
+      "Westminster contains more UNESCO World Heritage Sites within its boundaries than most countries: the Palace of Westminster, Westminster Abbey, and St James's Park form a single designation.",
+      "The daytime population of Westminster is estimated at five times its residential population — office workers, tourists, and civil servants outnumber residents before noon.",
+      "The Metropolitan Police was founded here in 1829 by Robert Peel. Its officers were called Peelers. They were controversial. Some things do not change.",
+      "Paddington station opened in 1854 as Brunel's masterwork. The original roof span was the widest wrought-iron structure in the world at the time."
+    ]
+  },
+  {
+    "station_id": "940GZZLUEGR",
+    "name": "Edgware Road",
+    "ward": "Hyde Park",
+    "borough": "Westminster",
+    "median_income_gbp": 62100,
+    "deprivation_index": 0.32,
+    "pct_born_outside_uk": 0.51,
+    "top_languages": [
+      { "language": "French", "percent": 4.2 },
+      { "language": "Arabic", "percent": 3.6 },
+      { "language": "Spanish", "percent": 3.1 }
+    ],
+    "pct_no_qualifications": 0.07,
+    "population_density_per_km2": 10100,
+    "median_age": 38,
+    "green_space_pct": 27,
+    "life_expectancy": 82.8,
+    "fact_sentence": "Edgware Road is London's Arabic high street — Lebanese restaurants, shisha cafes, and Arabic language bookshops in every direction from the station exits.",
+    "history_sentence": "The station sits on Watling Street, the Roman road that ran from Dover to Holyhead. This precise spot has been a waypoint for travellers for two thousand years.",
+    "borough_facts": [
+      "Westminster contains more UNESCO World Heritage Sites within its boundaries than most countries: the Palace of Westminster, Westminster Abbey, and St James's Park form a single designation.",
+      "The daytime population of Westminster is estimated at five times its residential population — office workers, tourists, and civil servants outnumber residents before noon.",
+      "The Metropolitan Police was founded here in 1829 by Robert Peel. Its officers were called Peelers. They were controversial. Some things do not change.",
+      "Paddington station opened in 1854 as Brunel's masterwork. The original roof span was the widest wrought-iron structure in the world at the time."
+    ]
+  },
+  {
+    "station_id": "940GZZLUBLF",
+    "name": "Blackfriars",
+    "ward": "Farringdon Within",
+    "borough": "City of London",
+    "median_income_gbp": 79000,
+    "deprivation_index": 0.20,
+    "pct_born_outside_uk": 0.42,
+    "top_languages": [
+      { "language": "French", "percent": 3.8 },
+      { "language": "Chinese", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.9 }
+    ],
+    "pct_no_qualifications": 0.05,
+    "population_density_per_km2": 5100,
+    "median_age": 41,
+    "green_space_pct": 9,
+    "life_expectancy": 82.4,
+    "fact_sentence": "The Square Mile contains more offices than residents. Around 500,000 people work here daily; only about 9,000 sleep here each night.",
+    "history_sentence": "Blackfriars station opened in 1870; it sits where the River Fleet meets the Thames underground, a buried river beneath the buried railway.",
+    "borough_facts": [
+      "The Square Mile contains more offices than residents: around 500,000 people work here daily, while fewer than 9,000 sleep here each night.",
+      "The City of London has its own police force, its own Lord Mayor, and its own constitution — a settlement older than Parliament itself.",
+      "Monument, designed by Wren and Hooke after the Great Fire of 1666, is exactly as tall as the distance from its base to the bakery where the fire began.",
+      "The street plan of the City still follows routes walked by Roman Londoners in 50 AD. Cheapside, Cornhill, Bishopsgate — medieval names on ancient paths."
+    ]
+  },
+  {
+    "station_id": "940GZZLUMSH",
+    "name": "Mansion House",
+    "ward": "Vintry",
+    "borough": "City of London",
+    "median_income_gbp": 79000,
+    "deprivation_index": 0.20,
+    "pct_born_outside_uk": 0.42,
+    "top_languages": [
+      { "language": "French", "percent": 3.8 },
+      { "language": "Chinese", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.9 }
+    ],
+    "pct_no_qualifications": 0.05,
+    "population_density_per_km2": 5100,
+    "median_age": 41,
+    "green_space_pct": 9,
+    "life_expectancy": 82.4,
+    "fact_sentence": "The Lord Mayor of London's official residence stands directly above this station — a different office and a different title from the elected Mayor of London.",
+    "history_sentence": "Mansion House station opened in 1871 as the original eastern terminus of the Metropolitan District Railway before the line pushed further east to Whitechapel.",
+    "borough_facts": [
+      "The Square Mile contains more offices than residents: around 500,000 people work here daily, while fewer than 9,000 sleep here each night.",
+      "The City of London has its own police force, its own Lord Mayor, and its own constitution — a settlement older than Parliament itself.",
+      "Monument, designed by Wren and Hooke after the Great Fire of 1666, is exactly as tall as the distance from its base to the bakery where the fire began.",
+      "The street plan of the City still follows routes walked by Roman Londoners in 50 AD. Cheapside, Cornhill, Bishopsgate — medieval names on ancient paths."
+    ]
+  },
+  {
+    "station_id": "940GZZLUCST",
+    "name": "Cannon Street",
+    "ward": "Dowgate",
+    "borough": "City of London",
+    "median_income_gbp": 79000,
+    "deprivation_index": 0.20,
+    "pct_born_outside_uk": 0.42,
+    "top_languages": [
+      { "language": "French", "percent": 3.8 },
+      { "language": "Chinese", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.9 }
+    ],
+    "pct_no_qualifications": 0.05,
+    "population_density_per_km2": 5100,
+    "median_age": 41,
+    "green_space_pct": 9,
+    "life_expectancy": 82.4,
+    "fact_sentence": "The London Stone — a Roman milestone that may once have measured the distances of all Roman roads in Britain — is set into a wall near this station.",
+    "history_sentence": "Cannon Street station opened in 1884 on a site once occupied by a Roman governor's palace; excavations for the mainline station above found mosaics.",
+    "borough_facts": [
+      "The Square Mile contains more offices than residents: around 500,000 people work here daily, while fewer than 9,000 sleep here each night.",
+      "The City of London has its own police force, its own Lord Mayor, and its own constitution — a settlement older than Parliament itself.",
+      "Monument, designed by Wren and Hooke after the Great Fire of 1666, is exactly as tall as the distance from its base to the bakery where the fire began.",
+      "The street plan of the City still follows routes walked by Roman Londoners in 50 AD. Cheapside, Cornhill, Bishopsgate — medieval names on ancient paths."
+    ]
+  },
+  {
+    "station_id": "940GZZLUMMT",
+    "name": "Monument",
+    "ward": "Candlewick",
+    "borough": "City of London",
+    "median_income_gbp": 79000,
+    "deprivation_index": 0.20,
+    "pct_born_outside_uk": 0.42,
+    "top_languages": [
+      { "language": "French", "percent": 3.8 },
+      { "language": "Chinese", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.9 }
+    ],
+    "pct_no_qualifications": 0.05,
+    "population_density_per_km2": 5100,
+    "median_age": 41,
+    "green_space_pct": 9,
+    "life_expectancy": 82.4,
+    "fact_sentence": "Monument to the Great Fire of 1666 is exactly 202 feet tall and stands exactly 202 feet from the bakery where the fire began — a perfect memorial equation.",
+    "history_sentence": "Monument station opened in 1884; it shares a subterranean ticket hall with Bank station, connected by one of the Underground's longer internal passages.",
+    "borough_facts": [
+      "The Square Mile contains more offices than residents: around 500,000 people work here daily, while fewer than 9,000 sleep here each night.",
+      "The City of London has its own police force, its own Lord Mayor, and its own constitution — a settlement older than Parliament itself.",
+      "Monument, designed by Wren and Hooke after the Great Fire of 1666, is exactly as tall as the distance from its base to the bakery where the fire began.",
+      "The street plan of the City still follows routes walked by Roman Londoners in 50 AD. Cheapside, Cornhill, Bishopsgate — medieval names on ancient paths."
+    ]
+  },
+  {
+    "station_id": "940GZZLUTOH",
+    "name": "Tower Hill",
+    "ward": "Tower",
+    "borough": "City of London",
+    "median_income_gbp": 79000,
+    "deprivation_index": 0.20,
+    "pct_born_outside_uk": 0.42,
+    "top_languages": [
+      { "language": "French", "percent": 3.8 },
+      { "language": "Chinese", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.9 }
+    ],
+    "pct_no_qualifications": 0.05,
+    "population_density_per_km2": 5100,
+    "median_age": 41,
+    "green_space_pct": 9,
+    "life_expectancy": 82.4,
+    "fact_sentence": "The Tower of London contains the Crown Jewels — 23,578 gemstones — guarded by Yeoman Warders and six ravens whose departure, legend says, would cause the kingdom to fall.",
+    "history_sentence": "Tower Hill station opened in 1882 next to a spot that served as London's principal place of public execution for centuries; the scaffold was immediately outside the Tower's walls.",
+    "borough_facts": [
+      "The Square Mile contains more offices than residents: around 500,000 people work here daily, while fewer than 9,000 sleep here each night.",
+      "The City of London has its own police force, its own Lord Mayor, and its own constitution — a settlement older than Parliament itself.",
+      "Monument, designed by Wren and Hooke after the Great Fire of 1666, is exactly as tall as the distance from its base to the bakery where the fire began.",
+      "The street plan of the City still follows routes walked by Roman Londoners in 50 AD. Cheapside, Cornhill, Bishopsgate — medieval names on ancient paths."
+    ]
+  },
+  {
+    "station_id": "940GZZLUADE",
+    "name": "Aldgate East",
+    "ward": "Whitechapel",
+    "borough": "Tower Hamlets",
+    "median_income_gbp": 28100,
+    "deprivation_index": 0.68,
+    "pct_born_outside_uk": 0.52,
+    "top_languages": [
+      { "language": "Bengali", "percent": 32.1 },
+      { "language": "Somali", "percent": 3.2 },
+      { "language": "Arabic", "percent": 2.4 }
+    ],
+    "pct_no_qualifications": 0.16,
+    "population_density_per_km2": 16700,
+    "median_age": 31,
+    "green_space_pct": 16,
+    "life_expectancy": 78.4,
+    "fact_sentence": "Aldgate is the oldest gate in the original Roman city wall. Chaucer is thought to have lived in the gate-house above the arch while writing The Canterbury Tales.",
+    "history_sentence": "Aldgate East station opened in 1884, two years before Whitechapel became notorious under a name that newspapers invented and police were too willing to repeat.",
+    "borough_facts": [
+      "Bengali is spoken by roughly 1 in 3 residents in Tower Hamlets — the highest concentration of Bengali speakers outside Bangladesh itself.",
+      "The Whitechapel Bell Foundry cast Liberty Bell in 1752 and Big Ben's bells repeatedly. It operated on the same site for 450 years before closing in 2017.",
+      "The East End's Huguenot weavers built silk houses in the 1700s; the same buildings became a synagogue for Jewish refugees in the 1890s; then a mosque in the 1970s.",
+      "Aldgate is the oldest gate of the original Roman city wall. Chaucer lived in the gate-house above the arch while writing The Canterbury Tales."
+    ]
+  },
+  {
+    "station_id": "940GZZLUWCH",
+    "name": "Whitechapel",
+    "ward": "Whitechapel",
+    "borough": "Tower Hamlets",
+    "median_income_gbp": 28100,
+    "deprivation_index": 0.68,
+    "pct_born_outside_uk": 0.53,
+    "top_languages": [
+      { "language": "Bengali", "percent": 32.1 },
+      { "language": "Somali", "percent": 3.2 },
+      { "language": "Arabic", "percent": 2.4 }
+    ],
+    "pct_no_qualifications": 0.16,
+    "population_density_per_km2": 16700,
+    "median_age": 31,
+    "green_space_pct": 16,
+    "life_expectancy": 78.4,
+    "fact_sentence": "The Whitechapel Bell Foundry, which cast Big Ben and the Liberty Bell, operated on the same site for 450 years before closing in 2017.",
+    "history_sentence": "Whitechapel station opened in 1884; the street above has served successive waves of immigrants — Huguenots, Jews, Bangladeshis — each layer visible in the architecture.",
+    "borough_facts": [
+      "Bengali is spoken by roughly 1 in 3 residents in Tower Hamlets — the highest concentration of Bengali speakers outside Bangladesh itself.",
+      "The Whitechapel Bell Foundry cast Liberty Bell in 1752 and Big Ben's bells repeatedly. It operated on the same site for 450 years before closing in 2017.",
+      "The East End's Huguenot weavers built silk houses in the 1700s; the same buildings became a synagogue for Jewish refugees in the 1890s; then a mosque in the 1970s.",
+      "Aldgate is the oldest gate of the original Roman city wall. Chaucer lived in the gate-house above the arch while writing The Canterbury Tales."
+    ]
+  },
+  {
+    "station_id": "940GZZLUSTG",
+    "name": "Stepney Green",
+    "ward": "Stepney Green",
+    "borough": "Tower Hamlets",
+    "median_income_gbp": 28100,
+    "deprivation_index": 0.68,
+    "pct_born_outside_uk": 0.51,
+    "top_languages": [
+      { "language": "Bengali", "percent": 32.1 },
+      { "language": "Somali", "percent": 3.2 },
+      { "language": "Arabic", "percent": 2.4 }
+    ],
+    "pct_no_qualifications": 0.16,
+    "population_density_per_km2": 16700,
+    "median_age": 31,
+    "green_space_pct": 16,
+    "life_expectancy": 78.4,
+    "fact_sentence": "Stepney Green is a quiet triangle of common land that has existed since medieval times — surrounded by some of the most densely populated streets in Europe.",
+    "history_sentence": "Stepney Green station opened in 1902 as part of the Great Eastern Railway; the street above it was once the heart of the East End Jewish community.",
+    "borough_facts": [
+      "Bengali is spoken by roughly 1 in 3 residents in Tower Hamlets — the highest concentration of Bengali speakers outside Bangladesh itself.",
+      "The Whitechapel Bell Foundry cast Liberty Bell in 1752 and Big Ben's bells repeatedly. It operated on the same site for 450 years before closing in 2017.",
+      "The East End's Huguenot weavers built silk houses in the 1700s; the same buildings became a synagogue for Jewish refugees in the 1890s; then a mosque in the 1970s.",
+      "Aldgate is the oldest gate of the original Roman city wall. Chaucer lived in the gate-house above the arch while writing The Canterbury Tales."
+    ]
+  },
+  {
+    "station_id": "940GZZLUMLE",
+    "name": "Mile End",
+    "ward": "Mile End",
+    "borough": "Tower Hamlets",
+    "median_income_gbp": 28100,
+    "deprivation_index": 0.68,
+    "pct_born_outside_uk": 0.49,
+    "top_languages": [
+      { "language": "Bengali", "percent": 32.1 },
+      { "language": "Somali", "percent": 3.2 },
+      { "language": "Arabic", "percent": 2.4 }
+    ],
+    "pct_no_qualifications": 0.16,
+    "population_density_per_km2": 16700,
+    "median_age": 31,
+    "green_space_pct": 16,
+    "life_expectancy": 78.4,
+    "fact_sentence": "Queen Mary University of London sits directly beside the station — a research university built on a site donated specifically to educate the working-class East End.",
+    "history_sentence": "Mile End was where Wat Tyler parleyed with the young King Richard II in 1381 during the Peasants' Revolt. The king agreed to everything; the rebels went home; he rescinded it all.",
+    "borough_facts": [
+      "Bengali is spoken by roughly 1 in 3 residents in Tower Hamlets — the highest concentration of Bengali speakers outside Bangladesh itself.",
+      "The Whitechapel Bell Foundry cast Liberty Bell in 1752 and Big Ben's bells repeatedly. It operated on the same site for 450 years before closing in 2017.",
+      "The East End's Huguenot weavers built silk houses in the 1700s; the same buildings became a synagogue for Jewish refugees in the 1890s; then a mosque in the 1970s.",
+      "Aldgate is the oldest gate of the original Roman city wall. Chaucer lived in the gate-house above the arch while writing The Canterbury Tales."
+    ]
+  },
+  {
+    "station_id": "940GZZLUBWR",
+    "name": "Bow Road",
+    "ward": "Bow West",
+    "borough": "Tower Hamlets",
+    "median_income_gbp": 28100,
+    "deprivation_index": 0.68,
+    "pct_born_outside_uk": 0.48,
+    "top_languages": [
+      { "language": "Bengali", "percent": 32.1 },
+      { "language": "Somali", "percent": 3.2 },
+      { "language": "Arabic", "percent": 2.4 }
+    ],
+    "pct_no_qualifications": 0.16,
+    "population_density_per_km2": 16700,
+    "median_age": 31,
+    "green_space_pct": 16,
+    "life_expectancy": 78.4,
+    "fact_sentence": "Sylvia Pankhurst ran the East London Federation of Suffragettes from offices on Old Ford Road near this station — radical politics, bread, and milk for striking families.",
+    "history_sentence": "Bow Road station opened in 1902; the area has been industrially transitioning for a century — match factories, food processing, now creative industries.",
+    "borough_facts": [
+      "Bengali is spoken by roughly 1 in 3 residents in Tower Hamlets — the highest concentration of Bengali speakers outside Bangladesh itself.",
+      "The Whitechapel Bell Foundry cast Liberty Bell in 1752 and Big Ben's bells repeatedly. It operated on the same site for 450 years before closing in 2017.",
+      "The East End's Huguenot weavers built silk houses in the 1700s; the same buildings became a synagogue for Jewish refugees in the 1890s; then a mosque in the 1970s.",
+      "Aldgate is the oldest gate of the original Roman city wall. Chaucer lived in the gate-house above the arch while writing The Canterbury Tales."
+    ]
+  },
+  {
+    "station_id": "940GZZLUBBB",
+    "name": "Bromley-by-Bow",
+    "ward": "Bromley",
+    "borough": "Tower Hamlets",
+    "median_income_gbp": 28100,
+    "deprivation_index": 0.68,
+    "pct_born_outside_uk": 0.50,
+    "top_languages": [
+      { "language": "Bengali", "percent": 32.1 },
+      { "language": "Somali", "percent": 3.2 },
+      { "language": "Arabic", "percent": 2.4 }
+    ],
+    "pct_no_qualifications": 0.16,
+    "population_density_per_km2": 16700,
+    "median_age": 31,
+    "green_space_pct": 16,
+    "life_expectancy": 78.4,
+    "fact_sentence": "Bromley-by-Bow stands at the confluence of the River Lea with the Bow Back Rivers — a delta of industrial waterways threading through east London.",
+    "history_sentence": "Bromley-by-Bow station opened in 1902 where the old industrial corridor meets the emerging Olympic precinct, two generations of east London ambition in one view.",
+    "borough_facts": [
+      "Bengali is spoken by roughly 1 in 3 residents in Tower Hamlets — the highest concentration of Bengali speakers outside Bangladesh itself.",
+      "The Whitechapel Bell Foundry cast Liberty Bell in 1752 and Big Ben's bells repeatedly. It operated on the same site for 450 years before closing in 2017.",
+      "The East End's Huguenot weavers built silk houses in the 1700s; the same buildings became a synagogue for Jewish refugees in the 1890s; then a mosque in the 1970s.",
+      "Aldgate is the oldest gate of the original Roman city wall. Chaucer lived in the gate-house above the arch while writing The Canterbury Tales."
+    ]
+  },
+  {
+    "station_id": "940GZZLUWEH",
+    "name": "West Ham",
+    "ward": "Green Street",
+    "borough": "Newham",
+    "median_income_gbp": 25600,
+    "deprivation_index": 0.75,
+    "pct_born_outside_uk": 0.53,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 5.4 },
+      { "language": "Urdu", "percent": 4.8 },
+      { "language": "Bengali", "percent": 4.5 }
+    ],
+    "pct_no_qualifications": 0.20,
+    "population_density_per_km2": 9900,
+    "median_age": 30,
+    "green_space_pct": 18,
+    "life_expectancy": 77.1,
+    "fact_sentence": "Newham is the most linguistically diverse borough in England. Over 100 languages are spoken by its residents — no single non-English language exceeds 6%.",
+    "history_sentence": "West Ham station opened in 1902; the football club of the same name played nearby at the Boleyn Ground for 112 years before moving to the Olympic Stadium.",
+    "borough_facts": [
+      "Newham is the most linguistically diverse borough in England — over 100 languages spoken, no single non-English language exceeding 6% of residents.",
+      "The 2012 Olympic Park was built on reclaimed industrial land in Stratford. The soil was so contaminated it had to be cleaned by microbes before it could be walked on.",
+      "West Ham United played at Upton Park from 1904 to 2016. The ground was named the Boleyn Ground after Anne Boleyn's supposed residence nearby.",
+      "Newham has among the lowest life expectancy of any London borough — measurably lower than Richmond, its neighbour on this line, forty minutes to the west."
+    ]
+  },
+  {
+    "station_id": "940GZZLUPLA",
+    "name": "Plaistow",
+    "ward": "Plaistow North",
+    "borough": "Newham",
+    "median_income_gbp": 25600,
+    "deprivation_index": 0.75,
+    "pct_born_outside_uk": 0.53,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 5.4 },
+      { "language": "Urdu", "percent": 4.8 },
+      { "language": "Bengali", "percent": 4.5 }
+    ],
+    "pct_no_qualifications": 0.20,
+    "population_density_per_km2": 9900,
+    "median_age": 30,
+    "green_space_pct": 18,
+    "life_expectancy": 77.1,
+    "fact_sentence": "Plaistow was home to one of East London's largest munitions factories during the First World War, employing thousands of women on the explosive production line.",
+    "history_sentence": "Plaistow station opened in 1858, part of the Tilbury line extended eastward — one of the original commuter railways built before the distinction between city and suburb hardened.",
+    "borough_facts": [
+      "Newham is the most linguistically diverse borough in England — over 100 languages spoken, no single non-English language exceeding 6% of residents.",
+      "The 2012 Olympic Park was built on reclaimed industrial land in Stratford. The soil was so contaminated it had to be cleaned by microbes before it could be walked on.",
+      "West Ham United played at Upton Park from 1904 to 2016. The ground was named the Boleyn Ground after Anne Boleyn's supposed residence nearby.",
+      "Newham has among the lowest life expectancy of any London borough — measurably lower than Richmond, its neighbour on this line, forty minutes to the west."
+    ]
+  },
+  {
+    "station_id": "940GZZLUUPK",
+    "name": "Upton Park",
+    "ward": "Green Street",
+    "borough": "Newham",
+    "median_income_gbp": 25600,
+    "deprivation_index": 0.75,
+    "pct_born_outside_uk": 0.54,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 5.4 },
+      { "language": "Urdu", "percent": 4.8 },
+      { "language": "Bengali", "percent": 4.5 }
+    ],
+    "pct_no_qualifications": 0.20,
+    "population_density_per_km2": 9900,
+    "median_age": 30,
+    "green_space_pct": 18,
+    "life_expectancy": 77.1,
+    "fact_sentence": "Green Street market near this station has been the heart of the South Asian community since the 1970s — fabrics, spices, gold jewellery, and mobile phone covers.",
+    "history_sentence": "Upton Park station opened in 1877; West Ham United's ground stood within walking distance for 112 years, filling the platform every match day until 2016.",
+    "borough_facts": [
+      "Newham is the most linguistically diverse borough in England — over 100 languages spoken, no single non-English language exceeding 6% of residents.",
+      "The 2012 Olympic Park was built on reclaimed industrial land in Stratford. The soil was so contaminated it had to be cleaned by microbes before it could be walked on.",
+      "West Ham United played at Upton Park from 1904 to 2016. The ground was named the Boleyn Ground after Anne Boleyn's supposed residence nearby.",
+      "Newham has among the lowest life expectancy of any London borough — measurably lower than Richmond, its neighbour on this line, forty minutes to the west."
+    ]
+  },
+  {
+    "station_id": "940GZZLUEHA",
+    "name": "East Ham",
+    "ward": "East Ham North",
+    "borough": "Newham",
+    "median_income_gbp": 25600,
+    "deprivation_index": 0.75,
+    "pct_born_outside_uk": 0.54,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 5.4 },
+      { "language": "Urdu", "percent": 4.8 },
+      { "language": "Bengali", "percent": 4.5 }
+    ],
+    "pct_no_qualifications": 0.20,
+    "population_density_per_km2": 9900,
+    "median_age": 30,
+    "green_space_pct": 18,
+    "life_expectancy": 77.1,
+    "fact_sentence": "East Ham has a Norman church, St Mary Magdalene, built around 1130 — one of the few intact Norman churches in greater London.",
+    "history_sentence": "East Ham station opened in 1858; the area industrialised rapidly in the Victorian era and never quite recovered its pre-industrial character.",
+    "borough_facts": [
+      "Newham is the most linguistically diverse borough in England — over 100 languages spoken, no single non-English language exceeding 6% of residents.",
+      "The 2012 Olympic Park was built on reclaimed industrial land in Stratford. The soil was so contaminated it had to be cleaned by microbes before it could be walked on.",
+      "West Ham United played at Upton Park from 1904 to 2016. The ground was named the Boleyn Ground after Anne Boleyn's supposed residence nearby.",
+      "Newham has among the lowest life expectancy of any London borough — measurably lower than Richmond, its neighbour on this line, forty minutes to the west."
+    ]
+  },
+  {
+    "station_id": "940GZZLUBKG",
+    "name": "Barking",
+    "ward": "River",
+    "borough": "Barking & Dagenham",
+    "median_income_gbp": 24800,
+    "deprivation_index": 0.78,
+    "pct_born_outside_uk": 0.45,
+    "top_languages": [
+      { "language": "Bengali", "percent": 3.8 },
+      { "language": "Romanian", "percent": 3.6 },
+      { "language": "Urdu", "percent": 3.2 }
+    ],
+    "pct_no_qualifications": 0.22,
+    "population_density_per_km2": 5900,
+    "median_age": 32,
+    "green_space_pct": 29,
+    "life_expectancy": 77.6,
+    "fact_sentence": "Barking is where the District line diverges — some trains continue east to Upminster, others circle back westward through the City. Both journeys start here.",
+    "history_sentence": "Barking station opened in 1854 as part of the Eastern Counties and Thames Junction Railway — the junction role it played then is the same it plays now.",
+    "borough_facts": [
+      "Becontree, built between 1921 and 1935, was the largest council housing estate ever constructed. At its peak, 115,000 people lived on its 4,000 acres.",
+      "Ford opened its Dagenham plant in 1931 and it became the largest car factory in Europe, employing 40,000 people at its height. Today it makes only engines.",
+      "The strike by women machinists at Ford Dagenham in 1968 — 187 women, three weeks — led directly to the Equal Pay Act of 1970.",
+      "Barking and Dagenham's Romanian community is the largest concentration of Romanians in any single London borough, drawn by factory and distribution work."
+    ]
+  },
+  {
+    "station_id": "940GZZLUUPN",
+    "name": "Upney",
+    "ward": "Gascoigne",
+    "borough": "Barking & Dagenham",
+    "median_income_gbp": 24800,
+    "deprivation_index": 0.78,
+    "pct_born_outside_uk": 0.43,
+    "top_languages": [
+      { "language": "Bengali", "percent": 3.8 },
+      { "language": "Romanian", "percent": 3.6 },
+      { "language": "Urdu", "percent": 3.2 }
+    ],
+    "pct_no_qualifications": 0.22,
+    "population_density_per_km2": 5900,
+    "median_age": 32,
+    "green_space_pct": 29,
+    "life_expectancy": 77.6,
+    "fact_sentence": "Upney sits at the eastern edge of the Becontree Estate — the largest council housing estate ever built, 4,000 acres planned in a single stroke in 1921.",
+    "history_sentence": "Upney station opened in 1932 as part of the LMS Fenchurch Street line, transferring to the District line in 1936 and remaining virtually unchanged since.",
+    "borough_facts": [
+      "Becontree, built between 1921 and 1935, was the largest council housing estate ever constructed. At its peak, 115,000 people lived on its 4,000 acres.",
+      "Ford opened its Dagenham plant in 1931 and it became the largest car factory in Europe, employing 40,000 people at its height. Today it makes only engines.",
+      "The strike by women machinists at Ford Dagenham in 1968 — 187 women, three weeks — led directly to the Equal Pay Act of 1970.",
+      "Barking and Dagenham's Romanian community is the largest concentration of Romanians in any single London borough, drawn by factory and distribution work."
+    ]
+  },
+  {
+    "station_id": "940GZZLUBEC",
+    "name": "Becontree",
+    "ward": "Becontree",
+    "borough": "Barking & Dagenham",
+    "median_income_gbp": 24800,
+    "deprivation_index": 0.78,
+    "pct_born_outside_uk": 0.42,
+    "top_languages": [
+      { "language": "Bengali", "percent": 3.8 },
+      { "language": "Romanian", "percent": 3.6 },
+      { "language": "Urdu", "percent": 3.2 }
+    ],
+    "pct_no_qualifications": 0.22,
+    "population_density_per_km2": 5900,
+    "median_age": 32,
+    "green_space_pct": 29,
+    "life_expectancy": 77.6,
+    "fact_sentence": "Becontree is the name of both this station and the estate built around it — a planned community for 100,000 people, the biggest housing project of its era.",
+    "history_sentence": "Becontree station opened in 1932 in the middle of the estate it was designed to serve; the estate itself had been under construction since 1921.",
+    "borough_facts": [
+      "Becontree, built between 1921 and 1935, was the largest council housing estate ever constructed. At its peak, 115,000 people lived on its 4,000 acres.",
+      "Ford opened its Dagenham plant in 1931 and it became the largest car factory in Europe, employing 40,000 people at its height. Today it makes only engines.",
+      "The strike by women machinists at Ford Dagenham in 1968 — 187 women, three weeks — led directly to the Equal Pay Act of 1970.",
+      "Barking and Dagenham's Romanian community is the largest concentration of Romanians in any single London borough, drawn by factory and distribution work."
+    ]
+  },
+  {
+    "station_id": "940GZZLUDGN",
+    "name": "Dagenham Heathway",
+    "ward": "Heathway",
+    "borough": "Barking & Dagenham",
+    "median_income_gbp": 24800,
+    "deprivation_index": 0.78,
+    "pct_born_outside_uk": 0.41,
+    "top_languages": [
+      { "language": "Bengali", "percent": 3.8 },
+      { "language": "Romanian", "percent": 3.6 },
+      { "language": "Urdu", "percent": 3.2 }
+    ],
+    "pct_no_qualifications": 0.22,
+    "population_density_per_km2": 5900,
+    "median_age": 32,
+    "green_space_pct": 29,
+    "life_expectancy": 77.6,
+    "fact_sentence": "The Ford Dagenham plant, visible from the line east of here, once manufactured more cars than any other factory in Europe. Today it makes only engines.",
+    "history_sentence": "Dagenham Heathway opened in 1932; the area grew specifically as a workers' suburb for the Ford plant, built nearby the same year.",
+    "borough_facts": [
+      "Becontree, built between 1921 and 1935, was the largest council housing estate ever constructed. At its peak, 115,000 people lived on its 4,000 acres.",
+      "Ford opened its Dagenham plant in 1931 and it became the largest car factory in Europe, employing 40,000 people at its height. Today it makes only engines.",
+      "The strike by women machinists at Ford Dagenham in 1968 — 187 women, three weeks — led directly to the Equal Pay Act of 1970.",
+      "Barking and Dagenham's Romanian community is the largest concentration of Romanians in any single London borough, drawn by factory and distribution work."
+    ]
+  },
+  {
+    "station_id": "940GZZLUDGE",
+    "name": "Dagenham East",
+    "ward": "Village",
+    "borough": "Barking & Dagenham",
+    "median_income_gbp": 24800,
+    "deprivation_index": 0.78,
+    "pct_born_outside_uk": 0.39,
+    "top_languages": [
+      { "language": "Bengali", "percent": 3.8 },
+      { "language": "Romanian", "percent": 3.6 },
+      { "language": "Urdu", "percent": 3.2 }
+    ],
+    "pct_no_qualifications": 0.22,
+    "population_density_per_km2": 5900,
+    "median_age": 32,
+    "green_space_pct": 29,
+    "life_expectancy": 77.6,
+    "fact_sentence": "Dagenham East is one of the few District line stations where farms are visible from the platform — the far eastern fringe of London, where the city runs out of confidence.",
+    "history_sentence": "Dagenham East opened in 1885 as part of the Whitechapel and Bow Railway; this was rural Essex when the first train arrived.",
+    "borough_facts": [
+      "Becontree, built between 1921 and 1935, was the largest council housing estate ever constructed. At its peak, 115,000 people lived on its 4,000 acres.",
+      "Ford opened its Dagenham plant in 1931 and it became the largest car factory in Europe, employing 40,000 people at its height. Today it makes only engines.",
+      "The strike by women machinists at Ford Dagenham in 1968 — 187 women, three weeks — led directly to the Equal Pay Act of 1970.",
+      "Barking and Dagenham's Romanian community is the largest concentration of Romanians in any single London borough, drawn by factory and distribution work."
+    ]
+  },
+  {
+    "station_id": "940GZZLUELP",
+    "name": "Elm Park",
+    "ward": "Elm Park",
+    "borough": "Havering",
+    "median_income_gbp": 36200,
+    "deprivation_index": 0.42,
+    "pct_born_outside_uk": 0.18,
+    "top_languages": [
+      { "language": "Polish", "percent": 2.8 },
+      { "language": "Romanian", "percent": 2.1 },
+      { "language": "Hindi", "percent": 1.4 }
+    ],
+    "pct_no_qualifications": 0.15,
+    "population_density_per_km2": 1860,
+    "median_age": 41,
+    "green_space_pct": 44,
+    "life_expectancy": 80.4,
+    "fact_sentence": "Elm Park is the closest the District line comes to rural — open fields visible from the train, market gardens, a pace that belongs to Essex rather than London.",
+    "history_sentence": "Elm Park station was built in 1935 to serve a new planned garden suburb of that name, laid out by the local council in open farmland.",
+    "borough_facts": [
+      "Upminster Windmill, built in 1803, is one of the few surviving smock mills in England and was still grinding corn commercially in the 1930s.",
+      "Havering is the second-largest London borough by area but one of the least dense — its eastern edge is more Essex than London in character and spirit.",
+      "The name Havering comes from a royal palace — Havering-atte-Bower — where several medieval kings hunted. The earthwork of the palace mound still exists.",
+      "Havering has the highest proportion of white British residents of any London borough — a demographic that makes it conspicuous on any map of the city."
+    ]
+  },
+  {
+    "station_id": "940GZZLUHCH",
+    "name": "Hornchurch",
+    "ward": "Hacton",
+    "borough": "Havering",
+    "median_income_gbp": 36200,
+    "deprivation_index": 0.42,
+    "pct_born_outside_uk": 0.17,
+    "top_languages": [
+      { "language": "Polish", "percent": 2.8 },
+      { "language": "Romanian", "percent": 2.1 },
+      { "language": "Hindi", "percent": 1.4 }
+    ],
+    "pct_no_qualifications": 0.15,
+    "population_density_per_km2": 1860,
+    "median_age": 41,
+    "green_space_pct": 44,
+    "life_expectancy": 80.4,
+    "fact_sentence": "RAF Hornchurch, which stood nearby, was one of the key bases during the Battle of Britain in 1940 — Spitfires and Hurricanes took off from these fields.",
+    "history_sentence": "Hornchurch station opened in 1885 when this was open Essex countryside; the RAF airfield that made it historically significant was only two miles away.",
+    "borough_facts": [
+      "Upminster Windmill, built in 1803, is one of the few surviving smock mills in England and was still grinding corn commercially in the 1930s.",
+      "Havering is the second-largest London borough by area but one of the least dense — its eastern edge is more Essex than London in character and spirit.",
+      "The name Havering comes from a royal palace — Havering-atte-Bower — where several medieval kings hunted. The earthwork of the palace mound still exists.",
+      "Havering has the highest proportion of white British residents of any London borough — a demographic that makes it conspicuous on any map of the city."
+    ]
+  },
+  {
+    "station_id": "940GZZLUUMB",
+    "name": "Upminster Bridge",
+    "ward": "Upminster",
+    "borough": "Havering",
+    "median_income_gbp": 36200,
+    "deprivation_index": 0.42,
+    "pct_born_outside_uk": 0.15,
+    "top_languages": [
+      { "language": "Polish", "percent": 2.8 },
+      { "language": "Romanian", "percent": 2.1 },
+      { "language": "Hindi", "percent": 1.4 }
+    ],
+    "pct_no_qualifications": 0.15,
+    "population_density_per_km2": 1860,
+    "median_age": 41,
+    "green_space_pct": 44,
+    "life_expectancy": 80.4,
+    "fact_sentence": "Upminster Bridge is the kind of station that exists to be passed through — quiet, suburban, the penultimate moment before the line ends.",
+    "history_sentence": "Upminster Bridge opened in 1934 when the District line was extended east, the last major expansion of the line before the second world war interrupted everything.",
+    "borough_facts": [
+      "Upminster Windmill, built in 1803, is one of the few surviving smock mills in England and was still grinding corn commercially in the 1930s.",
+      "Havering is the second-largest London borough by area but one of the least dense — its eastern edge is more Essex than London in character and spirit.",
+      "The name Havering comes from a royal palace — Havering-atte-Bower — where several medieval kings hunted. The earthwork of the palace mound still exists.",
+      "Havering has the highest proportion of white British residents of any London borough — a demographic that makes it conspicuous on any map of the city."
+    ]
+  },
+  {
+    "station_id": "940GZZLUUPM",
+    "name": "Upminster",
+    "ward": "Upminster",
+    "borough": "Havering",
+    "median_income_gbp": 36200,
+    "deprivation_index": 0.42,
+    "pct_born_outside_uk": 0.14,
+    "top_languages": [
+      { "language": "Polish", "percent": 2.8 },
+      { "language": "Romanian", "percent": 2.1 },
+      { "language": "Hindi", "percent": 1.4 }
+    ],
+    "pct_no_qualifications": 0.15,
+    "population_density_per_km2": 1860,
+    "median_age": 41,
+    "green_space_pct": 44,
+    "life_expectancy": 80.4,
+    "fact_sentence": "Upminster marks the eastern terminus of the District line — the end of the furthest eastern branch, Zone 6, where London becomes uncertain about its own edges.",
+    "history_sentence": "Upminster station opened in 1885 as a quiet Essex market town stop; the District line's arrival in 1932 began its transformation into a commuter suburb.",
+    "borough_facts": [
+      "Upminster Windmill, built in 1803, is one of the few surviving smock mills in England and was still grinding corn commercially in the 1930s.",
+      "Havering is the second-largest London borough by area but one of the least dense — its eastern edge is more Essex than London in character and spirit.",
+      "The name Havering comes from a royal palace — Havering-atte-Bower — where several medieval kings hunted. The earthwork of the palace mound still exists.",
+      "Havering has the highest proportion of white British residents of any London borough — a demographic that makes it conspicuous on any map of the city."
+    ]
+  },
+  {
+    "station_id": "940GZZLURIC",
+    "name": "Richmond",
+    "ward": "Richmond Town",
+    "borough": "Richmond upon Thames",
+    "median_income_gbp": 61400,
+    "deprivation_index": 0.12,
+    "pct_born_outside_uk": 0.22,
+    "top_languages": [
+      { "language": "Polish", "percent": 2.9 },
+      { "language": "Spanish", "percent": 2.4 },
+      { "language": "French", "percent": 2.1 }
+    ],
+    "pct_no_qualifications": 0.06,
+    "population_density_per_km2": 3240,
+    "median_age": 40,
+    "green_space_pct": 52,
+    "life_expectancy": 83.8,
+    "fact_sentence": "Richmond is consistently among the highest-income local authorities in England — its median household income is more than double that of Newham, forty minutes east on this line.",
+    "history_sentence": "Richmond station opened in 1846 as a mainline terminus; the District line arrived in 1877, connecting this prosperous riverside town directly to the City of London.",
+    "borough_facts": [
+      "Richmond Park covers 2,500 acres — larger than the entire city of Monaco — and contains around 650 red and fallow deer, as it has since Charles I enclosed it in 1637.",
+      "Richmond upon Thames is consistently the highest-income local authority in Greater London. Its median household income is more than double that of Newham, forty minutes east.",
+      "The River Thames at Richmond is tidal — barely. At low tide the mud flats emerge, and Londoners walk them as they have since before the city existed.",
+      "Kew Gardens, at the western edge of the borough, holds the largest collection of living plants in the world: over 50,000 species on 121 hectares."
+    ]
+  },
+  {
+    "station_id": "940GZZLUKWG",
+    "name": "Kew Gardens",
+    "ward": "Kew",
+    "borough": "Richmond upon Thames",
+    "median_income_gbp": 61400,
+    "deprivation_index": 0.12,
+    "pct_born_outside_uk": 0.21,
+    "top_languages": [
+      { "language": "Polish", "percent": 2.9 },
+      { "language": "Spanish", "percent": 2.4 },
+      { "language": "French", "percent": 2.1 }
+    ],
+    "pct_no_qualifications": 0.06,
+    "population_density_per_km2": 3240,
+    "median_age": 40,
+    "green_space_pct": 52,
+    "life_expectancy": 83.8,
+    "fact_sentence": "Kew Gardens holds the largest collection of living plants in the world — over 50,000 species on 121 hectares. It was designated a UNESCO World Heritage Site in 2003.",
+    "history_sentence": "Kew Gardens station opened in 1869, bringing the botanical gardens within reach of Londoners without carriages — public science, made public.",
+    "borough_facts": [
+      "Richmond Park covers 2,500 acres — larger than the entire city of Monaco — and contains around 650 red and fallow deer, as it has since Charles I enclosed it in 1637.",
+      "Richmond upon Thames is consistently the highest-income local authority in Greater London. Its median household income is more than double that of Newham, forty minutes east.",
+      "The River Thames at Richmond is tidal — barely. At low tide the mud flats emerge, and Londoners walk them as they have since before the city existed.",
+      "Kew Gardens, at the western edge of the borough, holds the largest collection of living plants in the world: over 50,000 species on 121 hectares."
+    ]
+  },
+  {
+    "station_id": "940GZZLUGNY",
+    "name": "Gunnersbury",
+    "ward": "Chiswick Homefields",
+    "borough": "Hounslow",
+    "median_income_gbp": 32800,
+    "deprivation_index": 0.52,
+    "pct_born_outside_uk": 0.36,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 7.4 },
+      { "language": "Gujarati", "percent": 5.8 },
+      { "language": "Urdu", "percent": 4.9 }
+    ],
+    "pct_no_qualifications": 0.13,
+    "population_density_per_km2": 3780,
+    "median_age": 34,
+    "green_space_pct": 35,
+    "life_expectancy": 79.8,
+    "fact_sentence": "Punjabi is spoken in roughly 1 in 13 Hounslow households — a legacy of South Asian immigration drawn by the proximity of Heathrow in the 1960s and 70s.",
+    "history_sentence": "Gunnersbury station opened in 1869; nearby Gunnersbury Park was sold by the Rothschild family to the local councils in 1925 to be preserved as public open space.",
+    "borough_facts": [
+      "Kew Gardens sits within Hounslow's borders and holds the largest collection of living plants in the world — over 50,000 species on 121 hectares, UNESCO-listed.",
+      "Punjabi is spoken in roughly 1 in 13 Hounslow households — a legacy of South Asian immigration driven by the proximity of Heathrow in the 1960s and 70s.",
+      "Hounslow Heath was notorious for highwaymen in the 18th century. Every coach heading west from London passed through it, making robbery essentially routine.",
+      "The Chiswick stretch of the Thames is where the annual Oxford-Cambridge Boat Race finishes — the current has favoured Cambridge for most of the modern era."
+    ]
+  },
+  {
+    "station_id": "940GZZLUTNG",
+    "name": "Turnham Green",
+    "ward": "Turnham Green",
+    "borough": "Hounslow",
+    "median_income_gbp": 32800,
+    "deprivation_index": 0.52,
+    "pct_born_outside_uk": 0.34,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 7.4 },
+      { "language": "Gujarati", "percent": 5.8 },
+      { "language": "Urdu", "percent": 4.9 }
+    ],
+    "pct_no_qualifications": 0.13,
+    "population_density_per_km2": 3780,
+    "median_age": 34,
+    "green_space_pct": 35,
+    "life_expectancy": 79.8,
+    "fact_sentence": "Turnham Green is where the Richmond and Ealing Broadway branches diverge — a fork that sends trains in two different directions through the western suburbs.",
+    "history_sentence": "Turnham Green station opened in 1869; a Civil War skirmish was fought on the common in 1642 when Royalists and Parliamentarians faced off and the Royalists withdrew.",
+    "borough_facts": [
+      "Kew Gardens sits within Hounslow's borders and holds the largest collection of living plants in the world — over 50,000 species on 121 hectares, UNESCO-listed.",
+      "Punjabi is spoken in roughly 1 in 13 Hounslow households — a legacy of South Asian immigration driven by the proximity of Heathrow in the 1960s and 70s.",
+      "Hounslow Heath was notorious for highwaymen in the 18th century. Every coach heading west from London passed through it, making robbery essentially routine.",
+      "The Chiswick stretch of the Thames is where the annual Oxford-Cambridge Boat Race finishes — the current has favoured Cambridge for most of the modern era."
+    ]
+  },
+  {
+    "station_id": "940GZZLUSTB",
+    "name": "Stamford Brook",
+    "ward": "Chiswick Riverside",
+    "borough": "Hounslow",
+    "median_income_gbp": 32800,
+    "deprivation_index": 0.52,
+    "pct_born_outside_uk": 0.32,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 7.4 },
+      { "language": "Gujarati", "percent": 5.8 },
+      { "language": "Urdu", "percent": 4.9 }
+    ],
+    "pct_no_qualifications": 0.13,
+    "population_density_per_km2": 3780,
+    "median_age": 34,
+    "green_space_pct": 35,
+    "life_expectancy": 79.8,
+    "fact_sentence": "Stamford Brook is named for a stream that ran through here before London was built over it — one of many buried rivers whose names survive as the city does not.",
+    "history_sentence": "Stamford Brook station opened in 1912 on the Richmond branch, serving a residential area that had developed after the railway arrived in the 1860s.",
+    "borough_facts": [
+      "Kew Gardens sits within Hounslow's borders and holds the largest collection of living plants in the world — over 50,000 species on 121 hectares, UNESCO-listed.",
+      "Punjabi is spoken in roughly 1 in 13 Hounslow households — a legacy of South Asian immigration driven by the proximity of Heathrow in the 1960s and 70s.",
+      "Hounslow Heath was notorious for highwaymen in the 18th century. Every coach heading west from London passed through it, making robbery essentially routine.",
+      "The Chiswick stretch of the Thames is where the annual Oxford-Cambridge Boat Race finishes — the current has favoured Cambridge for most of the modern era."
+    ]
+  },
+  {
+    "station_id": "940GZZLURVP",
+    "name": "Ravenscourt Park",
+    "ward": "Chiswick Riverside",
+    "borough": "Hounslow",
+    "median_income_gbp": 32800,
+    "deprivation_index": 0.52,
+    "pct_born_outside_uk": 0.33,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 7.4 },
+      { "language": "Gujarati", "percent": 5.8 },
+      { "language": "Urdu", "percent": 4.9 }
+    ],
+    "pct_no_qualifications": 0.13,
+    "population_density_per_km2": 3780,
+    "median_age": 34,
+    "green_space_pct": 35,
+    "life_expectancy": 79.8,
+    "fact_sentence": "Ravenscourt Park was formerly a private estate — its manor house demolished, its grounds opened to the public in 1888, a Victorian conversion of private to common.",
+    "history_sentence": "Ravenscourt Park station opened in 1873; the park of the same name was given to the London County Council by the Metropolitan Board of Works in 1888.",
+    "borough_facts": [
+      "Kew Gardens sits within Hounslow's borders and holds the largest collection of living plants in the world — over 50,000 species on 121 hectares, UNESCO-listed.",
+      "Punjabi is spoken in roughly 1 in 13 Hounslow households — a legacy of South Asian immigration driven by the proximity of Heathrow in the 1960s and 70s.",
+      "Hounslow Heath was notorious for highwaymen in the 18th century. Every coach heading west from London passed through it, making robbery essentially routine.",
+      "The Chiswick stretch of the Thames is where the annual Oxford-Cambridge Boat Race finishes — the current has favoured Cambridge for most of the modern era."
+    ]
+  },
+  {
+    "station_id": "940GZZLUCYP",
+    "name": "Chiswick Park",
+    "ward": "Chiswick Homefields",
+    "borough": "Hounslow",
+    "median_income_gbp": 32800,
+    "deprivation_index": 0.52,
+    "pct_born_outside_uk": 0.30,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 7.4 },
+      { "language": "Gujarati", "percent": 5.8 },
+      { "language": "Urdu", "percent": 4.9 }
+    ],
+    "pct_no_qualifications": 0.13,
+    "population_density_per_km2": 3780,
+    "median_age": 34,
+    "green_space_pct": 35,
+    "life_expectancy": 79.8,
+    "fact_sentence": "Chiswick Park station serves the Ealing Broadway branch — the loop through Acton that avoids the main Richmond line, a quieter path through the western suburbs.",
+    "history_sentence": "Chiswick Park station opened in 1879 on a route that has always been slightly less busy than the Richmond branch running south of it.",
+    "borough_facts": [
+      "Kew Gardens sits within Hounslow's borders and holds the largest collection of living plants in the world — over 50,000 species on 121 hectares, UNESCO-listed.",
+      "Punjabi is spoken in roughly 1 in 13 Hounslow households — a legacy of South Asian immigration driven by the proximity of Heathrow in the 1960s and 70s.",
+      "Hounslow Heath was notorious for highwaymen in the 18th century. Every coach heading west from London passed through it, making robbery essentially routine.",
+      "The Chiswick stretch of the Thames is where the annual Oxford-Cambridge Boat Race finishes — the current has favoured Cambridge for most of the modern era."
+    ]
+  },
+  {
+    "station_id": "940GZZLUHSD",
+    "name": "Hammersmith",
+    "ward": "Fulham Reach",
+    "borough": "Hammersmith & Fulham",
+    "median_income_gbp": 44100,
+    "deprivation_index": 0.40,
+    "pct_born_outside_uk": 0.38,
+    "top_languages": [
+      { "language": "Polish", "percent": 4.2 },
+      { "language": "French", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.8 }
+    ],
+    "pct_no_qualifications": 0.10,
+    "population_density_per_km2": 8520,
+    "median_age": 34,
+    "green_space_pct": 22,
+    "life_expectancy": 81.8,
+    "fact_sentence": "Hammersmith Apollo has hosted The Beatles, David Bowie, and Leonard Cohen. Its capacity of 5,000 has not changed since it opened in 1932 as the Gaumont Palace.",
+    "history_sentence": "Hammersmith has had a station since 1864 and remains one of the busiest interchanges on the western Underground network, four lines converging in a single building.",
+    "borough_facts": [
+      "Stamford Bridge has stood at Fulham Road since 1877. Chelsea FC was an afterthought — the ground was built first, the club formed four years later to fill it.",
+      "Hammersmith Apollo has hosted everyone from The Beatles to David Bowie. Its capacity of 5,000 is the same as when it opened in 1932 as the Gaumont Palace.",
+      "The Lyric Theatre Hammersmith has been producing theatre since 1895, the same year the Lumière brothers projected their first film. Both still run.",
+      "Polish is spoken in 1 in 24 households here — a legacy of the RAF pilots who stayed after flying from nearby airfields in 1940–45."
+    ]
+  },
+  {
+    "station_id": "940GZZLUBRC",
+    "name": "Barons Court",
+    "ward": "Fulham Reach",
+    "borough": "Hammersmith & Fulham",
+    "median_income_gbp": 44100,
+    "deprivation_index": 0.40,
+    "pct_born_outside_uk": 0.37,
+    "top_languages": [
+      { "language": "Polish", "percent": 4.2 },
+      { "language": "French", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.8 }
+    ],
+    "pct_no_qualifications": 0.10,
+    "population_density_per_km2": 8520,
+    "median_age": 34,
+    "green_space_pct": 22,
+    "life_expectancy": 81.8,
+    "fact_sentence": "Barons Court Theatre in the underground of this station has been producing fringe theatre since 1895 — one of London's smallest and oldest venues.",
+    "history_sentence": "Barons Court station opened in 1905; the area was developed as late Victorian and Edwardian residential streets for the Hammersmith middle class.",
+    "borough_facts": [
+      "Stamford Bridge has stood at Fulham Road since 1877. Chelsea FC was an afterthought — the ground was built first, the club formed four years later to fill it.",
+      "Hammersmith Apollo has hosted everyone from The Beatles to David Bowie. Its capacity of 5,000 is the same as when it opened in 1932 as the Gaumont Palace.",
+      "The Lyric Theatre Hammersmith has been producing theatre since 1895, the same year the Lumière brothers projected their first film. Both still run.",
+      "Polish is spoken in 1 in 24 households here — a legacy of the RAF pilots who stayed after flying from nearby airfields in 1940–45."
+    ]
+  },
+  {
+    "station_id": "940GZZLUEBY",
+    "name": "Ealing Broadway",
+    "ward": "Ealing Broadway",
+    "borough": "Ealing",
+    "median_income_gbp": 36100,
+    "deprivation_index": 0.45,
+    "pct_born_outside_uk": 0.35,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 6.8 },
+      { "language": "Somali", "percent": 5.1 },
+      { "language": "Polish", "percent": 4.1 }
+    ],
+    "pct_no_qualifications": 0.11,
+    "population_density_per_km2": 4970,
+    "median_age": 35,
+    "green_space_pct": 30,
+    "life_expectancy": 80.2,
+    "fact_sentence": "Ealing Studios, opened in 1902, is the oldest continuously operating film studio in the world — the Lavender Hill Mob, Kind Hearts and Coronets, both made here.",
+    "history_sentence": "Ealing Broadway station opened in 1879 as the western terminus of the District line; the Great Western Railway mainline arrived from Bristol the same year.",
+    "borough_facts": [
+      "Ealing Studios, opened in 1902, is the oldest continuously operating film studio in the world. The Lavender Hill Mob and Kind Hearts and Coronets were made here.",
+      "Punjabi is the most spoken language after English in Ealing — the borough has the largest Sikh community in London, centred on the Havelock Road gurdwara.",
+      "Acton Town was the site of London's first garden suburb. The idea — decent housing, trees, light and air — spread from here across Britain.",
+      "Ealing has consistently been ranked among London's most desirable outer boroughs — close enough to the centre, far enough to have a park within walking distance."
+    ]
+  },
+  {
+    "station_id": "940GZZLUECM",
+    "name": "Ealing Common",
+    "ward": "Ealing Common",
+    "borough": "Ealing",
+    "median_income_gbp": 36100,
+    "deprivation_index": 0.45,
+    "pct_born_outside_uk": 0.33,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 6.8 },
+      { "language": "Somali", "percent": 5.1 },
+      { "language": "Polish", "percent": 4.1 }
+    ],
+    "pct_no_qualifications": 0.11,
+    "population_density_per_km2": 4970,
+    "median_age": 35,
+    "green_space_pct": 30,
+    "life_expectancy": 80.2,
+    "fact_sentence": "Ealing Common is one of the largest open greens in outer London — a Victorian concession to the idea that industrial workers deserved somewhere to breathe.",
+    "history_sentence": "Ealing Common station opened in 1879 as part of the District Railway western extension; it became the junction for the Piccadilly line in 1931.",
+    "borough_facts": [
+      "Ealing Studios, opened in 1902, is the oldest continuously operating film studio in the world. The Lavender Hill Mob and Kind Hearts and Coronets were made here.",
+      "Punjabi is the most spoken language after English in Ealing — the borough has the largest Sikh community in London, centred on the Havelock Road gurdwara.",
+      "Acton Town was the site of London's first garden suburb. The idea — decent housing, trees, light and air — spread from here across Britain.",
+      "Ealing has consistently been ranked among London's most desirable outer boroughs — close enough to the centre, far enough to have a park within walking distance."
+    ]
+  },
+  {
+    "station_id": "940GZZLUACT",
+    "name": "Acton Town",
+    "ward": "Acton Central",
+    "borough": "Ealing",
+    "median_income_gbp": 36100,
+    "deprivation_index": 0.45,
+    "pct_born_outside_uk": 0.36,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 6.8 },
+      { "language": "Somali", "percent": 5.1 },
+      { "language": "Polish", "percent": 4.1 }
+    ],
+    "pct_no_qualifications": 0.11,
+    "population_density_per_km2": 4970,
+    "median_age": 35,
+    "green_space_pct": 30,
+    "life_expectancy": 80.2,
+    "fact_sentence": "Acton Town was proposed as the site for London's first garden suburb in the 1870s — affordable housing, trees, and dignity, an idea that spread across Britain.",
+    "history_sentence": "Acton Town station opened in 1879; it sits at the junction of the District and Piccadilly lines, a relatively quiet suburban interchange on one of London's oldest lines.",
+    "borough_facts": [
+      "Ealing Studios, opened in 1902, is the oldest continuously operating film studio in the world. The Lavender Hill Mob and Kind Hearts and Coronets were made here.",
+      "Punjabi is the most spoken language after English in Ealing — the borough has the largest Sikh community in London, centred on the Havelock Road gurdwara.",
+      "Acton Town was the site of London's first garden suburb. The idea — decent housing, trees, light and air — spread from here across Britain.",
+      "Ealing has consistently been ranked among London's most desirable outer boroughs — close enough to the centre, far enough to have a park within walking distance."
+    ]
+  },
+  {
+    "station_id": "940GZZLUHSK",
+    "name": "High Street Kensington",
+    "ward": "Campden",
+    "borough": "Kensington & Chelsea",
+    "median_income_gbp": 82300,
+    "deprivation_index": 0.15,
+    "pct_born_outside_uk": 0.50,
+    "top_languages": [
+      { "language": "French", "percent": 4.8 },
+      { "language": "Arabic", "percent": 4.1 },
+      { "language": "Spanish", "percent": 3.9 }
+    ],
+    "pct_no_qualifications": 0.06,
+    "population_density_per_km2": 13100,
+    "median_age": 37,
+    "green_space_pct": 24,
+    "life_expectancy": 83.9,
+    "fact_sentence": "High Street Kensington is one of the great high streets of London — department stores, the Barkers building, and the persistent rumour that Kylie Minogue lives above a branch of Boots.",
+    "history_sentence": "High Street Kensington station opened in 1868 as part of the original Metropolitan District Railway, and the high street it serves has been continuously commercial since the 1860s.",
+    "borough_facts": [
+      "The Royal Borough of Kensington and Chelsea has the highest population density and the highest property prices of any local authority in England.",
+      "The Natural History Museum, Science Museum, and V&A sit within 600 metres of each other — the legacy of a single Victorian idea: that culture should be free.",
+      "Freddie Mercury lived at 1 Logan Place for six years. His studio, his garden, his cats — all within the most expensive borough in Britain.",
+      "More foreign embassies are located here than in any other London borough. On a single street, forty nations conduct their official business."
+    ]
+  },
+  {
+    "station_id": "940GZZLUNHG",
+    "name": "Notting Hill Gate",
+    "ward": "Notting Dale",
+    "borough": "Kensington & Chelsea",
+    "median_income_gbp": 82300,
+    "deprivation_index": 0.15,
+    "pct_born_outside_uk": 0.47,
+    "top_languages": [
+      { "language": "French", "percent": 4.8 },
+      { "language": "Arabic", "percent": 4.1 },
+      { "language": "Spanish", "percent": 3.9 }
+    ],
+    "pct_no_qualifications": 0.06,
+    "population_density_per_km2": 13100,
+    "median_age": 37,
+    "green_space_pct": 24,
+    "life_expectancy": 83.9,
+    "fact_sentence": "The Notting Hill Carnival began in 1966 as a response to race riots of 1958 — it now draws two million people each August, Europe's largest street festival.",
+    "history_sentence": "Notting Hill Gate station opened in 1868; the area north of it was a slum in Victorian times — the gentrification only settled in the 1980s, well after the tube arrived.",
+    "borough_facts": [
+      "The Royal Borough of Kensington and Chelsea has the highest population density and the highest property prices of any local authority in England.",
+      "The Natural History Museum, Science Museum, and V&A sit within 600 metres of each other — the legacy of a single Victorian idea: that culture should be free.",
+      "Freddie Mercury lived at 1 Logan Place for six years. His studio, his garden, his cats — all within the most expensive borough in Britain.",
+      "More foreign embassies are located here than in any other London borough. On a single street, forty nations conduct their official business."
+    ]
   }
 ]

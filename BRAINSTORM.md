@@ -152,3 +152,71 @@ These shifts are subliminal, not labelled. A user who stares at the Brixton end 
 ---
 
 *The piece lives or dies on the Bloodstream moment done with complete commitment. If the boluses are beautiful, everything else can be simpler than described here. Start there.*
+
+---
+
+## Phase 2 Brainstorm — District Line + Panel Enrichment
+
+_Added 2026-06-07 before Sprint 1 implementation._
+
+### The District line as peripheral circulatory system
+
+The Victoria line is a clean north-south aorta — direct, linear, easy to render. The District line is more anatomically interesting: it branches. West of Earl's Court it splits into three arms reaching Richmond, Wimbledon, and Ealing Broadway. East of Barking it stretches to Upminster. North of Earl's Court a horseshoe loop reaches Edgware Road. This branching structure is not a rendering problem — it is the metaphor. The District is the peripheral circulation: capillaries reaching into London's most varied boroughs.
+
+**Two circulatory systems, one body.** Victoria is the aorta (south–north, urgent, direct). District is the web (east–west, spreading, complex). The canvas should make you feel this anatomical difference.
+
+### District bolus colour
+
+The spec says teal/green. `#1D9E75` is a reasonable starting point but slightly cold. After considering the dark CartoDB background:
+
+- Chosen: `#0EB882` — a warmer teal that reads as distinctly non-amber on a dark background without looking clinical
+- The amber Victoria boluses read as heat, urgency, south London fire. The teal District boluses should read as cooler, more institutional — the line that passes through banks, embassies, museums, the oldest statute law in England.
+
+Branch paths drawn at slightly reduced opacity vs. the Wimbledon spine: **50% for spur arteries, 100% for the main spine.** This suggests a vascular hierarchy without labelling it.
+
+### Station panel — more artful than the spec
+
+The spec proposes ASCII section dividers (`── People ──────────`). These read as a webpage, not a platform display. Revised approach:
+
+- Section labels: `PEOPLE`, `PLACE`, `RIGHT NOW` in tiny all-caps amber, preceded by a single thin line, without box-drawing characters
+- "Place" facts are **static** (not scrolling) — they should feel like inscriptions carved into the wall, not a ticker
+- "Right now" section carries the live moment — Wikipedia "On This Day" + police data
+- Borough name displayed beneath station name in dimmer amber — the two-line header establishes specific place instantly
+- No scrollbars — panel is a fixed platform display, font reduced if content overflows
+
+The contrast between **permanent place** (static borough facts) and **live moment** (right now section) is the emotional architecture of the panel.
+
+### Critical bugs discovered before any code was written
+
+Two bugs in existing `bloodstream.js` explain why boluses are invisible in production:
+
+1. **Wrong NaPTAN IDs in `VICTORIA_SEQUENCE_IDS`:** Vauxhall listed as `940GZZLUVXL` but victoria_line.json has `940GZZLUUXB`. Same error for Euston, Highbury & Islington, Seven Sisters, Walthamstow Central. `computePositions()` finds no sequence matches and falls back to a crude lat-sort.
+
+2. **Wrong field names in `rebuildBoluses()`:** Code reads `t.station_id` and `t.time_to_station` but the API returns `t.towards_station_id` and `t.time_to_station_seconds`. All boluses are immediately filtered out.
+
+Both fixed in this sprint, which means the Victoria line will finally animate correctly even before District line ships.
+
+### Data sourcing — autonomous decision
+
+The spec calls for downloading ONS Census 2021 CSVs and running a Claude batch to generate borough facts. In an automated CI environment with no browser, downloading from nomisweb.co.uk is not reliable. Decision: curate data directly from training knowledge of ONS 2021 Census results (publicly released, well-documented) and GLA Borough Profiles. The processing scripts are committed and can be run against live downloads to regenerate data at any time. Borough facts are written in the editorial voice of the installation, grounded in verifiable sources.
+
+### Architecture — unified endpoint approach
+
+Rather than two separate polling endpoints for two lines:
+- `/api/live-trains` returns trains for both lines with a `line` field
+- `/api/stations` returns stations from both lines with a `line` field
+- `/api/station/{id}` searches both line datasets
+
+One polling loop powers both arteries. Adding a third line is a one-line change.
+
+### Wikipedia golden rule fix
+
+The current frontend calls Wikipedia's API directly from `main.js` — a violation of the project's golden rule ("the frontend never calls TfL or any external API directly"). This sprint moves it to `/api/on-this-day` with the expanded District line keyword filter, fixing both the architectural violation and the filter scope.
+
+### Branch routing approximation
+
+TfL arrivals data gives `towards_station_id` and a generic direction, not branch name. For routing District line boluses to the correct branch artery, the heuristic is:
+1. Stations unique to one branch → routed to that branch
+2. Shared junction stations (Earl's Court, Hammersmith, Turnham Green) → routed to the Wimbledon spine (highest visual priority)
+
+This means a Richmond-branch train approaching Earl's Court may visually arrive from the Wimbledon direction. Acceptable for a data art installation — the routing approximation affects perhaps 5% of boluses at any moment. Documented in DECISIONS.md.

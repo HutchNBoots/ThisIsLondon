@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>This is London</title>
-  <meta name="description" content="A data art installation — the pulse of London's Victoria Line, live.">
+  <meta name="description" content="A data art installation — the pulse of London's underground lines, live.">
   <meta property="og:title" content="This is London">
-  <meta property="og:description" content="Live data art. The Victoria Line as a circulatory system.">
+  <meta property="og:description" content="Live data art. Victoria and District lines as a circulatory system.">
   <script src="config.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,21 +35,41 @@
   <!-- Station panel: slides in from right -->
   <div id="station-panel" class="hidden">
     <div id="panel-close">×</div>
-    <div id="panel-station-name"></div>
+
+    <div id="panel-header">
+      <div id="panel-station-name"></div>
+      <div id="panel-borough-name"></div>
+    </div>
+
+    <!-- Dot-matrix arrivals board — signature visual, unchanged -->
     <div id="panel-arrivals">FETCHING...</div>
-    <div id="panel-facts"></div>
+
+    <!-- People section -->
+    <div class="panel-section">
+      <div class="section-label">PEOPLE</div>
+      <div class="section-content" id="panel-people-content"></div>
+    </div>
+
+    <!-- Place section -->
+    <div class="panel-section">
+      <div class="section-label">PLACE</div>
+      <div class="section-content" id="panel-place-content"></div>
+    </div>
+
+    <!-- Right now section -->
+    <div class="panel-section">
+      <div class="section-label">RIGHT NOW</div>
+      <div class="section-content" id="panel-now-content"></div>
+    </div>
   </div>
 
   <!-- Title overlay: top left, always visible -->
   <div id="title-overlay">
     <span id="title-text">THIS IS LONDON</span>
-    <span id="subtitle-text">VICTORIA LINE — LIVE</span>
+    <span id="subtitle-text">VICTORIA &amp; DISTRICT — LIVE</span>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module" src="main.js"></script>
-  <script type="module" src="bloodstream.js"></script>
-  <script type="module" src="panel.js"></script>
-  <script type="module" src="gauge.js"></script>
 </body>
 </html>
