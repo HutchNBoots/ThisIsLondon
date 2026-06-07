@@ -191,7 +191,7 @@ map.on('zoomend', () => {
   Object.entries(stationMarkers).forEach(([id, marker]) => {
     const s = stationData[id];
     if (!s) return;
-    if (zoom <= 12) {
+    if (!stationsVisible || zoom <= 12) {
       marker.setOpacity(0);
     } else {
       marker.setOpacity(1);
@@ -845,6 +845,21 @@ if (compareBtn) {
   });
 }
 
+// ── Station visibility toggle ─────────────────────────────────────────────────
+let stationsVisible = true;
+
+function toggleStations() {
+  stationsVisible = !stationsVisible;
+  const zoom = map.getZoom();
+  Object.values(stationMarkers).forEach(m => {
+    m.setOpacity(stationsVisible && zoom > 12 ? 1 : 0);
+  });
+  document.getElementById('stations-toggle')?.classList.toggle('active', !stationsVisible);
+  document.getElementById('mob-stations-btn')?.classList.toggle('active', !stationsVisible);
+}
+
+document.getElementById('stations-toggle')?.addEventListener('click', toggleStations);
+
 // ── Language / Gentrification toggles ────────────────────────────────────────
 document.getElementById('lang-toggle')?.addEventListener('click', toggleLanguagePortrait);
 document.getElementById('gent-toggle')?.addEventListener('click', toggleGentrification);
@@ -874,6 +889,8 @@ document.getElementById('gent-toggle')?.addEventListener('click', toggleGentrifi
     toggleGentrification();
     document.getElementById('mob-gent-btn')?.classList.toggle('active', gentrificationActive);
   });
+
+  document.getElementById('mob-stations-btn')?.addEventListener('click', toggleStations);
 
   document.getElementById('mob-mute-btn')?.addEventListener('click', () => {
     muteBtn?.click();
