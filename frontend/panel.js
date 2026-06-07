@@ -157,6 +157,57 @@ export function hideComparison() {
   if (el) el.style.display = 'none';
 }
 
+/**
+ * Render borough data into the borough panel.
+ */
+export function renderBoroughPanel(data) {
+  const nameEl = document.getElementById('borough-panel-name');
+  const factsEl = document.getElementById('borough-panel-facts');
+  const dataEl = document.getElementById('borough-panel-data');
+
+  if (nameEl) nameEl.textContent = (data.borough || '').toUpperCase();
+
+  // Facts
+  if (factsEl) {
+    const facts = data.borough_facts || [];
+    factsEl.innerHTML = facts.length > 0
+      ? facts.map(f => `<div class="fact-static">&#8250; ${f}</div>`).join('')
+      : '<div class="fact-static">—</div>';
+  }
+
+  // Data rows
+  if (dataEl) {
+    const rows = [];
+    if (data.population_density_per_km2)
+      rows.push(['DENSITY', `${data.population_density_per_km2.toLocaleString()} / KM²`]);
+    if (data.median_income_gbp)
+      rows.push(['INCOME', `£${data.median_income_gbp.toLocaleString()}`]);
+    if (data.median_age)
+      rows.push(['MED. AGE', `${data.median_age} YRS`]);
+    if (data.life_expectancy)
+      rows.push(['LIFE EXP', `${data.life_expectancy} YRS`]);
+    if (data.green_space_pct)
+      rows.push(['GREEN SPC', `${data.green_space_pct}%`]);
+    if (data.employment_rate)
+      rows.push(['EMPLOYMENT', `${data.employment_rate}%`]);
+
+    const langs = data.top_languages || [];
+    if (langs.length > 0) {
+      const langStr = langs.slice(0, 2).map(l =>
+        typeof l === 'string' ? l : `${l.language} (${l.percent}%)`
+      ).join(' · ');
+      rows.push(['LANGUAGES', langStr.toUpperCase()]);
+    }
+
+    dataEl.innerHTML = rows.map(([label, val]) =>
+      `<div class="data-line">
+        <span class="data-label">${label}</span>
+        <span class="data-value">${val}</span>
+      </div>`
+    ).join('') || '<div class="data-line"><span class="data-value">—</span></div>';
+  }
+}
+
 function renderRightNowSection(data) {
   const el = document.getElementById('panel-now-content');
   if (!el) return;
