@@ -1,6 +1,6 @@
 import { initBloodstream } from './bloodstream.js';
 import { renderArrivals, startFactsScroll } from './panel.js';
-import { updateGauge } from './gauge.js';
+import { initGauge, updateGauge } from './gauge.js';
 
 // ── Config ────────────────────────────────────────────────────────────────────
 const BACKEND = window.BACKEND_URL || 'http://localhost:8000';
@@ -89,11 +89,11 @@ async function loadStations() {
       }).addTo(map);
 
       marker.on('click', () => openPanel(station_id));
+      const fontWeight = station.font_weight || 400;
       marker.bindTooltip(name, {
-        permanent: false,
-        direction: 'top',
-        className: 'victoria-tooltip',
-        offset: [0, -8],
+        permanent: true,
+        direction: 'right',
+        className: `station-label weight-${fontWeight}`,
       });
 
       stationMarkers[station_id] = marker;
@@ -176,31 +176,41 @@ async function openPanel(stationId) {
 
     // Arrivals board
     const arrivals = data.arrivals || [];
-    if (arrivals.length > 0) {
-      renderArrivals(arrivals);
-      arrivalsEl.innerHTML = arrivals
-        .slice(0, 6)
-        .map((a) => {
-          const mins = Math.round((a.timeToStation || 0) / 60);
-          const dest = (a.destinationName || 'UNKNOWN').toUpperCase().slice(0, 20);
-          return `${dest.padEnd(20)} ${String(mins).padStart(2, '0')} MIN`;
-        })
-        .join('\n');
-    } else {
-      arrivalsEl.textContent = 'NO ARRIVALS DATA';
-    }
+    const stationName = data.name || (cached ? cached.name : stationId);
+    renderArrivals(arrivals, stationName);
 
-    // Facts
+    // Facts — base sentences
     const sentences = [
       data.fact_sentence,
       data.history_sentence,
       data.amenity_sentence,
     ].filter(Boolean);
 
+    // Wikipedia "On This Day" fetch — look for London/Underground mentions
+    try {
+      const now = new Date();
+      const MM = String(now.getMonth() + 1).padStart(2, '0');
+      const DD = String(now.getDate()).padStart(2, '0');
+      const wikiRes = await fetch(
+        `https://en.wikipedia.org/api/rest_v1/feed/onthisday/events/${MM}/${DD}`
+      );
+      if (wikiRes.ok) {
+        const wikiData = await wikiRes.json();
+        const events = wikiData.events || [];
+        const londonKeywords = /london|underground|railway|tube|overground|metro/i;
+        const match = events.find(
+          (e) => e.text && londonKeywords.test(e.text)
+        );
+        if (match) {
+          const year = match.year ? `${match.year}: ` : '';
+          sentences.push(`ON THIS DAY — ${year}${match.text}`);
+        }
+      }
+    } catch (_wikiErr) {
+      // Non-critical — silently ignore Wikipedia fetch failures
+    }
+
     if (sentences.length > 0) {
-      factsEl.innerHTML = sentences
-        .map((s) => `<span class="fact-line">${s}</span>`)
-        .join('');
       startFactsScroll(sentences);
     }
   } catch (err) {
@@ -217,5 +227,6 @@ function closePanel() {
 document.getElementById('panel-close').addEventListener('click', closePanel);
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
+initGauge(document.getElementById('pressure-gauge'));
 loadStations();
 startPolling();
