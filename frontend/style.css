@@ -605,3 +605,94 @@ body.mode-mono #gauge-bar::after {
   text-align: center;
   letter-spacing: 1px;
 }
+
+/* ── Borough panel ───────────────────────────────────────── */
+
+#borough-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 320px;
+  background: #0d0d0d;
+  border-right: 1px solid #ff990033;
+  transform: translateX(-100%);
+  transition: transform 300ms ease-out;
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#borough-panel.open {
+  transform: translateX(0);
+  display: flex !important;
+}
+
+#borough-panel-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 22px;
+  color: #ff990088;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 150ms;
+}
+
+#borough-panel-close:hover {
+  color: #ff9900;
+}
+
+#borough-panel-header {
+  border-bottom: 1px solid #ff990044;
+  padding-bottom: 10px;
+  padding-right: 24px;
+}
+
+#borough-panel-name {
+  font-size: 15px;
+  letter-spacing: 3px;
+  color: #ff9900;
+  text-transform: uppercase;
+}
+
+#borough-panel-sub {
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: #ff990055;
+  margin-top: 3px;
+  text-transform: uppercase;
+}
+
+#borough-panel-facts {
+  font-size: 11px;
+  color: #ff9900cc;
+  line-height: 1.7;
+}
+
+#borough-panel-data {
+  font-size: 11px;
+}
+
+/* Borough boundary hover state — handled via Leaflet layer style */
+
+@media (max-width: 480px) {
+  #borough-panel {
+    width: 100vw;
+    height: 60vh;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: 1px solid #ff990033;
+    transform: translateY(100%);
+    transition: transform 300ms ease-out;
+  }
+
+  #borough-panel.open {
+    transform: translateY(0);
+  }
+}

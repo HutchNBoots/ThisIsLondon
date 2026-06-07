@@ -36,6 +36,13 @@ _on_this_day_date: str | None = None  # "MM-DD"
 # Police API cache — station_id -> {data, fetched_at}
 _police_cache: dict[str, dict] = {}
 
+# Borough boundaries GeoJSON — fetched once at startup
+_borough_geojson: dict = {}
+
+# Borough demographic data — loaded from census/GLA files at startup
+_census_data: dict = {}
+_gla_data: dict = {}
+
 # Weather cache — refreshed every 30 minutes
 _weather_cache: dict = {}
 _weather_fetched_at: datetime | None = None
@@ -123,6 +130,32 @@ def _process_arrivals(raw: list[dict], line: str) -> dict[str, dict]:
 # Scheduler jobs
 # ---------------------------------------------------------------------------
 
+async def _fetch_borough_boundaries():
+    global _borough_geojson
+    url = (
+        "https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services"
+        "/London_Borough_Excluding_MHW/FeatureServer/0/query"
+    )
+    params = {
+        "where": "1=1",
+        "outFields": "NAME",
+        "geometryPrecision": "4",
+        "outSR": "4326",
+        "f": "geojson",
+    }
+    try:
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            resp = await client.get(url, params=params)
+            if resp.status_code == 200:
+                _borough_geojson = resp.json()
+                count = len(_borough_geojson.get("features", []))
+                logger.info("Borough boundaries loaded: %d features", count)
+            else:
+                logger.warning("Borough boundaries fetch returned %d", resp.status_code)
+    except Exception as exc:
+        logger.warning("Borough boundaries fetch failed: %s", exc)
+
+
 async def _fetch_trains():
     global _train_cache, _last_tfl_fetch
     if tfl_client is None:
@@ -184,6 +217,24 @@ async def startup():
     )
 
     tfl_client = TfLClient(TFL_APP_KEY)
+
+    # Load borough demographic data
+    census_path = DATA_DIR / "census_processed.json"
+    gla_path = DATA_DIR / "gla_processed.json"
+    if census_path.exists():
+        with open(census_path) as f:
+            _census_data.update(json.load(f))
+    if gla_path.exists():
+        with open(gla_path) as f:
+            _gla_data.update(json.load(f))
+    logger.info("Borough data loaded: %d census, %d GLA entries", len(_census_data), len(_gla_data))
+
+    # Fetch borough boundaries (non-blocking — failure just means no borders)
+    try:
+        await _fetch_borough_boundaries()
+    except Exception as exc:
+        logger.warning("Borough boundaries skipped: %s", exc)
+
     await _fetch_trains()
     await _refresh_on_this_day()
 
@@ -466,3 +517,39 @@ async def weather():
     except Exception as exc:
         logger.warning("Weather API failed: %s", exc)
     return _weather_cache or {"weathercode": 0, "condition": "clear", "temperature_c": None}
+
+
+@app.get("/api/borough-boundaries")
+def borough_boundaries():
+    return _borough_geojson
+
+
+@app.get("/api/borough/{borough_name}")
+def borough(borough_name: str):
+    census = _census_data.get(borough_name, {})
+    gla = _gla_data.get(borough_name, {})
+    if not census and not gla:
+        raise HTTPException(status_code=404, detail="Borough not found")
+
+    # Collect borough facts from demographics entries for stations in this borough
+    facts = []
+    for demo in _demographics.values():
+        if demo.get("borough") == borough_name:
+            bf = demo.get("borough_facts", [])
+            for f in bf:
+                if f not in facts:
+                    facts.append(f)
+            if len(facts) >= 4:
+                break
+
+    return {
+        "borough": borough_name,
+        "population_density_per_km2": census.get("population_density"),
+        "median_age": census.get("median_age"),
+        "top_languages": census.get("top_languages", []),
+        "median_income_gbp": gla.get("median_income"),
+        "green_space_pct": gla.get("green_space_pct"),
+        "life_expectancy": gla.get("life_expectancy"),
+        "employment_rate": gla.get("employment_rate"),
+        "borough_facts": facts[:4],
+    }
