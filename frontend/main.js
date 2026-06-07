@@ -896,6 +896,9 @@ function showCurtainRaise() {
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
+const buildEl = document.getElementById('build-id');
+if (buildEl && window.BUILD_ID) buildEl.textContent = window.BUILD_ID;
+
 initGauge(document.getElementById('pressure-gauge'));
 loadStations();
 loadBoroughBoundaries();
