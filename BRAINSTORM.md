@@ -301,3 +301,41 @@ At 55px max radius with 0.18 opacity, the ambient rings were indistinguishable f
 5. **Pulse rings** — barely visible ambient heartbeat
 
 Empty map space between stations should read as *empty*. Motion is the signal.
+
+---
+
+## Phase 4 CX Ideation — The City as Story
+
+_Added 2026-06-07. Moving from "data about the city" to "the city narrating itself."_
+
+### What Phase 3 unlocked
+
+Phase 3 gave users tools: thermal mode, borough comparison, map modes. But tools are not stories. The next phase should make the city itself the narrator — the installation becomes less of a dashboard and more of a guided encounter with a place.
+
+### Six Phase 4 directions
+
+#### 1. Borough Story Mode
+Click a borough and the map enters a focused state: everything outside dims to 10% opacity, only the borough's stations remain fully lit, and the panel delivers the borough's story as a sequence — not a table, but a narrative. Population density first. Then income. Then the linguistic landscape. Then recent change (2011→2021 Census delta). The sequence is timed, like a slow film cut. Exit by clicking anywhere outside.
+
+#### 2. The Commuter's Journey
+Click two stations to light up the route between them. The panel shows: journey time, boroughs crossed, the demographic gradient from start to finish (income at origin vs. destination), and a single sentence about the social distance traveled. "In 23 minutes you cross from the 8th richest to the 28th." This is the tube map as inequality map.
+
+#### 3. The Time Dial
+A clock-face UI element (circular, bottom-centre) lets users scrub through a 24-hour cycle to see how the city changes. At 5am: one or two boluses on quiet dark tracks. By 8am: dense, frantic. Midday: steady rhythm. 2am: near-silent. Atmosphere colour temperature follows the dial — cool dawn blue, amber rush-hour, deep midnight indigo. The dial doesn't play live data — it plays typical patterns from TfL's historical crowding dataset.
+
+#### 4. The Language Portrait
+A toggle that recolours the borough boundaries by primary non-English language community. Arabic in Brent, Bengali in Tower Hamlets, Portuguese in Lambeth/Wandsworth, Somali in Westminster, Tamil in Merton, Punjabi in Hounslow. Each language gets a colour. The tube map becomes a linguistic map of London. Station labels briefly switch to show the language name rather than the station name.
+
+#### 5. Ghost Network (builds on Ghost Stations surprise feature)
+A mode that overlays the ~40 disused Underground stations as ghost roundels. But goes further: also shows the proposed-but-never-built lines (the partially-completed 1935 New Works Programme, the Chelsea-Hackney line). The city that almost was, layered on the city that is. Ghost lines drawn as faint dashed polylines.
+
+#### 6. The Gentrification Gradient
+Overlay showing the change in median income per borough between 2011 and 2021 Census (ONS data). Boroughs that have become more expensive glow warmer; those that have changed less (or become cheaper relative to London average) stay cooler. A single heatmap layer that makes the political geography of the last decade immediately legible.
+
+### CX principle for Phase 4
+
+Phases 1–3 answered: **what is the city doing right now?**
+
+Phase 4 should answer: **what is the city becoming, and who does it belong to?**
+
+The installation has the data to be provocative. It shouldn't flinch from the answer.
