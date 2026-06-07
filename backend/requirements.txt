@@ -2,3 +2,4 @@ fastapi
 httpx
 apscheduler
 uvicorn[standard]
+python-multipart
