@@ -1,0 +1,162 @@
+[
+  {
+    "station_id": "940GZZLUBXN",
+    "name": "Brixton",
+    "pubs": 14,
+    "cafes": 22,
+    "places_of_worship": 8,
+    "bookmakers": 6,
+    "supermarkets": 5,
+    "amenity_sentence": "Fourteen pubs, eight churches and chapels, six bookmakers — and a covered market that has outlasted every wave of regeneration."
+  },
+  {
+    "station_id": "940GZZLUSTK",
+    "name": "Stockwell",
+    "pubs": 9,
+    "cafes": 14,
+    "places_of_worship": 5,
+    "bookmakers": 4,
+    "supermarkets": 4,
+    "amenity_sentence": "Nine pubs and fourteen cafés serving coffee in Portuguese and English, with four bookmakers taking bets in both."
+  },
+  {
+    "station_id": "940GZZLUUXB",
+    "name": "Vauxhall",
+    "pubs": 11,
+    "cafes": 18,
+    "places_of_worship": 4,
+    "bookmakers": 3,
+    "supermarkets": 6,
+    "amenity_sentence": "Eleven pubs, six supermarkets, and a nightclub district that operates on a different clock to the rest of south London."
+  },
+  {
+    "station_id": "940GZZLUPCO",
+    "name": "Pimlico",
+    "pubs": 6,
+    "cafes": 12,
+    "places_of_worship": 3,
+    "bookmakers": 2,
+    "supermarkets": 4,
+    "amenity_sentence": "Six quiet pubs and twelve cafés, two bookmakers barely visible from the street — a neighbourhood that keeps its pleasures understated."
+  },
+  {
+    "station_id": "940GZZLUVIC",
+    "name": "Victoria",
+    "pubs": 18,
+    "cafes": 34,
+    "places_of_worship": 5,
+    "bookmakers": 4,
+    "supermarkets": 9,
+    "amenity_sentence": "Thirty-four cafés, eighteen pubs, and nine supermarkets — a district built entirely around people who are somewhere else in their heads."
+  },
+  {
+    "station_id": "940GZZLUGPK",
+    "name": "Green Park",
+    "pubs": 4,
+    "cafes": 16,
+    "places_of_worship": 2,
+    "bookmakers": 1,
+    "supermarkets": 3,
+    "amenity_sentence": "Four discreet pubs, sixteen cafés priced for hotel guests, and a single bookmaker that looks slightly embarrassed to be here."
+  },
+  {
+    "station_id": "940GZZLUOXC",
+    "name": "Oxford Circus",
+    "pubs": 12,
+    "cafes": 48,
+    "places_of_worship": 3,
+    "bookmakers": 3,
+    "supermarkets": 8,
+    "amenity_sentence": "Forty-eight cafés, twelve pubs, and eight supermarkets competing for the attention of two hundred thousand daily passers-through."
+  },
+  {
+    "station_id": "940GZZLUWRR",
+    "name": "Warren Street",
+    "pubs": 7,
+    "cafes": 19,
+    "places_of_worship": 3,
+    "bookmakers": 2,
+    "supermarkets": 5,
+    "amenity_sentence": "Seven pubs and nineteen cafés serving the hospital shifts — a neighbourhood that runs on sandwiches and strong tea at any hour."
+  },
+  {
+    "station_id": "940GZZLUEAC",
+    "name": "Euston",
+    "pubs": 16,
+    "cafes": 28,
+    "places_of_worship": 4,
+    "bookmakers": 5,
+    "supermarkets": 7,
+    "amenity_sentence": "Sixteen pubs built around the anxiety of departure, five bookmakers for the time between trains, twenty-eight cafés that don't expect you to stay."
+  },
+  {
+    "station_id": "940GZZLUKSX",
+    "name": "King's Cross St. Pancras",
+    "pubs": 14,
+    "cafes": 36,
+    "places_of_worship": 3,
+    "bookmakers": 4,
+    "supermarkets": 8,
+    "amenity_sentence": "Thirty-six cafés, fourteen pubs, and a coal-yard-turned-food-market — the neighbourhood that twenty years of investment built from almost nothing."
+  },
+  {
+    "station_id": "940GZZLUHBT",
+    "name": "Highbury & Islington",
+    "pubs": 13,
+    "cafes": 24,
+    "places_of_worship": 4,
+    "bookmakers": 3,
+    "supermarkets": 5,
+    "amenity_sentence": "Thirteen pubs and twenty-four cafés in a postcode where the menus have changed faster than the faces — and both faster than the rents."
+  },
+  {
+    "station_id": "940GZZLUFPK",
+    "name": "Finsbury Park",
+    "pubs": 10,
+    "cafes": 20,
+    "places_of_worship": 7,
+    "bookmakers": 5,
+    "supermarkets": 6,
+    "amenity_sentence": "Seven places of worship, ten pubs, and twenty cafés — Eritrean, Turkish, and Irish kitchens side by side along the same hundred metres."
+  },
+  {
+    "station_id": "940GZZLUSES",
+    "name": "Seven Sisters",
+    "pubs": 8,
+    "cafes": 16,
+    "places_of_worship": 6,
+    "bookmakers": 7,
+    "supermarkets": 5,
+    "amenity_sentence": "Seven bookmakers, eight pubs, six places of worship — the arithmetic of a street that measures its own odds carefully."
+  },
+  {
+    "station_id": "940GZZLUTOT",
+    "name": "Tottenham Hale",
+    "pubs": 5,
+    "cafes": 10,
+    "places_of_worship": 4,
+    "bookmakers": 4,
+    "supermarkets": 6,
+    "amenity_sentence": "Five pubs, six supermarkets, four bookmakers — a transport interchange surrounded by the utilitarian commerce of a place people mostly pass through."
+  },
+  {
+    "station_id": "940GZZLUBLR",
+    "name": "Blackhorse Road",
+    "pubs": 7,
+    "cafes": 12,
+    "places_of_worship": 3,
+    "bookmakers": 3,
+    "supermarkets": 4,
+    "amenity_sentence": "Seven pubs, three of them breweries that opened in the last decade — the quiet end of the line where something new is being tried."
+  },
+  {
+    "station_id": "940GZZLUWWL",
+    "name": "Walthamstow Central",
+    "pubs": 9,
+    "cafes": 18,
+    "places_of_worship": 7,
+    "bookmakers": 5,
+    "supermarkets": 7,
+    "amenity_sentence": "Nine pubs, seven places of worship, and a market a mile long — the end of the line, and a complete world in itself."
+  }
+]

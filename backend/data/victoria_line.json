@@ -1,0 +1,146 @@
+[
+  {
+    "id": "940GZZLUBXN",
+    "name": "Brixton",
+    "lat": 51.4627,
+    "lng": -0.1145,
+    "zone": 2,
+    "sequence": 1,
+    "tfl_stop_id": "940GZZLUBXN"
+  },
+  {
+    "id": "940GZZLUSTK",
+    "name": "Stockwell",
+    "lat": 51.4723,
+    "lng": -0.1228,
+    "zone": 2,
+    "sequence": 2,
+    "tfl_stop_id": "940GZZLUSTK"
+  },
+  {
+    "id": "940GZZLUUXB",
+    "name": "Vauxhall",
+    "lat": 51.4861,
+    "lng": -0.1248,
+    "zone": 1,
+    "sequence": 3,
+    "tfl_stop_id": "940GZZLUUXB"
+  },
+  {
+    "id": "940GZZLUPCO",
+    "name": "Pimlico",
+    "lat": 51.4893,
+    "lng": -0.1334,
+    "zone": 1,
+    "sequence": 4,
+    "tfl_stop_id": "940GZZLUPCO"
+  },
+  {
+    "id": "940GZZLUVIC",
+    "name": "Victoria",
+    "lat": 51.4965,
+    "lng": -0.1447,
+    "zone": 1,
+    "sequence": 5,
+    "tfl_stop_id": "940GZZLUVIC"
+  },
+  {
+    "id": "940GZZLUGPK",
+    "name": "Green Park",
+    "lat": 51.5067,
+    "lng": -0.1428,
+    "zone": 1,
+    "sequence": 6,
+    "tfl_stop_id": "940GZZLUGPK"
+  },
+  {
+    "id": "940GZZLUOXC",
+    "name": "Oxford Circus",
+    "lat": 51.5154,
+    "lng": -0.1415,
+    "zone": 1,
+    "sequence": 7,
+    "tfl_stop_id": "940GZZLUOXC"
+  },
+  {
+    "id": "940GZZLUWRR",
+    "name": "Warren Street",
+    "lat": 51.5238,
+    "lng": -0.1382,
+    "zone": 1,
+    "sequence": 8,
+    "tfl_stop_id": "940GZZLUWRR"
+  },
+  {
+    "id": "940GZZLUEAC",
+    "name": "Euston",
+    "lat": 51.5282,
+    "lng": -0.1337,
+    "zone": 1,
+    "sequence": 9,
+    "tfl_stop_id": "940GZZLUEAC"
+  },
+  {
+    "id": "940GZZLUKSX",
+    "name": "King's Cross St. Pancras",
+    "lat": 51.5308,
+    "lng": -0.1238,
+    "zone": 1,
+    "sequence": 10,
+    "tfl_stop_id": "940GZZLUKSX"
+  },
+  {
+    "id": "940GZZLUHBT",
+    "name": "Highbury & Islington",
+    "lat": 51.5462,
+    "lng": -0.1033,
+    "zone": 2,
+    "sequence": 11,
+    "tfl_stop_id": "940GZZLUHBT"
+  },
+  {
+    "id": "940GZZLUFPK",
+    "name": "Finsbury Park",
+    "lat": 51.5642,
+    "lng": -0.1007,
+    "zone": 2,
+    "sequence": 12,
+    "tfl_stop_id": "940GZZLUFPK"
+  },
+  {
+    "id": "940GZZLUSES",
+    "name": "Seven Sisters",
+    "lat": 51.5822,
+    "lng": -0.0724,
+    "zone": 3,
+    "sequence": 13,
+    "tfl_stop_id": "940GZZLUSES"
+  },
+  {
+    "id": "940GZZLUTOT",
+    "name": "Tottenham Hale",
+    "lat": 51.5882,
+    "lng": -0.0598,
+    "zone": 3,
+    "sequence": 14,
+    "tfl_stop_id": "940GZZLUTOT"
+  },
+  {
+    "id": "940GZZLUBLR",
+    "name": "Blackhorse Road",
+    "lat": 51.5869,
+    "lng": -0.0417,
+    "zone": 3,
+    "sequence": 15,
+    "tfl_stop_id": "940GZZLUBLR"
+  },
+  {
+    "id": "940GZZLUWWL",
+    "name": "Walthamstow Central",
+    "lat": 51.5832,
+    "lng": -0.0197,
+    "zone": 3,
+    "sequence": 16,
+    "tfl_stop_id": "940GZZLUWWL"
+  }
+]

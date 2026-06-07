@@ -1,0 +1,162 @@
+[
+  {
+    "station_id": "940GZZLUBXN",
+    "name": "Brixton",
+    "halo_hex": "#c0392b",
+    "halo_rgb": [192, 57, 43],
+    "wealth_score": 0.2,
+    "font_weight": 360,
+    "bg_tint": "#1a0800",
+    "description": "Deep terracotta bleeding into ember-red — the heat and pressure of a neighbourhood that has always had too much expected of it"
+  },
+  {
+    "station_id": "940GZZLUSTK",
+    "name": "Stockwell",
+    "halo_hex": "#c0522b",
+    "halo_rgb": [192, 82, 43],
+    "wealth_score": 0.25,
+    "font_weight": 375,
+    "bg_tint": "#180900",
+    "description": "Amber-red, warm but not quite settled — a border district between south London's gravity and the pull of Zone 1"
+  },
+  {
+    "station_id": "940GZZLUUXB",
+    "name": "Vauxhall",
+    "halo_hex": "#d4a017",
+    "halo_rgb": [212, 160, 23],
+    "wealth_score": 0.55,
+    "font_weight": 465,
+    "bg_tint": "#130d00",
+    "description": "Amber-gold in flux — MI6 glass and Pleasure Gardens, old vice and new money sharing the same riverside air"
+  },
+  {
+    "station_id": "940GZZLUPCO",
+    "name": "Pimlico",
+    "halo_hex": "#d4b830",
+    "halo_rgb": [212, 184, 48],
+    "wealth_score": 0.7,
+    "font_weight": 510,
+    "bg_tint": "#0e0f02",
+    "description": "Amber shading toward gold — stucco terraces and quiet money, close enough to Westminster to feel its gravity"
+  },
+  {
+    "station_id": "940GZZLUVIC",
+    "name": "Victoria",
+    "halo_hex": "#e8dfa0",
+    "halo_rgb": [232, 223, 160],
+    "wealth_score": 0.85,
+    "font_weight": 555,
+    "bg_tint": "#0a0c10",
+    "description": "Cool white-gold, the colour of departure — five million suitcases a year and the coaches lined up for everywhere else"
+  },
+  {
+    "station_id": "940GZZLUGPK",
+    "name": "Green Park",
+    "halo_hex": "#f0ead8",
+    "halo_rgb": [240, 234, 216],
+    "wealth_score": 0.95,
+    "font_weight": 585,
+    "bg_tint": "#080b12",
+    "description": "Pure cool white-gold, near-white — the most expensive earth in England lies directly above this station"
+  },
+  {
+    "station_id": "940GZZLUOXC",
+    "name": "Oxford Circus",
+    "halo_hex": "#ede5c0",
+    "halo_rgb": [237, 229, 192],
+    "wealth_score": 0.9,
+    "font_weight": 570,
+    "bg_tint": "#08090f",
+    "description": "Cool white-gold with a retail shimmer — the most footfall of any tube station outside Waterloo, a city of strangers in constant orbit"
+  },
+  {
+    "station_id": "940GZZLUWRR",
+    "name": "Warren Street",
+    "halo_hex": "#c89020",
+    "halo_rgb": [200, 144, 32],
+    "wealth_score": 0.75,
+    "font_weight": 525,
+    "bg_tint": "#0d0c02",
+    "description": "Neutral amber — a commuter station that asks no questions, quietly adjacent to the NHS and the teaching hospitals"
+  },
+  {
+    "station_id": "940GZZLUEAC",
+    "name": "Euston",
+    "halo_hex": "#c87820",
+    "halo_rgb": [200, 120, 32],
+    "wealth_score": 0.6,
+    "font_weight": 480,
+    "bg_tint": "#120900",
+    "description": "Industrial orange — the gateway for the north, half-demolished and half-rebuilt, perpetually on the edge of becoming something else"
+  },
+  {
+    "station_id": "940GZZLUKSX",
+    "name": "King's Cross St. Pancras",
+    "halo_hex": "#c87020",
+    "halo_rgb": [200, 112, 32],
+    "wealth_score": 0.6,
+    "font_weight": 480,
+    "bg_tint": "#120a00",
+    "description": "Industrial orange — twenty years of regeneration visible in one glance, the coal yard turned into flats, the canal turned into a destination"
+  },
+  {
+    "station_id": "940GZZLUHBT",
+    "name": "Highbury & Islington",
+    "halo_hex": "#c88830",
+    "halo_rgb": [200, 136, 48],
+    "wealth_score": 0.5,
+    "font_weight": 450,
+    "bg_tint": "#110a00",
+    "description": "Warm amber in a postcode that gentrified faster than anyone expected — the Arsenal crest still on the walls, the fans mostly gone north"
+  },
+  {
+    "station_id": "940GZZLUFPK",
+    "name": "Finsbury Park",
+    "halo_hex": "#c06030",
+    "halo_rgb": [192, 96, 48],
+    "wealth_score": 0.4,
+    "font_weight": 420,
+    "bg_tint": "#150800",
+    "description": "Warm amber-red — the park, the megastore mosque, the Eritrean restaurants, the bike-hire racks; a junction of many Londons"
+  },
+  {
+    "station_id": "940GZZLUSES",
+    "name": "Seven Sisters",
+    "halo_hex": "#b04820",
+    "halo_rgb": [176, 72, 32],
+    "wealth_score": 0.3,
+    "font_weight": 390,
+    "bg_tint": "#160600",
+    "description": "Amber-red, murky at the edges — the market under the railway arch and the names of the dead on the war memorial, unhurried by money"
+  },
+  {
+    "station_id": "940GZZLUTOT",
+    "name": "Tottenham Hale",
+    "halo_hex": "#b04018",
+    "halo_rgb": [176, 64, 24],
+    "wealth_score": 0.28,
+    "font_weight": 384,
+    "bg_tint": "#160500",
+    "description": "Warm amber-red thinning toward brown — the retail park and the bus interchange, the Lee Valley beyond, somewhere to be from"
+  },
+  {
+    "station_id": "940GZZLUBLR",
+    "name": "Blackhorse Road",
+    "halo_hex": "#b85820",
+    "halo_rgb": [184, 88, 32],
+    "wealth_score": 0.32,
+    "font_weight": 396,
+    "bg_tint": "#140600",
+    "description": "Warm amber — the breweries and the studios and the Walthamstow Wetlands beginning just out of frame, still becoming"
+  },
+  {
+    "station_id": "940GZZLUWWL",
+    "name": "Walthamstow Central",
+    "halo_hex": "#c07828",
+    "halo_rgb": [192, 120, 40],
+    "wealth_score": 0.35,
+    "font_weight": 405,
+    "bg_tint": "#130800",
+    "description": "Clean amber, slightly melancholy — the end of the line, William Morris's birthplace, the longest street market in Europe closing its stalls at dusk"
+  }
+]
