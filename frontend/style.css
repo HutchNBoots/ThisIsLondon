@@ -1042,3 +1042,28 @@ body.borough-story-mode #story-exit { display: block !important; }
   #curtain-line2 { font-size: 8px; letter-spacing: 2px; }
   #status-banner { font-size: 9px; padding: 4px 10px; }
 }
+
+/* ── Light mode overrides for map chrome ─────────────────── */
+
+/* Status banner on light background */
+body.mode-light #status-banner {
+  background: rgba(240, 235, 225, 0.95);
+  border-top-color: #00368833;
+}
+
+/* Borough boundaries use navy on light tiles */
+body.mode-light .leaflet-overlay-pane path {
+  stroke: #003688;
+}
+
+/* Leaflet popup on light */
+body.mode-light .leaflet-popup-content-wrapper {
+  background: var(--bg-panel);
+  color: var(--text);
+  border-color: var(--accent-dim);
+}
+
+/* Curtain raise readable on light bg */
+body.mode-light #curtain-raise {
+  background: rgba(245, 240, 232, 0.85);
+}
