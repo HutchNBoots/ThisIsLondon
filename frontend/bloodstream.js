@@ -158,6 +158,57 @@ function lerpPoint(p1, p2, t) {
   };
 }
 
+// ── Sound layer (M5) ─────────────────────────────────────────────────────────
+
+let audioCtx = null;
+let soundMuted = false;
+
+function getAudioContext() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return audioCtx;
+}
+
+// Resume AudioContext on first user gesture (browser autoplay policy)
+function ensureAudioResumed() {
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+document.addEventListener('click', ensureAudioResumed, { once: false });
+
+function playArrivalTone(line) {
+  if (soundMuted) return;
+  try {
+    const ac = getAudioContext();
+    if (ac.state === 'suspended') return;
+
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.connect(gain);
+    gain.connect(ac.destination);
+
+    // Victoria: warm amber tone A4 440Hz; District: cooler D4 294Hz
+    osc.type = 'sine';
+    osc.frequency.value = line === 'victoria' ? 440 : 294;
+
+    const now = ac.currentTime;
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.15, now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+
+    osc.start(now);
+    osc.stop(now + 0.65);
+  } catch (_) {
+    // AudioContext not available — silent fail
+  }
+}
+
+export function setSoundMuted(muted) {
+  soundMuted = muted;
+}
+
 export function initBloodstream(map, canvas, getTrainState, getStationData) {
   const ctx = canvas.getContext('2d');
 
@@ -264,6 +315,7 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
 
     victoriaBoluses = [];
     districtBoluses = [];
+    arrivedBoluses.clear();
 
     for (const t of ts.trains) {
       if (t.time_to_station_seconds == null) continue;
@@ -381,11 +433,19 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     ctx.fill();
   }
 
-  function drawBolusSet(boluses, getPos, colours) {
+  const arrivedBoluses = new Set();
+
+  function drawBolusSet(boluses, getPos, colours, line) {
     for (const bolus of boluses) {
       const t = getBolusT(bolus);
       const pos = getPos(bolus, t);
       if (!pos) continue;
+
+      // Fire arrival tone once per bolus when it reaches its station
+      if (t >= 0.95 && !arrivedBoluses.has(bolus.vehicle_id)) {
+        arrivedBoluses.add(bolus.vehicle_id);
+        playArrivalTone(line);
+      }
 
       const trailOffsets = [0.06, 0.04, 0.02];
       const trailOpacities = [0.1, 0.2, 0.3];
@@ -480,7 +540,7 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     if (victoriaStations.length > 1) {
       drawArtery(victoriaStations, VICTORIA_BOLUS_COLOURS);
       drawFlares(victoriaStations, victoriaBoluses, getVictoriaBolusScreenPos);
-      drawBolusSet(victoriaBoluses, getVictoriaBolusScreenPos, VICTORIA_BOLUS_COLOURS);
+      drawBolusSet(victoriaBoluses, getVictoriaBolusScreenPos, VICTORIA_BOLUS_COLOURS, 'victoria');
     }
 
     // District line — draw each branch
@@ -506,7 +566,7 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     }
 
     // District boluses
-    drawBolusSet(districtBoluses, getDistrictBolusScreenPos, DISTRICT_BOLUS_COLOURS);
+    drawBolusSet(districtBoluses, getDistrictBolusScreenPos, DISTRICT_BOLUS_COLOURS, 'district');
 
     // Check for new train data
     const ts = getTrainState();

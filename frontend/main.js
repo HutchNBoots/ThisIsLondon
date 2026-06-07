@@ -1,4 +1,4 @@
-import { initBloodstream } from './bloodstream.js';
+import { initBloodstream, setSoundMuted } from './bloodstream.js';
 import { renderArrivals, renderPanelSections } from './panel.js';
 import { initGauge, updateGauge } from './gauge.js';
 
@@ -227,6 +227,18 @@ function closePanel() {
 }
 
 document.getElementById('panel-close').addEventListener('click', closePanel);
+
+// ── Mute toggle (M5) ─────────────────────────────────────────────────────────
+let soundMuted = false;
+const muteBtn = document.getElementById('mute-toggle');
+if (muteBtn) {
+  muteBtn.addEventListener('click', () => {
+    soundMuted = !soundMuted;
+    setSoundMuted(soundMuted);
+    muteBtn.textContent = soundMuted ? '♪̶' : '♪';
+    muteBtn.style.opacity = soundMuted ? '0.35' : '0.7';
+  });
+}
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 initGauge(document.getElementById('pressure-gauge'));
