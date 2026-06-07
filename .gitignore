@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Environment
+.env
+.env.local
+
+# Claude Code internals
+.claude/worktrees/
+
+# SQLite
+*.db
+*.sqlite
+
+# OS
+.DS_Store
