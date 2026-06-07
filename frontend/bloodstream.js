@@ -664,6 +664,12 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    const zoom = map.getZoom();
+    // Hide all canvas art below zoom 10; fade boluses at zoom 11
+    if (zoom < 10) { animFrame = requestAnimationFrame(draw); return; }
+    const bolusAlpha = zoom <= 11 ? (zoom - 10) * 0.7 : 1;
+    ctx.globalAlpha = bolusAlpha;
+
     // Victoria
     if (victoriaStations.length > 1) {
       drawFlares(victoriaStations, victoriaBoluses, getVictoriaBolusScreenPos);
@@ -701,6 +707,8 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
       drawFlares(allNorthernStations, northernBoluses, getNPos);
       drawBolusSet(northernBoluses, getNPos, LINE_COLOURS.northern, 'northern');
     }
+
+    ctx.globalAlpha = 1;
 
     // Borough pulse rings
     drawPulseRings();

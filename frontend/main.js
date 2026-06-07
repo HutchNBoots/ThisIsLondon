@@ -11,8 +11,8 @@ const LINE_PALETTE = {
   victoria: '#009DDC',
   district: '#007229',
   central:  '#E32017',
-  jubilee:  '#A0A5A9',
-  northern: '#231F20',
+  jubilee:  '#868F98',
+  northern: '#1C1C1C',
 };
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -189,7 +189,13 @@ map.on('zoomend', () => {
   const zoom = map.getZoom();
   Object.entries(stationMarkers).forEach(([id, marker]) => {
     const s = stationData[id];
-    if (s) marker.setIcon(makeRoundelIcon(s.line, zoom, s.name));
+    if (!s) return;
+    if (zoom <= 10) {
+      marker.setOpacity(0);
+    } else {
+      marker.setOpacity(1);
+      marker.setIcon(makeRoundelIcon(s.line, zoom, s.name));
+    }
   });
 });
 
@@ -204,16 +210,16 @@ async function loadBoroughBoundaries() {
 
     boroughLayer = L.geoJSON(geojson, {
       style: {
-        color: 'var(--accent, #ff9900)',
-        weight: 0.8,
-        opacity: 0.25,
+        color: '#003688',
+        weight: 0.5,
+        opacity: 0.12,
         fillOpacity: 0,
         fillColor: 'transparent',
       },
       onEachFeature(feature, layer) {
         const name = feature.properties?.NAME || feature.properties?.name || '';
-        layer.on('mouseover', () => { if (!boroughStoryActive) layer.setStyle({ opacity: 0.6, weight: 1.2 }); });
-        layer.on('mouseout',  () => { if (!boroughStoryActive) layer.setStyle({ opacity: 0.25, weight: 0.8 }); });
+        layer.on('mouseover', () => { if (!boroughStoryActive) layer.setStyle({ opacity: 0.35, weight: 1 }); });
+        layer.on('mouseout',  () => { if (!boroughStoryActive) layer.setStyle({ opacity: 0.12, weight: 0.5 }); });
         layer.on('click', (e) => {
           L.DomEvent.stopPropagation(e);
           if (name) openBoroughPanel(name);
