@@ -1,5 +1,5 @@
 import { initBloodstream, setSoundMuted, setThermalMode, VICTORIA_SEQUENCE_IDS, DISTRICT_BRANCHES } from './bloodstream.js';
-import { renderArrivals, renderPanelSections, renderComparison, hideComparison } from './panel.js';
+import { renderArrivals, renderPanelSections, renderComparison, hideComparison, renderBoroughPanel } from './panel.js';
 import { initGauge, updateGauge } from './gauge.js';
 
 // ── Config ────────────────────────────────────────────────────────────────────
@@ -67,6 +67,107 @@ window.addEventListener('resize', () => {
   map.invalidateSize();
 });
 
+// ── Roundel markers ───────────────────────────────────────────────────────────
+
+function getRoundelSize(zoom) {
+  if (zoom <= 11) return 10;
+  if (zoom <= 12) return 13;
+  if (zoom <= 13) return 16;
+  if (zoom <= 14) return 20;
+  return 26;
+}
+
+function makeRoundelIcon(line, size) {
+  // Proper TfL roundel: coloured ring + darker bar crossing through centre
+  const ringColour = line === 'district' ? '#007229' : '#009DDC';
+  const barColour  = line === 'district' ? '#003d14' : '#003688';
+  const half = size / 2;
+  const r = (size * 0.36).toFixed(1);
+  const sw = Math.max(1.5, size * 0.19).toFixed(1);
+  const barH = (size * 0.30).toFixed(1);
+  const barY = (half - barH / 2).toFixed(1);
+  // Draw ring twice — before and after bar — so ring visually wraps bar
+  const svg = `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="${half}" cy="${half}" r="${r}" fill="none" stroke="${ringColour}" stroke-width="${sw}"/>
+    <rect x="0" y="${barY}" width="${size}" height="${barH}" fill="${barColour}"/>
+    <circle cx="${half}" cy="${half}" r="${r}" fill="none" stroke="${ringColour}" stroke-width="${sw}" stroke-dasharray="${Math.PI * r * 2 * 0.42} ${Math.PI * r * 2 * 0.58}" stroke-dashoffset="${-(Math.PI * r * 2 * 0.29)}"/>
+  </svg>`;
+  return L.divIcon({
+    html: svg,
+    className: `roundel-marker ${line}-station`,
+    iconSize: [size, size],
+    iconAnchor: [half, half],
+    tooltipAnchor: [half + 2, 0],
+  });
+}
+
+map.on('zoomend', () => {
+  const size = getRoundelSize(map.getZoom());
+  Object.entries(stationMarkers).forEach(([id, marker]) => {
+    const s = stationData[id];
+    if (s) marker.setIcon(makeRoundelIcon(s.line, size));
+  });
+});
+
+// ── Borough boundaries ────────────────────────────────────────────────────────
+
+let boroughLayer = null;
+
+async function loadBoroughBoundaries() {
+  try {
+    const res = await fetch(`${BACKEND}/api/borough-boundaries`);
+    if (!res.ok) return;
+    const geojson = await res.json();
+    if (!geojson.features || geojson.features.length === 0) return;
+
+    boroughLayer = L.geoJSON(geojson, {
+      style: {
+        color: '#ff9900',
+        weight: 0.8,
+        opacity: 0.25,
+        fillOpacity: 0,
+      },
+      onEachFeature(feature, layer) {
+        const name = feature.properties?.NAME || feature.properties?.name || '';
+        layer.on('mouseover', () => layer.setStyle({ opacity: 0.6, weight: 1.2 }));
+        layer.on('mouseout',  () => layer.setStyle({ opacity: 0.25, weight: 0.8 }));
+        layer.on('click', (e) => {
+          L.DomEvent.stopPropagation(e);
+          if (name) openBoroughPanel(name);
+        });
+      },
+    }).addTo(map);
+  } catch (err) {
+    console.warn('[main] borough boundaries failed:', err);
+  }
+}
+
+async function openBoroughPanel(boroughName) {
+  const panel = document.getElementById('borough-panel');
+  if (!panel) return;
+  panel.classList.remove('hidden');
+  panel.getBoundingClientRect();
+  panel.classList.add('open');
+
+  const nameEl = document.getElementById('borough-panel-name');
+  if (nameEl) nameEl.textContent = boroughName.toUpperCase();
+
+  try {
+    const res = await fetch(`${BACKEND}/api/borough/${encodeURIComponent(boroughName)}`);
+    if (res.ok) {
+      const data = await res.json();
+      renderBoroughPanel(data);
+    }
+  } catch (err) {
+    console.warn('[main] borough data failed:', err);
+  }
+}
+
+function closeBoroughPanel() {
+  const panel = document.getElementById('borough-panel');
+  if (panel) panel.classList.remove('open');
+}
+
 // ── Station loading ───────────────────────────────────────────────────────────
 async function loadStations() {
   try {
@@ -83,18 +184,7 @@ async function loadStations() {
       stationData[station_id] = station;
 
       const cssClass = line === 'district' ? 'district-station' : 'victoria-station';
-      const roundelColour = line === 'district' ? '#007229' : '#009DDC';
-      const roundelSvg = `<svg width="14" height="14" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="7" cy="7" r="5.5" fill="none" stroke="${roundelColour}" stroke-width="2.2"/>
-        <rect x="1" y="5.2" width="12" height="3.6" fill="${roundelColour}" rx="0.3"/>
-      </svg>`;
-      const icon = L.divIcon({
-        html: roundelSvg,
-        className: `roundel-marker ${cssClass}`,
-        iconSize: [14, 14],
-        iconAnchor: [7, 7],
-        tooltipAnchor: [9, 0],
-      });
+      const icon = makeRoundelIcon(line, getRoundelSize(map.getZoom()));
 
       const marker = L.marker([lat, lng], { icon }).addTo(map);
 
@@ -319,6 +409,9 @@ async function loadComparison(stationId) {
 
 document.getElementById('panel-close').addEventListener('click', closePanel);
 
+const boroughPanelClose = document.getElementById('borough-panel-close');
+if (boroughPanelClose) boroughPanelClose.addEventListener('click', closeBoroughPanel);
+
 // ── Mute toggle (M5) ─────────────────────────────────────────────────────────
 let soundMuted = false;
 const muteBtn = document.getElementById('mute-toggle');
@@ -372,4 +465,5 @@ if (compareBtn) {
 // ── Boot ──────────────────────────────────────────────────────────────────────
 initGauge(document.getElementById('pressure-gauge'));
 loadStations();
+loadBoroughBoundaries();
 startPolling();
