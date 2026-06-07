@@ -269,3 +269,35 @@ Each station emits a slow ambient ring that expands outward and fades. The ring'
 **What the user feels:** Without any label, the map communicates density. East-end stations throb. Outer suburban stations breathe. It is a demographic heartbeat made visible. At rush hour the bolus arrivals and pulse rings create overlapping rhythmic textures — the canvas becomes a score.
 
 **Effort:** Low. Pure canvas animation. Borough density is already in demographics.json.
+
+---
+
+## Visual Hierarchy — Lessons from the First Screenshot
+
+_Added 2026-06-07 after reviewing live render on mobile._
+
+The first live render revealed that adding features without establishing visual hierarchy produces noise, not art. Specific failures and their fixes:
+
+### The four-layer pile-up
+Canvas arteries + Leaflet polylines + bolus glow + pulse rings were all competing at the same visual weight. **Fix:** remove canvas arteries entirely — the Leaflet polylines are the track. Canvas now draws only boluses, flares, and pulse rings.
+
+### Boluses as heat blobs, not trains
+A 22px bolus with three trailing echoes produces a ~60px glowing blob at rush hour. On a mobile screen showing central London, this covers entire neighbourhoods. **Fix:** reduce to 9px peak, 7px off-peak, 5px night. The train should be a point of light moving along a line, not a solar flare.
+
+### Pulse rings amplifying the noise
+At 55px max radius with 0.18 opacity, the ambient rings were indistinguishable from the bolus trail glow. **Fix:** 18px max, 0.07 opacity, 0.5px stroke. Subtle enough to feel like a heartbeat, not a strobe.
+
+### Permanent labels at all zoom levels
+60+ permanent text labels at city-wide zoom create a typographic blizzard. **Fix:** labels hover-only (non-permanent). The roundel colour identifies the line; the label appears on hover when the user needs it.
+
+### Roundels too large
+20px roundels at standard zoom compete with the line polylines for visual authority. **Fix:** 14px roundels. The polyline is the primary line signal; the roundel is the station marker.
+
+### The hierarchy that works
+1. **Leaflet polylines** — the track, bold and clear (weight 4, opacity 0.65)
+2. **Boluses** — small bright points of light moving along the track
+3. **Station flares** — glow as a train approaches (existing behaviour, unchanged)
+4. **Roundel markers** — 14px, hover reveals label
+5. **Pulse rings** — barely visible ambient heartbeat
+
+Empty map space between stations should read as *empty*. Motion is the signal.
