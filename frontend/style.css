@@ -53,6 +53,12 @@ body.mode-light {
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   background: var(--bg-body);
   font-family: 'Share Tech Mono', monospace;
