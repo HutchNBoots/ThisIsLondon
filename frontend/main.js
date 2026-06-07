@@ -54,7 +54,7 @@ const TILE_DARK  = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.pn
 const TILE_LIGHT = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 const TILE_ATTR  = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
 
-let currentTileLayer = L.tileLayer(TILE_DARK, {
+let currentTileLayer = L.tileLayer(TILE_LIGHT, {
   attribution: TILE_ATTR,
   subdomains: 'abcd',
   maxZoom: 20,
@@ -782,7 +782,7 @@ if (muteBtn) {
 }
 
 // ── Map mode cycling ──────────────────────────────────────────────────────────
-const MODES = ['dark', 'green', 'light'];
+const MODES = ['light', 'dark', 'green'];
 let currentModeIdx = 0;
 const modeBtn = document.getElementById('mode-toggle');
 if (modeBtn) {
@@ -793,7 +793,7 @@ if (modeBtn) {
     document.body.classList.add(`mode-${nextMode}`);
     modeBtn.textContent = nextMode.toUpperCase();
 
-    // Swap tile layer for light mode
+    // Swap tile layer — light mode uses light tiles, dark/green use dark tiles
     const tileUrl = nextMode === 'light' ? TILE_LIGHT : TILE_DARK;
     map.removeLayer(currentTileLayer);
     currentTileLayer = L.tileLayer(tileUrl, {
