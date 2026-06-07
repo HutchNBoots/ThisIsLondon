@@ -213,9 +213,18 @@ map.on('zoomend', () => {
 
 async function loadBoroughBoundaries() {
   try {
-    const res = await fetch(`${BACKEND}/api/borough-boundaries`);
-    if (!res.ok) return;
-    const geojson = await res.json();
+    // Load from bundled static file — no backend dependency
+    let geojson;
+    try {
+      const res = await fetch('./data/borough-boundaries.json');
+      if (res.ok) geojson = await res.json();
+    } catch (_) {}
+    // Fallback to backend if static file missing
+    if (!geojson?.features?.length) {
+      const res = await fetch(`${BACKEND}/api/borough-boundaries`);
+      if (!res.ok) return;
+      geojson = await res.json();
+    }
     if (!geojson.features || geojson.features.length === 0) return;
 
     boroughLayer = L.geoJSON(geojson, {
