@@ -184,3 +184,42 @@ Local cache / DB (SQLite / JSON) — static Nomis & ONS data
 ## 12. Logging decisions
 
 Maintain a **DECISIONS.md** in the repo. Every time you make a non-trivial autonomous choice (hosting approach, library swap, data shortcut), log it in one line with a date. This lets the human stay hands-off but still audit the trail.
+
+---
+
+## 13. Phase 2 Backlog (post-PoC)
+
+The PoC (M0–M6) is complete. The following backlog is prioritised for Phase 2 development. Items are ordered by impact vs. effort. All scope-guard rules from Section 4 still apply — expand one thing at a time.
+
+### Polish / immediate fixes
+| Item | Effort | Notes |
+|---|---|---|
+| Map auto-fit to Victoria Line on load | XS | `map.fitBounds()` from station coordinates |
+| Station tooltip CSS (remove Leaflet arrow shape) | XS | CSS override on `.leaflet-tooltip` |
+| Bolus animation visual QA in production | S | Verify 60fps, glow quality, halo colours |
+| Arrival sound layer (`?sound=1`) | S | Already designed in PLAN.md §5e — Web Audio API sine tones |
+
+### Phase 2 art features
+| Item | Effort | Notes |
+|---|---|---|
+| UK Police incident data wired to arrhythmia | S | Replace static threshold with live `/crimes-at-location` API |
+| Borough portrait filmstrip | M | Algorithmically-generated building silhouettes at screen bottom using OS Open Data |
+| Thermal Portrait mode (toggle) | L | WebGL fragment shader — see BRAINSTORM.md §2 Candidate C. Render it perfectly or not at all. |
+| Time-lapse / clock replay | L | Historical TfL data replay; clock-face scrubber UI |
+
+### Phase 2 data expansion
+| Item | Effort | Notes |
+|---|---|---|
+| Mobile responsive layout | M | Currently desktop-only |
+| Second tube line (Jubilee or Central) | M | Adds a second artery — keep Bloodstream metaphor |
+| Real-time passenger load → bolus diameter | M | Requires TfL crowding API (`/crowding/{line}`) |
+| Multi-line full circulatory system | XL | All 11 lines — Phase 3 really |
+
+### Phase 2 station panel
+| Item | Effort | Notes |
+|---|---|---|
+| Flickr average-colour halo tinting | S | Geotagged photos near each station → extract average colour |
+| TheyWorkForYou MP data for Westminster | S | "This is where it is decided" — see BRAINSTORM.md §6 |
+| Met Office weather → bolus glow intensity | S | Cold/overcast = dimmer boluses; hot = brighter |
+
+### Effort key: XS = hours, S = 1 day, M = 2–3 days, L = 4–5 days, XL = 1 week+
