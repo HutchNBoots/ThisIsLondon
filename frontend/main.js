@@ -74,12 +74,12 @@ async function loadStations() {
     const lineCoords = [];
 
     stations.forEach((station) => {
-      const { station_id, name, lat, lon, halo_hex } = station;
+      const { station_id, name, lat, lng, halo_hex } = station;
       stationData[station_id] = station;
 
       const color = halo_hex || '#ff9900';
 
-      const marker = L.circleMarker([lat, lon], {
+      const marker = L.circleMarker([lat, lng], {
         radius: 6,
         color: color,
         fillColor: color,
@@ -97,7 +97,7 @@ async function loadStations() {
       });
 
       stationMarkers[station_id] = marker;
-      lineCoords.push([lat, lon]);
+      lineCoords.push([lat, lng]);
     });
 
     // Draw the faint "vein wall" polyline connecting stations in sequence
