@@ -15,6 +15,15 @@ const LINE_PALETTE = {
   northern: '#1C1C1C',
 };
 
+// Light-tile palette: higher contrast against beige CartoDB background
+const LINE_PALETTE_LIGHT = {
+  victoria: '#0071A4',
+  district: '#005C1F',
+  central:  '#C0120C',
+  jubilee:  '#4A5056',
+  northern: '#000000',
+};
+
 // ── State ─────────────────────────────────────────────────────────────────────
 let trainState = { fetched_at: null, trains: [] };
 let stationData = {};
@@ -317,8 +326,7 @@ async function loadStations() {
 // ── Tube line polylines ───────────────────────────────────────────────────────
 
 function polylineStyle(line, isLight) {
-  const colour = LINE_PALETTE[line];
-  // On light tiles, use full opacity and slightly heavier weight
+  const colour = isLight ? LINE_PALETTE_LIGHT[line] : LINE_PALETTE[line];
   return { color: colour, weight: isLight ? 5 : 4, opacity: isLight ? 1 : 0.85 };
 }
 
