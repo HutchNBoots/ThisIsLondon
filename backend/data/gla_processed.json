@@ -1,0 +1,93 @@
+{
+  "Merton": {
+    "median_income": 42300,
+    "median_house_price": 510000,
+    "green_space_pct": 38,
+    "life_expectancy": 81.4,
+    "employment_rate": 74.2
+  },
+  "Wandsworth": {
+    "median_income": 48200,
+    "median_house_price": 620000,
+    "green_space_pct": 33,
+    "life_expectancy": 82.1,
+    "employment_rate": 76.8
+  },
+  "Hammersmith & Fulham": {
+    "median_income": 44100,
+    "median_house_price": 740000,
+    "green_space_pct": 22,
+    "life_expectancy": 81.8,
+    "employment_rate": 75.4
+  },
+  "Kensington & Chelsea": {
+    "median_income": 82300,
+    "median_house_price": 1920000,
+    "green_space_pct": 24,
+    "life_expectancy": 83.9,
+    "employment_rate": 69.1
+  },
+  "Westminster": {
+    "median_income": 62100,
+    "median_house_price": 1050000,
+    "green_space_pct": 27,
+    "life_expectancy": 82.8,
+    "employment_rate": 72.4
+  },
+  "City of London": {
+    "median_income": 79000,
+    "median_house_price": 870000,
+    "green_space_pct": 9,
+    "life_expectancy": 82.4,
+    "employment_rate": 78.2
+  },
+  "Tower Hamlets": {
+    "median_income": 28100,
+    "median_house_price": 480000,
+    "green_space_pct": 16,
+    "life_expectancy": 78.4,
+    "employment_rate": 66.4
+  },
+  "Newham": {
+    "median_income": 25600,
+    "median_house_price": 390000,
+    "green_space_pct": 18,
+    "life_expectancy": 77.1,
+    "employment_rate": 64.8
+  },
+  "Barking & Dagenham": {
+    "median_income": 24800,
+    "median_house_price": 310000,
+    "green_space_pct": 29,
+    "life_expectancy": 77.6,
+    "employment_rate": 66.1
+  },
+  "Havering": {
+    "median_income": 36200,
+    "median_house_price": 380000,
+    "green_space_pct": 44,
+    "life_expectancy": 80.4,
+    "employment_rate": 72.6
+  },
+  "Hounslow": {
+    "median_income": 32800,
+    "median_house_price": 430000,
+    "green_space_pct": 35,
+    "life_expectancy": 79.8,
+    "employment_rate": 70.1
+  },
+  "Richmond upon Thames": {
+    "median_income": 61400,
+    "median_house_price": 780000,
+    "green_space_pct": 52,
+    "life_expectancy": 83.8,
+    "employment_rate": 77.9
+  },
+  "Ealing": {
+    "median_income": 36100,
+    "median_house_price": 440000,
+    "green_space_pct": 30,
+    "life_expectancy": 80.2,
+    "employment_rate": 71.3
+  }
+}

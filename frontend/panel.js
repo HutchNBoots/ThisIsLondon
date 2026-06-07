@@ -1,13 +1,9 @@
 /**
- * panel.js — station heartbeat panel helpers (M5c)
+ * panel.js — station panel rendering helpers
  */
-
-let factsScrollInterval = null;
 
 /**
  * Render arrivals data into the dot-matrix board.
- * @param {Array} arrivals - array of {towards_station_name, time_to_station_seconds, platform_name}
- * @param {string} stationName - name of the selected station
  */
 export function renderArrivals(arrivals, stationName) {
   const el = document.getElementById('panel-arrivals');
@@ -36,45 +32,95 @@ export function renderArrivals(arrivals, stationName) {
 }
 
 /**
- * Start the facts ticker scroll animation.
- * @param {string[]} facts - Array of fact sentences to scroll
+ * Render the enriched People / Place / Right Now panel sections.
+ * @param {object} data - full station data from /api/station/{id}
+ * @param {object|null} onThisDay - first matching On This Day event {year, text} or null
  */
-export function startFactsScroll(facts) {
-  const container = document.getElementById('panel-facts');
-  if (!container) return;
+export function renderPanelSections(data, onThisDay) {
+  renderPeopleSection(data);
+  renderPlaceSection(data, onThisDay);
+  renderRightNowSection(data);
+}
 
-  // Clear any existing scroll
-  if (factsScrollInterval) {
-    clearInterval(factsScrollInterval);
-    factsScrollInterval = null;
+function renderPeopleSection(data) {
+  const el = document.getElementById('panel-people-content');
+  if (!el) return;
+
+  const demo = data.demographics || {};
+  const lines = [];
+
+  const density = demo.population_density_per_km2;
+  if (density) {
+    lines.push(`<div class="data-line"><span class="data-label">DENSITY</span><span class="data-value">${density.toLocaleString()} / KM²</span></div>`);
   }
 
-  container.innerHTML = '';
+  const age = demo.median_age;
+  if (age) {
+    lines.push(`<div class="data-line"><span class="data-label">MED. AGE</span><span class="data-value">${age} YRS</span></div>`);
+  }
 
-  const inner = document.createElement('div');
-  inner.id = 'panel-facts-inner';
+  // Handle both old (string array) and new (object array) language formats
+  const langs = demo.top_languages || [];
+  if (langs.length > 0) {
+    const langItems = langs.slice(0, 2).map(l => {
+      if (typeof l === 'string') return l.toUpperCase();
+      return `${l.language.toUpperCase()} ${l.percent ? `(${l.percent}%)` : ''}`;
+    });
+    lines.push(`<div class="data-line lang-line"><span class="data-label">LANGUAGES</span><span class="data-value lang-value">${langItems.join(' · ')}</span></div>`);
+  }
 
-  const lines = facts.filter(Boolean);
-  if (lines.length === 0) return;
+  const income = demo.median_income_gbp || (data.demographics || {}).median_income_gbp;
+  if (income) {
+    lines.push(`<div class="data-line"><span class="data-label">MED. INCOME</span><span class="data-value">£${income.toLocaleString()}</span></div>`);
+  }
 
-  // Render lines twice so the scroll loops seamlessly
-  const renderLines = (arr) =>
-    arr.map((f) => `<div class="fact-line">&#8250; ${f}</div>`).join('');
+  el.innerHTML = lines.length > 0 ? lines.join('') : '<div class="data-line"><span class="data-value">—</span></div>';
+}
 
-  inner.innerHTML = renderLines(lines) + renderLines(lines);
-  container.appendChild(inner);
+function renderPlaceSection(data, onThisDay) {
+  const el = document.getElementById('panel-place-content');
+  if (!el) return;
 
-  // Calculate total height of one set of lines (approx 28px per line)
-  const lineHeight = 28;
-  const totalHeight = lines.length * lineHeight;
+  const demo = data.demographics || {};
+  const facts = demo.borough_facts;
+  const lines = [];
 
-  // ~25px per second
-  const duration = totalHeight / 25;
-  inner.style.animationDuration = `${duration}s`;
-  inner.style.animationName = 'scrollFacts';
-  inner.style.animationTimingFunction = 'linear';
-  inner.style.animationIterationCount = 'infinite';
+  if (Array.isArray(facts) && facts.length > 0) {
+    // Show all borough facts as static inscriptions
+    facts.forEach(fact => {
+      lines.push(`<div class="fact-static">&#8250; ${fact}</div>`);
+    });
+  } else {
+    // Fallback: old-format fact_sentence + history_sentence
+    if (demo.fact_sentence) lines.push(`<div class="fact-static">&#8250; ${demo.fact_sentence}</div>`);
+    if (demo.history_sentence) lines.push(`<div class="fact-static">&#8250; ${demo.history_sentence}</div>`);
+  }
 
-  // Store total height as CSS var for the keyframe
-  inner.style.setProperty('--scroll-height', `${totalHeight}px`);
+  if (onThisDay) {
+    const yearStr = onThisDay.year ? `${onThisDay.year}: ` : '';
+    lines.push(`<div class="fact-static on-this-day">&#8250; ON THIS DAY — ${yearStr}${onThisDay.text}</div>`);
+  }
+
+  el.innerHTML = lines.length > 0 ? lines.join('') : '<div class="fact-static">—</div>';
+}
+
+function renderRightNowSection(data) {
+  const el = document.getElementById('panel-now-content');
+  if (!el) return;
+
+  const lines = [];
+
+  const count = data.incident_count;
+  const type = data.top_incident_type;
+
+  if (count != null) {
+    lines.push(`<div class="data-line"><span class="data-label">INCIDENTS</span><span class="data-value">${count} THIS MONTH</span></div>`);
+    if (type) {
+      lines.push(`<div class="data-line"><span class="data-label">TOP TYPE</span><span class="data-value">${type.toUpperCase()}</span></div>`);
+    }
+  } else {
+    lines.push(`<div class="data-line"><span class="data-value">POLICE DATA UNAVAILABLE</span></div>`);
+  }
+
+  el.innerHTML = lines.join('');
 }

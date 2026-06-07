@@ -53,55 +53,70 @@ body {
   right: 0;
   top: 0;
   height: 100vh;
-  width: 380px;
+  width: 360px;
   background: #0d0d0d;
   border-left: 1px solid #ff990033;
   transform: translateX(100%);
   transition: transform 300ms ease-out;
   z-index: 1000;
-  padding: 24px;
+  padding: 20px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* Override Tailwind .hidden when panel is open */
 #station-panel.open {
   transform: translateX(0);
-  display: block !important;
+  display: flex !important;
 }
 
 #panel-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 14px;
+  right: 14px;
   font-size: 22px;
   color: #ff990088;
   cursor: pointer;
   line-height: 1;
   transition: color 150ms;
+  z-index: 10;
 }
 
 #panel-close:hover {
   color: #ff9900;
 }
 
+/* Panel header: station name + borough */
+#panel-header {
+  padding-right: 24px;
+  border-bottom: 1px solid #ff990044;
+  padding-bottom: 10px;
+}
+
 #panel-station-name {
-  font-size: 18px;
+  font-size: 16px;
   letter-spacing: 4px;
   color: #ff9900;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  padding-right: 24px;
   text-transform: uppercase;
-  border-bottom: 2px solid #ff990055;
+}
+
+#panel-borough-name {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: #ff990066;
+  margin-top: 3px;
+  text-transform: uppercase;
 }
 
 /* Arrivals rows */
 .arrival-row {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
+  padding: 5px 0;
   border-bottom: 1px solid #ff990022;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .arrival-destination {
@@ -132,44 +147,102 @@ body {
   50% { opacity: 0; }
 }
 
-/* Scrolling facts inner wrapper */
-#panel-facts-inner {
-  will-change: transform;
-}
-
-@keyframes scrollFacts {
-  from { transform: translateY(0); }
-  to   { transform: translateY(calc(-1 * var(--scroll-height))); }
-}
-
 /* Dot-matrix arrivals board */
 #panel-arrivals {
   font-family: 'Share Tech Mono', monospace;
   color: #ff9900;
   background: #0a0500;
   border: 1px solid #ff990055;
-  padding: 16px;
-  margin-bottom: 16px;
-  min-height: 120px;
-  font-size: 12px;
+  padding: 12px;
+  font-size: 11px;
   line-height: 1.8;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+/* ── Panel sections: People / Place / Right Now ────────── */
+
+.panel-section {
+  flex-shrink: 0;
+}
+
+.section-label {
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: #ff990055;
+  text-transform: uppercase;
+  border-top: 1px solid #ff990022;
+  padding-top: 8px;
+  margin-bottom: 6px;
+}
+
+.section-content {
+  font-size: 11px;
+  color: #ff9900aa;
+  line-height: 1.6;
+}
+
+/* Place section — static inscriptions, slightly brighter */
+#panel-place-content {
+  color: #ff9900cc;
+}
+
+/* Data lines for People / Right Now sections */
+.data-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+  font-size: 11px;
+  border-bottom: 1px solid #ff990011;
+}
+
+.data-label {
+  color: #ff990066;
+  font-size: 9px;
+  letter-spacing: 2px;
+  flex-shrink: 0;
+  padding-right: 8px;
+  align-self: center;
+}
+
+.data-value {
+  color: #ff9900cc;
+  text-align: right;
   letter-spacing: 1px;
 }
 
-/* Scrolling facts */
-#panel-facts {
-  overflow: hidden;
-  height: calc(100vh - 280px);
-  position: relative;
+/* Language line wraps differently */
+.lang-line {
+  flex-direction: column;
+  gap: 2px;
 }
 
-.fact-line {
+.lang-value {
+  text-align: left;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+/* Borough facts — static, no scroll */
+.fact-static {
   display: block;
-  color: #ff9900aa;
-  font-size: 13px;
-  line-height: 1.8;
-  padding: 4px 0;
+  color: #ff9900cc;
+  font-size: 11px;
+  line-height: 1.7;
+  padding: 3px 0;
   border-bottom: 1px solid #ff990011;
+}
+
+.fact-static:last-child {
+  border-bottom: none;
+}
+
+/* On This Day entry — slightly highlighted */
+.fact-static.on-this-day {
+  color: #ff9900;
+  border-top: 1px solid #ff990033;
+  margin-top: 4px;
+  padding-top: 6px;
 }
 
 /* ── Pressure gauge ───────────────────────────────────── */
@@ -256,6 +329,15 @@ body {
   filter: drop-shadow(0 0 6px #ff9900);
 }
 
+.district-station {
+  cursor: pointer;
+  transition: filter 150ms;
+}
+
+.district-station:hover {
+  filter: drop-shadow(0 0 6px #0eb882);
+}
+
 /* Leaflet popup overrides */
 .leaflet-popup-content-wrapper {
   background: #0d0d0d;
@@ -273,6 +355,16 @@ body {
 
 .leaflet-popup-close-button {
   color: #ff990088 !important;
+}
+
+/* ── Station label tooltip fix (M4) ──────────────────── */
+
+/* Remove the arrow pointer from Leaflet tooltips */
+.leaflet-tooltip-left::before,
+.leaflet-tooltip-right::before,
+.leaflet-tooltip-top::before,
+.leaflet-tooltip-bottom::before {
+  display: none !important;
 }
 
 /* ── Scrollbars ───────────────────────────────────────── */
@@ -295,9 +387,8 @@ body {
   background: #ff9900aa;
 }
 
-/* ── Station label typography (M5b) ──────────────────────── */
+/* ── Station label typography ─────────────────────────── */
 
-/* Base label style — overrides Leaflet tooltip defaults */
 .station-label {
   font-family: 'Share Tech Mono', monospace !important;
   color: #ff9900 !important;
@@ -309,9 +400,9 @@ body {
   text-transform: uppercase !important;
   padding: 0 !important;
   white-space: nowrap;
+  border-radius: 4px !important;
 }
 
-/* Leaflet wraps tooltip text in .leaflet-tooltip — override its defaults */
 .station-label.leaflet-tooltip {
   background: transparent !important;
   border: none !important;
@@ -319,7 +410,7 @@ body {
   color: #ff9900 !important;
 }
 
-/* Font-weight variants */
+/* Font-weight variants (50px steps matching Math.round(weight/50)*50) */
 .weight-300 { font-weight: 300 !important; }
 .weight-350 { font-weight: 350 !important; }
 .weight-400 { font-weight: 400 !important; }

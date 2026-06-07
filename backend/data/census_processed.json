@@ -1,0 +1,119 @@
+{
+  "Merton": {
+    "population_density": 5811,
+    "median_age": 37,
+    "top_languages": [
+      { "language": "Tamil", "percent": 3.8 },
+      { "language": "Polish", "percent": 2.1 },
+      { "language": "Urdu", "percent": 1.9 }
+    ]
+  },
+  "Wandsworth": {
+    "population_density": 7845,
+    "median_age": 35,
+    "top_languages": [
+      { "language": "French", "percent": 2.8 },
+      { "language": "Spanish", "percent": 2.6 },
+      { "language": "Polish", "percent": 2.2 }
+    ]
+  },
+  "Hammersmith & Fulham": {
+    "population_density": 8520,
+    "median_age": 34,
+    "top_languages": [
+      { "language": "Polish", "percent": 4.2 },
+      { "language": "French", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.8 }
+    ]
+  },
+  "Kensington & Chelsea": {
+    "population_density": 13100,
+    "median_age": 37,
+    "top_languages": [
+      { "language": "French", "percent": 4.8 },
+      { "language": "Arabic", "percent": 4.1 },
+      { "language": "Spanish", "percent": 3.9 }
+    ]
+  },
+  "Westminster": {
+    "population_density": 10100,
+    "median_age": 38,
+    "top_languages": [
+      { "language": "French", "percent": 4.2 },
+      { "language": "Arabic", "percent": 3.6 },
+      { "language": "Spanish", "percent": 3.1 }
+    ]
+  },
+  "City of London": {
+    "population_density": 5100,
+    "median_age": 41,
+    "top_languages": [
+      { "language": "French", "percent": 3.8 },
+      { "language": "Chinese", "percent": 3.1 },
+      { "language": "Spanish", "percent": 2.9 }
+    ]
+  },
+  "Tower Hamlets": {
+    "population_density": 16700,
+    "median_age": 31,
+    "top_languages": [
+      { "language": "Bengali", "percent": 32.1 },
+      { "language": "Somali", "percent": 3.2 },
+      { "language": "Arabic", "percent": 2.4 }
+    ]
+  },
+  "Newham": {
+    "population_density": 9900,
+    "median_age": 30,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 5.4 },
+      { "language": "Urdu", "percent": 4.8 },
+      { "language": "Bengali", "percent": 4.5 }
+    ]
+  },
+  "Barking & Dagenham": {
+    "population_density": 5900,
+    "median_age": 32,
+    "top_languages": [
+      { "language": "Bengali", "percent": 3.8 },
+      { "language": "Romanian", "percent": 3.6 },
+      { "language": "Urdu", "percent": 3.2 }
+    ]
+  },
+  "Havering": {
+    "population_density": 1860,
+    "median_age": 41,
+    "top_languages": [
+      { "language": "Polish", "percent": 2.8 },
+      { "language": "Romanian", "percent": 2.1 },
+      { "language": "Hindi", "percent": 1.4 }
+    ]
+  },
+  "Hounslow": {
+    "population_density": 3780,
+    "median_age": 34,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 7.4 },
+      { "language": "Gujarati", "percent": 5.8 },
+      { "language": "Urdu", "percent": 4.9 }
+    ]
+  },
+  "Richmond upon Thames": {
+    "population_density": 3240,
+    "median_age": 40,
+    "top_languages": [
+      { "language": "Polish", "percent": 2.9 },
+      { "language": "Spanish", "percent": 2.4 },
+      { "language": "French", "percent": 2.1 }
+    ]
+  },
+  "Ealing": {
+    "population_density": 4970,
+    "median_age": 35,
+    "top_languages": [
+      { "language": "Punjabi", "percent": 6.8 },
+      { "language": "Somali", "percent": 5.1 },
+      { "language": "Polish", "percent": 4.1 }
+    ]
+  }
+}

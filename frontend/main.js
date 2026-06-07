@@ -1,5 +1,5 @@
 import { initBloodstream } from './bloodstream.js';
-import { renderArrivals, startFactsScroll } from './panel.js';
+import { renderArrivals, renderPanelSections } from './panel.js';
 import { initGauge, updateGauge } from './gauge.js';
 
 // ── Config ────────────────────────────────────────────────────────────────────
@@ -8,12 +8,15 @@ const POLL_INTERVAL = 20000;
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let trainState = { fetched_at: null, trains: [] };
-let stationData = {};      // keyed by station_id
+let stationData = {};      // keyed by station_id, all lines
 let pressureState = {};
 const stationMarkers = {};  // keyed by station_id
 
 // ── Map init ──────────────────────────────────────────────────────────────────
-const map = L.map('map', { zoomControl: false }).setView([51.52, -0.09], 12);
+const map = L.map('map', { zoomControl: false });
+
+// Will be set once stations load; start with a rough London view
+map.setView([51.505, -0.09], 11);
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   attribution:
@@ -23,7 +26,6 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   maxZoom: 20,
 }).addTo(map);
 
-// Move zoom control to bottom-right, away from the gauge and title
 L.control.zoom({ position: 'bottomright' }).addTo(map);
 
 // ── Atmosphere tint ───────────────────────────────────────────────────────────
@@ -34,13 +36,10 @@ function updateAtmosphere() {
   const lat = centre.lat;
   let tint;
   if (lat < 51.49) {
-    // Brixton area — warm red-black
     tint = 'rgba(40, 5, 0, 0.15)';
   } else if (lat <= 51.52) {
-    // Victoria / Green Park — cool blue-black
     tint = 'rgba(0, 5, 20, 0.12)';
   } else {
-    // North — amber-brown
     tint = 'rgba(20, 10, 0, 0.13)';
   }
   if (atmosphereTint) atmosphereTint.style.backgroundColor = tint;
@@ -71,22 +70,24 @@ async function loadStations() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const stations = await res.json();
 
-    const lineCoords = [];
+    const victoriaCoords = [];
+    const districtCoords = [];
 
     stations.forEach((station) => {
       const station_id = station.id;
-      const { name, lat, lng, halo_hex } = station;
+      const { name, lat, lng, halo_hex, line } = station;
       stationData[station_id] = station;
 
-      const color = halo_hex || '#ff9900';
+      const color = halo_hex || (line === 'district' ? '#0eb882' : '#ff9900');
+      const cssClass = line === 'district' ? 'district-station' : 'victoria-station';
 
       const marker = L.circleMarker([lat, lng], {
-        radius: 6,
+        radius: 5,
         color: color,
         fillColor: color,
         fillOpacity: 0.7,
         weight: 1.5,
-        className: 'victoria-station',
+        className: cssClass,
       }).addTo(map);
 
       marker.on('click', () => openPanel(station_id));
@@ -94,26 +95,29 @@ async function loadStations() {
       marker.bindTooltip(name, {
         permanent: true,
         direction: 'right',
-        className: `station-label weight-${fontWeight}`,
+        className: `station-label weight-${Math.round(fontWeight / 50) * 50}`,
       });
 
       stationMarkers[station_id] = marker;
-      lineCoords.push([lat, lng]);
+
+      if (line === 'victoria') {
+        victoriaCoords.push([lat, lng]);
+      } else {
+        districtCoords.push([lat, lng]);
+      }
     });
 
-    // Draw the faint "vein wall" polyline connecting stations in sequence
-    if (lineCoords.length > 1) {
-      L.polyline(lineCoords, {
-        color: '#ff990033',
-        weight: 2,
-        opacity: 0.3,
-      }).addTo(map);
+    // Auto-fit map bounds to all stations from both lines (M3d / fixes Brixton+Walthamstow cutoff)
+    const allCoords = [...victoriaCoords, ...districtCoords];
+    if (allCoords.length > 0) {
+      const bounds = L.latLngBounds(allCoords);
+      map.fitBounds(bounds, { padding: [50, 50] });
     }
 
-    // Kick off the bloodstream art layer now that stations are loaded
+    // Kick off the bloodstream animation
     const bloodstream = initBloodstream(map, canvas, () => trainState, () => stationData);
     bloodstream.start();
-    window.__bloodstream = bloodstream; // expose for poll refresh
+    window.__bloodstream = bloodstream;
   } catch (err) {
     console.error('[main] Failed to load stations:', err);
   }
@@ -153,73 +157,64 @@ function startPolling() {
 async function openPanel(stationId) {
   const panel = document.getElementById('station-panel');
   const nameEl = document.getElementById('panel-station-name');
+  const boroughEl = document.getElementById('panel-borough-name');
   const arrivalsEl = document.getElementById('panel-arrivals');
-  const factsEl = document.getElementById('panel-facts');
 
-  // Remove hidden (Tailwind utility) so transitions work
   panel.classList.remove('hidden');
-  // Force a reflow before adding open so the CSS transition fires
   panel.getBoundingClientRect();
   panel.classList.add('open');
 
   const cached = stationData[stationId];
   nameEl.textContent = cached ? cached.name.toUpperCase() : stationId;
+  boroughEl.textContent = cached ? (cached.borough || '').toUpperCase() : '';
   arrivalsEl.textContent = 'FETCHING...';
-  factsEl.innerHTML = '';
+
+  // Clear sections
+  ['panel-people-content', 'panel-place-content', 'panel-now-content'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '<div class="data-line"><span class="data-value">—</span></div>';
+  });
 
   try {
-    const res = await fetch(`${BACKEND}/api/station/${stationId}`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
+    // Fetch station data and arrivals in parallel
+    const [stationRes, arrRes, onThisDayRes] = await Promise.allSettled([
+      fetch(`${BACKEND}/api/station/${stationId}`),
+      fetch(`${BACKEND}/api/station/${stationId}/arrivals`),
+      fetch(`${BACKEND}/api/on-this-day`),
+    ]);
 
-    // Update stationData cache
-    stationData[stationId] = { ...stationData[stationId], ...data };
+    let data = cached || {};
+    if (stationRes.status === 'fulfilled' && stationRes.value.ok) {
+      data = await stationRes.value.json();
+      stationData[stationId] = { ...stationData[stationId], ...data };
+      nameEl.textContent = (data.name || cached?.name || stationId).toUpperCase();
+      boroughEl.textContent = (data.borough || cached?.borough || '').toUpperCase();
+    }
 
-    // Arrivals board — fetch live arrivals from TfL via backend
-    const stationName = data.name || (cached ? cached.name : stationId);
+    // Arrivals board
     let arrivals = [];
-    try {
-      const arrRes = await fetch(`${BACKEND}/api/station/${stationId}/arrivals`);
-      if (arrRes.ok) arrivals = await arrRes.json();
-    } catch (_) {}
-    renderArrivals(arrivals, stationName);
+    if (arrRes.status === 'fulfilled' && arrRes.value.ok) {
+      arrivals = await arrRes.value.json();
+    }
+    renderArrivals(arrivals, data.name || stationId);
 
-    // Facts — pull from nested demographics/amenities objects
-    const demo = data.demographics || {};
-    const amenities = data.amenities || {};
-    const sentences = [
-      demo.fact_sentence,
-      demo.history_sentence,
-      amenities.amenity_sentence,
-    ].filter(Boolean);
-
-    // Wikipedia "On This Day" fetch — look for London/Underground mentions
-    try {
-      const now = new Date();
-      const MM = String(now.getMonth() + 1).padStart(2, '0');
-      const DD = String(now.getDate()).padStart(2, '0');
-      const wikiRes = await fetch(
-        `https://en.wikipedia.org/api/rest_v1/feed/onthisday/events/${MM}/${DD}`
-      );
-      if (wikiRes.ok) {
-        const wikiData = await wikiRes.json();
-        const events = wikiData.events || [];
-        const londonKeywords = /london|underground|railway|tube|overground|metro/i;
-        const match = events.find(
-          (e) => e.text && londonKeywords.test(e.text)
-        );
-        if (match) {
-          const year = match.year ? `${match.year}: ` : '';
-          sentences.push(`ON THIS DAY — ${year}${match.text}`);
-        }
-      }
-    } catch (_wikiErr) {
-      // Non-critical — silently ignore Wikipedia fetch failures
+    // On This Day — find relevant event for this borough
+    let onThisDayEvent = null;
+    if (onThisDayRes.status === 'fulfilled' && onThisDayRes.value.ok) {
+      const otd = await onThisDayRes.value.json();
+      const events = otd.events || [];
+      const borough = (data.borough || '').toLowerCase();
+      const stationName = (data.name || '').toLowerCase();
+      // Try to find an event specifically mentioning this borough/station
+      onThisDayEvent = events.find(e => {
+        const text = (e.text || '').toLowerCase();
+        return text.includes(borough) || text.includes(stationName);
+      }) || events[0] || null;
     }
 
-    if (sentences.length > 0) {
-      startFactsScroll(sentences);
-    }
+    // Render enriched panel sections
+    renderPanelSections(data, onThisDayEvent);
+
   } catch (err) {
     console.error('[main] openPanel fetch failed:', err);
     arrivalsEl.textContent = 'DATA UNAVAILABLE';

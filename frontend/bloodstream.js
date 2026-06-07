@@ -1,58 +1,140 @@
 /**
- * bloodstream.js — M5a: The Bloodstream
+ * bloodstream.js — Two circulatory systems.
  *
- * The Victoria Line as a circulatory system.
- * Trains are amber boluses of light pushing through a vein.
- * Stations flare with demographic colour as trains approach.
+ * Victoria Line: amber boluses of light through a north-south aorta.
+ * District Line: teal boluses branching through the city's peripheral capillaries.
  */
 
-// Victoria Line stations south-to-north (sequence order)
-const VICTORIA_LINE_SEQUENCE = [
-  'brixton',
-  'stockwell',
-  'vauxhall',
-  'pimlico',
-  'victoria',
-  'sloane_square',       // not on Victoria Line — placeholder removed below
-  'st_james_park',       // not on Victoria Line — see note
-  'green_park',
-  'oxford_circus',
-  'warren_street',
-  'euston',
-  'kings_cross_st_pancras',
-  'highbury_islington',
-  'finsbury_park',
-  'seven_sisters',
-  'tottenham_hale',
-  'blackhorse_road',
-  'walthamstow_central',
-];
-
-// Actual Victoria Line stations in order (southbound: index 0 = Walthamstow, northbound: reversed)
-// We store them south→north so index 0 = Brixton
+// Victoria Line — south-to-north (corrected NaPTAN IDs matching victoria_line.json)
 const VICTORIA_SEQUENCE_IDS = [
   '940GZZLUBXN', // Brixton
   '940GZZLUSTK', // Stockwell
-  '940GZZLUVXL', // Vauxhall
+  '940GZZLUUXB', // Vauxhall
   '940GZZLUPCO', // Pimlico
   '940GZZLUVIC', // Victoria
   '940GZZLUGPK', // Green Park
   '940GZZLUOXC', // Oxford Circus
   '940GZZLUWRR', // Warren Street
-  '940GZZLUEUS', // Euston
+  '940GZZLUEAC', // Euston
   '940GZZLUKSX', // King's Cross St. Pancras
-  '940GZZLUHBU', // Highbury & Islington
+  '940GZZLUHBT', // Highbury & Islington
   '940GZZLUFPK', // Finsbury Park
-  '940GZZLUSEV', // Seven Sisters
+  '940GZZLUSES', // Seven Sisters
   '940GZZLUTOT', // Tottenham Hale
   '940GZZLUBLR', // Blackhorse Road
-  '940GZZLUWTM', // Walthamstow Central
+  '940GZZLUWWL', // Walthamstow Central
 ];
+
+// District Line branch sequences
+// Each array is an ordered list of station IDs for that branch segment
+const DISTRICT_BRANCHES = {
+  // Main spine: Wimbledon → Barking (visual backbone of the District line)
+  spine: [
+    '940GZZLUWIM', // Wimbledon
+    '940GZZLUWIP', // Wimbledon Park
+    '940GZZLUSWF', // Southfields
+    '940GZZLUEPY', // East Putney
+    '940GZZLUPYB', // Putney Bridge
+    '940GZZLUPSG', // Parsons Green
+    '940GZZLUFBY', // Fulham Broadway
+    '940GZZLUWBP', // West Brompton
+    '940GZZLUERC', // Earl's Court
+    '940GZZLUGTR', // Gloucester Road
+    '940GZZLUSKN', // South Kensington
+    '940GZZLUSSQ', // Sloane Square
+    '940GZZLUVIC', // Victoria
+    '940GZZLUSJP', // St James's Park
+    '940GZZLUWSM', // Westminster
+    '940GZZLUEMB', // Embankment
+    '940GZZLUTEM', // Temple
+    '940GZZLUBLF', // Blackfriars
+    '940GZZLUMSH', // Mansion House
+    '940GZZLUCST', // Cannon Street
+    '940GZZLUMMT', // Monument
+    '940GZZLUTOH', // Tower Hill
+    '940GZZLUADE', // Aldgate East
+    '940GZZLUWCH', // Whitechapel
+    '940GZZLUSTG', // Stepney Green
+    '940GZZLUMLE', // Mile End
+    '940GZZLUBWR', // Bow Road
+    '940GZZLUBBB', // Bromley-by-Bow
+    '940GZZLUWEH', // West Ham
+    '940GZZLUPLA', // Plaistow
+    '940GZZLUUPK', // Upton Park
+    '940GZZLUEHA', // East Ham
+    '940GZZLUBKG', // Barking
+  ],
+  // Upminster spur: Barking → Upminster
+  upminster: [
+    '940GZZLUBKG', // Barking
+    '940GZZLUUPN', // Upney
+    '940GZZLUBEC', // Becontree
+    '940GZZLUDGN', // Dagenham Heathway
+    '940GZZLUDGE', // Dagenham East
+    '940GZZLUELP', // Elm Park
+    '940GZZLUHCH', // Hornchurch
+    '940GZZLUUMB', // Upminster Bridge
+    '940GZZLUUPM', // Upminster
+  ],
+  // Richmond spur: Richmond → Earl's Court (via Hammersmith)
+  richmond: [
+    '940GZZLURIC', // Richmond
+    '940GZZLUKWG', // Kew Gardens
+    '940GZZLUGNY', // Gunnersbury
+    '940GZZLUTNG', // Turnham Green
+    '940GZZLUSTB', // Stamford Brook
+    '940GZZLURVP', // Ravenscourt Park
+    '940GZZLUHSD', // Hammersmith
+    '940GZZLUBRC', // Barons Court
+    '940GZZLUWBP', // West Brompton
+    '940GZZLUERC', // Earl's Court
+  ],
+  // Ealing Broadway spur: Ealing Broadway → Earl's Court (via Hammersmith)
+  ealing: [
+    '940GZZLUEBY', // Ealing Broadway
+    '940GZZLUECM', // Ealing Common
+    '940GZZLUACT', // Acton Town
+    '940GZZLUCYP', // Chiswick Park
+    '940GZZLUTNG', // Turnham Green
+    '940GZZLUHSD', // Hammersmith
+    '940GZZLUBRC', // Barons Court
+    '940GZZLUERC', // Earl's Court
+  ],
+  // Edgware Road horseshoe: Edgware Road → Earl's Court (via Notting Hill)
+  horseshoe: [
+    '940GZZLUEGR', // Edgware Road
+    '940GZZLUPAC', // Paddington
+    '940GZZLUBWT', // Bayswater
+    '940GZZLUNHG', // Notting Hill Gate
+    '940GZZLUHSK', // High Street Kensington
+    '940GZZLUERC', // Earl's Court
+  ],
+};
+
+// Priority order for branch matching (more specific branches first)
+const DISTRICT_BRANCH_PRIORITY = ['upminster', 'horseshoe', 'richmond', 'ealing', 'spine'];
 
 // Average inter-station travel time in ms (90 seconds)
 const AVG_TRAVEL_MS = 90000;
-// Flare activation window (ms before arrival)
 const FLARE_WINDOW_MS = 60000;
+
+// Victoria line colours
+const VICTORIA_BOLUS_COLOURS = {
+  core: 'rgba(255, 220, 100, ',
+  mid: 'rgba(255, 160, 40, ',
+  edge: 'rgba(255, 100, 20, 0)',
+  artery_outer: 'rgba(255, 160, 40, 0.12)',
+  artery_inner: 'rgba(255, 160, 40, 0.06)',
+};
+
+// District line colours
+const DISTRICT_BOLUS_COLOURS = {
+  core: 'rgba(100, 240, 200, ',
+  mid: 'rgba(14, 184, 130, ',
+  edge: 'rgba(0, 150, 110, 0)',
+  artery_outer: 'rgba(14, 184, 130, 0.15)',
+  artery_inner: 'rgba(14, 184, 130, 0.07)',
+};
 
 function hexToRgb(hex) {
   if (!hex) return { r: 255, g: 153, b: 0 };
@@ -78,70 +160,100 @@ function lerpPoint(p1, p2, t) {
 
 export function initBloodstream(map, canvas, getTrainState, getStationData) {
   const ctx = canvas.getContext('2d');
-  let stations = [];      // ordered array, index 0 = Brixton (south)
-  let boluses = [];
+
+  // Victoria line stations — ordered array south→north
+  let victoriaStations = [];
+
+  // District line — one ordered array per branch
+  let districtBranches = {
+    spine: [],
+    upminster: [],
+    richmond: [],
+    ealing: [],
+    horseshoe: [],
+  };
+
+  // All district station positions, keyed by station ID
+  let districtStationMap = {};
+
+  let victoriaBoluses = [];
+  let districtBoluses = [];
   let animFrame = null;
   let lastFetchedAt = null;
 
-  // Arrhythmia jitter per station (stable across frames)
   const jitterPhase = {};
 
-  // ── Position computation ────────────────────────────────────────────────────
+  // ── Helpers ─────────────────────────────────────────────────────────────────
+
+  function stationToPoint(s) {
+    const pt = map.latLngToContainerPoint([s.lat, s.lng]);
+    const rgb = hexToRgb(s.halo_hex);
+    if (!jitterPhase[s.id]) {
+      jitterPhase[s.id] = (Math.random() - 0.5) * 400;
+    }
+    return {
+      id: s.id || s.station_id,
+      name: s.name,
+      x: pt.x,
+      y: pt.y,
+      halo_hex: s.halo_hex || '#ffa028',
+      halo_rgb: rgb,
+      wealth_score: s.wealth_score || 0.5,
+      incident_jitter: s.incident_jitter || false,
+      lat: s.lat,
+      line: s.line,
+    };
+  }
+
+  // ── Position computation ─────────────────────────────────────────────────────
 
   function computePositions() {
-    const stationData = getStationData();
-    const entries = Object.values(stationData);
+    const allData = getStationData();
+    const entries = Object.values(allData);
     if (entries.length === 0) return;
 
-    // Build ordered list matching VICTORIA_SEQUENCE_IDS
-    const ordered = [];
+    // Victoria line — build ordered array from VICTORIA_SEQUENCE_IDS
+    const victoriaEntries = entries.filter(e => e.line === 'victoria');
+    const vOrdered = [];
     for (const id of VICTORIA_SEQUENCE_IDS) {
-      const s = entries.find(e => e.station_id === id || e.id === id);
-      if (s) {
-        const pt = map.latLngToContainerPoint([s.lat, s.lng]);
-        const rgb = hexToRgb(s.halo_hex);
-        if (!jitterPhase[id]) {
-          jitterPhase[id] = (Math.random() - 0.5) * 400; // ±200ms
-        }
-        ordered.push({
-          id: s.station_id || s.id,
-          name: s.name,
-          x: pt.x,
-          y: pt.y,
-          halo_hex: s.halo_hex || '#ffa028',
-          halo_rgb: rgb,
-          wealth_score: s.wealth_score || 0.5,
-          sequence: ordered.length,
-          incident_jitter: s.incident_jitter || false,
-          lat: s.lat,
-        });
-      }
+      const s = victoriaEntries.find(e => (e.id || e.station_id) === id);
+      if (s) vOrdered.push(stationToPoint(s));
+    }
+    if (vOrdered.length >= 3) {
+      victoriaStations = vOrdered;
+    } else {
+      // Fallback: lat sort
+      victoriaStations = victoriaEntries
+        .filter(e => e.lat)
+        .sort((a, b) => a.lat - b.lat)
+        .map(stationToPoint);
     }
 
-    // Fallback: if sequence IDs don't match, sort by lat descending (north at end)
-    if (ordered.length < 3) {
-      const sorted = entries
-        .filter(e => e.lat)
-        .sort((a, b) => a.lat - b.lat); // south first (lower lat)
-      stations = sorted.map((s, i) => {
-        const pt = map.latLngToContainerPoint([s.lat, s.lng]);
-        const rgb = hexToRgb(s.halo_hex);
-        return {
-          id: s.station_id || s.id,
-          name: s.name,
-          x: pt.x,
-          y: pt.y,
-          halo_hex: s.halo_hex || '#ffa028',
-          halo_rgb: rgb,
-          wealth_score: s.wealth_score || 0.5,
-          sequence: i,
-          incident_jitter: s.incident_jitter || false,
-          lat: s.lat,
-        };
-      });
-    } else {
-      stations = ordered;
+    // District line — build ordered arrays for each branch
+    const districtEntries = entries.filter(e => e.line === 'district');
+    districtStationMap = {};
+    for (const s of districtEntries) {
+      const pt = stationToPoint(s);
+      districtStationMap[pt.id] = pt;
     }
+
+    for (const [branchName, idList] of Object.entries(DISTRICT_BRANCHES)) {
+      districtBranches[branchName] = idList
+        .map(id => districtStationMap[id])
+        .filter(Boolean);
+    }
+  }
+
+  // ── Find branch for a District line bolus ───────────────────────────────────
+
+  function findDistrictBranch(towards_station_id) {
+    for (const branchName of DISTRICT_BRANCH_PRIORITY) {
+      const seq = DISTRICT_BRANCHES[branchName];
+      if (seq.includes(towards_station_id)) {
+        return branchName;
+      }
+    }
+    return 'spine';
   }
 
   // ── Bolus state management ──────────────────────────────────────────────────
@@ -150,56 +262,69 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     const ts = getTrainState();
     if (!ts || !ts.trains) return;
 
-    boluses = ts.trains
-      .filter(t => t.time_to_station != null)
-      .map(t => {
-        // Find target station index in our ordered array
-        const targetIdx = stations.findIndex(
-          s => s.id === t.station_id || s.name === t.station_name
+    victoriaBoluses = [];
+    districtBoluses = [];
+
+    for (const t of ts.trains) {
+      if (t.time_to_station_seconds == null) continue;
+
+      if (t.line === 'victoria') {
+        const targetIdx = victoriaStations.findIndex(
+          s => s.id === t.towards_station_id
         );
-        if (targetIdx < 0) return null;
-
-        const direction = t.direction || 'northbound';
-
-        return {
+        if (targetIdx < 0) continue;
+        victoriaBoluses.push({
           vehicle_id: t.vehicle_id,
           target_station_idx: targetIdx,
-          time_to_station_ms: (t.time_to_station || 0) * 1000,
+          time_to_station_ms: t.time_to_station_seconds * 1000,
           last_updated: Date.now(),
-          direction,
-        };
-      })
-      .filter(Boolean);
+          direction: t.direction || 'northbound',
+        });
+
+      } else if (t.line === 'district') {
+        const branchName = findDistrictBranch(t.towards_station_id);
+        const seq = districtBranches[branchName];
+        if (!seq || seq.length === 0) continue;
+        const targetIdx = seq.findIndex(s => s.id === t.towards_station_id);
+        if (targetIdx < 0) continue;
+        districtBoluses.push({
+          vehicle_id: t.vehicle_id,
+          branch: branchName,
+          target_station_idx: targetIdx,
+          time_to_station_ms: t.time_to_station_seconds * 1000,
+          last_updated: Date.now(),
+          direction: t.direction || 'westbound',
+        });
+      }
+    }
   }
 
-  // Get current parametric position [0,1] of a bolus along its segment
   function getBolusT(bolus) {
     const elapsed = Date.now() - bolus.last_updated;
     const remaining = Math.max(0, bolus.time_to_station_ms - elapsed);
-    // t=0: just left previous station; t=1: at target
     return Math.max(0, Math.min(1, 1 - remaining / AVG_TRAVEL_MS));
   }
 
-  function getBolusScreenPos(bolus, tOverride) {
+  function getVictoriaBolusScreenPos(bolus, tOverride) {
     const t = tOverride !== undefined ? tOverride : getBolusT(bolus);
     const targetIdx = bolus.target_station_idx;
-
-    // Determine previous station based on direction
-    let prevIdx;
-    if (bolus.direction === 'northbound') {
-      prevIdx = targetIdx - 1;
-    } else {
-      prevIdx = targetIdx + 1;
+    const prevIdx = bolus.direction === 'northbound' ? targetIdx - 1 : targetIdx + 1;
+    if (prevIdx < 0 || prevIdx >= victoriaStations.length) {
+      return { x: victoriaStations[targetIdx].x, y: victoriaStations[targetIdx].y };
     }
+    return lerpPoint(victoriaStations[prevIdx], victoriaStations[targetIdx], t);
+  }
 
-    if (prevIdx < 0 || prevIdx >= stations.length) {
-      // At terminal — just sit at target
-      return { x: stations[targetIdx].x, y: stations[targetIdx].y };
+  function getDistrictBolusScreenPos(bolus, tOverride) {
+    const t = tOverride !== undefined ? tOverride : getBolusT(bolus);
+    const seq = districtBranches[bolus.branch];
+    if (!seq || seq.length === 0) return null;
+    const targetIdx = bolus.target_station_idx;
+    const prevIdx = bolus.direction === 'westbound' ? targetIdx - 1 : targetIdx + 1;
+    if (prevIdx < 0 || prevIdx >= seq.length) {
+      return { x: seq[targetIdx].x, y: seq[targetIdx].y };
     }
-
-    const prev = stations[prevIdx];
-    const target = stations[targetIdx];
-    return lerpPoint(prev, target, t);
+    return lerpPoint(seq[prevIdx], seq[targetIdx], t);
   }
 
   function getBolusTimeToStation(bolus) {
@@ -207,85 +332,79 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     return Math.max(0, bolus.time_to_station_ms - elapsed);
   }
 
-  // ── Drawing ─────────────────────────────────────────────────────────────────
+  // ── Drawing — Victoria ───────────────────────────────────────────────────────
 
-  function drawArtery() {
-    if (stations.length < 2) return;
-
-    // Outer vein wall — barely visible
+  function drawArtery(stationList, colours) {
+    if (stationList.length < 2) return;
+    // Outer vein wall
     ctx.beginPath();
-    ctx.moveTo(stations[0].x, stations[0].y);
-    for (let i = 1; i < stations.length; i++) {
-      const prev = stations[i - 1];
-      const curr = stations[i];
+    ctx.moveTo(stationList[0].x, stationList[0].y);
+    for (let i = 1; i < stationList.length; i++) {
+      const prev = stationList[i - 1];
+      const curr = stationList[i];
       const mx = (prev.x + curr.x) / 2;
       const my = (prev.y + curr.y) / 2;
       ctx.quadraticCurveTo(prev.x, prev.y, mx, my);
     }
-    ctx.lineTo(stations[stations.length - 1].x, stations[stations.length - 1].y);
-    ctx.strokeStyle = 'rgba(255, 160, 40, 0.12)';
+    ctx.lineTo(stationList[stationList.length - 1].x, stationList[stationList.length - 1].y);
+    ctx.strokeStyle = colours.artery_outer;
     ctx.lineWidth = 3;
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
     ctx.stroke();
 
-    // Inner brighter centre line
+    // Inner bright line
     ctx.beginPath();
-    ctx.moveTo(stations[0].x, stations[0].y);
-    for (let i = 1; i < stations.length; i++) {
-      const prev = stations[i - 1];
-      const curr = stations[i];
+    ctx.moveTo(stationList[0].x, stationList[0].y);
+    for (let i = 1; i < stationList.length; i++) {
+      const prev = stationList[i - 1];
+      const curr = stationList[i];
       const mx = (prev.x + curr.x) / 2;
       const my = (prev.y + curr.y) / 2;
       ctx.quadraticCurveTo(prev.x, prev.y, mx, my);
     }
-    ctx.lineTo(stations[stations.length - 1].x, stations[stations.length - 1].y);
-    ctx.strokeStyle = 'rgba(255, 160, 40, 0.06)';
+    ctx.lineTo(stationList[stationList.length - 1].x, stationList[stationList.length - 1].y);
+    ctx.strokeStyle = colours.artery_inner;
     ctx.lineWidth = 1;
     ctx.stroke();
   }
 
-  function drawBolus(pos, opacityMultiplier = 1) {
+  function drawBolus(pos, colours, opacityMultiplier = 1) {
     const { x, y } = pos;
     const grad = ctx.createRadialGradient(x, y, 0, x, y, 18);
-    grad.addColorStop(0,   `rgba(255, 220, 100, ${0.95 * opacityMultiplier})`);
-    grad.addColorStop(0.44, `rgba(255, 160, 40,  ${0.6  * opacityMultiplier})`);
-    grad.addColorStop(1,   `rgba(255, 100, 20,  0)`);
-
+    grad.addColorStop(0,    `${colours.core}${0.95 * opacityMultiplier})`);
+    grad.addColorStop(0.44, `${colours.mid}${0.6  * opacityMultiplier})`);
+    grad.addColorStop(1,    colours.edge);
     ctx.beginPath();
     ctx.arc(x, y, 18, 0, Math.PI * 2);
     ctx.fillStyle = grad;
     ctx.fill();
   }
 
-  function drawBoluses() {
+  function drawBolusSet(boluses, getPos, colours) {
     for (const bolus of boluses) {
-      if (bolus.target_station_idx < 0 || bolus.target_station_idx >= stations.length) continue;
       const t = getBolusT(bolus);
-      const pos = getBolusScreenPos(bolus, t);
+      const pos = getPos(bolus, t);
+      if (!pos) continue;
 
-      // Motion trail — ghost copies behind the bolus
       const trailOffsets = [0.06, 0.04, 0.02];
       const trailOpacities = [0.1, 0.2, 0.3];
       for (let i = 0; i < 3; i++) {
         const trailT = Math.max(0, t - trailOffsets[i]);
-        const trailPos = getBolusScreenPos(bolus, trailT);
-        drawBolus(trailPos, trailOpacities[i]);
+        const trailPos = getPos(bolus, trailT);
+        if (trailPos) drawBolus(trailPos, colours, trailOpacities[i]);
       }
-
-      // Main bolus
-      drawBolus(pos, 1);
+      drawBolus(pos, colours, 1);
     }
   }
 
-  function drawFlares() {
+  function drawFlares(stationList, bolusSet, getPos) {
     const now = Date.now();
-
-    for (let si = 0; si < stations.length; si++) {
-      const station = stations[si];
+    for (let si = 0; si < stationList.length; si++) {
+      const station = stationList[si];
       const { r, g, b } = station.halo_rgb;
 
-      // Always draw a faint ambient pulse
+      // Ambient pulse
       const ambientPhase = (now / 3000 + si * 0.7) % 1;
       const ambientR = lerp(3, 6, Math.abs(Math.sin(ambientPhase * Math.PI)));
       const ambientOpacity = 0.18 + 0.08 * Math.sin(ambientPhase * Math.PI * 2);
@@ -295,20 +414,31 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // Check if any bolus is within FLARE_WINDOW_MS of this station
+      // Check approaching boluses
       let closestProximity = -1;
-      for (const bolus of boluses) {
-        if (bolus.target_station_idx !== si) continue;
+      for (const bolus of bolusSet) {
+        let atThisStation = false;
+        if (bolus.branch !== undefined) {
+          // District line
+          const seq = districtBranches[bolus.branch];
+          if (seq && seq[bolus.target_station_idx] && seq[bolus.target_station_idx].id === station.id) {
+            atThisStation = true;
+          }
+        } else {
+          // Victoria line
+          if (bolus.target_station_idx === si) atThisStation = true;
+        }
+
+        if (!atThisStation) continue;
         const tta = getBolusTimeToStation(bolus);
         if (tta <= FLARE_WINDOW_MS) {
-          const proximity = 1 - tta / FLARE_WINDOW_MS; // 0=60s away, 1=arrived
+          const proximity = 1 - tta / FLARE_WINDOW_MS;
           if (proximity > closestProximity) closestProximity = proximity;
         }
       }
 
       if (closestProximity < 0) continue;
 
-      // Arrhythmia jitter
       let jitter = 0;
       if (station.incident_jitter) {
         jitter = jitterPhase[station.id] || 0;
@@ -317,8 +447,6 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
       }
 
       const p = closestProximity;
-
-      // Ring 1
       const r1 = lerp(6, 40, p);
       const o1 = lerp(0.8, 0, p);
       ctx.beginPath();
@@ -327,36 +455,58 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Ring 2
       const r2 = lerp(6, 60, p) * 0.7;
-      const o2 = o1 * 0.5;
       ctx.beginPath();
       ctx.arc(station.x, station.y, r2, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${o2})`;
+      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${o1 * 0.5})`;
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
-      // Ring 3
       const r3 = lerp(6, 80, p) * 0.4;
-      const o3 = o1 * 0.25;
       ctx.beginPath();
       ctx.arc(station.x, station.y, r3, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${o3})`;
+      ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${o1 * 0.25})`;
       ctx.lineWidth = 1;
       ctx.stroke();
     }
   }
 
-  // ── Main draw loop ──────────────────────────────────────────────────────────
+  // ── Main draw loop ───────────────────────────────────────────────────────────
 
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (stations.length > 1) {
-      drawArtery();
-      drawFlares();
-      drawBoluses();
+    // Victoria line
+    if (victoriaStations.length > 1) {
+      drawArtery(victoriaStations, VICTORIA_BOLUS_COLOURS);
+      drawFlares(victoriaStations, victoriaBoluses, getVictoriaBolusScreenPos);
+      drawBolusSet(victoriaBoluses, getVictoriaBolusScreenPos, VICTORIA_BOLUS_COLOURS);
     }
+
+    // District line — draw each branch
+    for (const [branchName, branchStations] of Object.entries(districtBranches)) {
+      if (branchStations.length < 2) continue;
+      const branchColours = {
+        ...DISTRICT_BOLUS_COLOURS,
+        // Spur branches slightly less opaque than spine
+        artery_outer: branchName === 'spine'
+          ? DISTRICT_BOLUS_COLOURS.artery_outer
+          : 'rgba(14, 184, 130, 0.08)',
+        artery_inner: branchName === 'spine'
+          ? DISTRICT_BOLUS_COLOURS.artery_inner
+          : 'rgba(14, 184, 130, 0.04)',
+      };
+      drawArtery(branchStations, branchColours);
+    }
+
+    // District flares — draw for all district stations
+    const allDistrictStations = Object.values(districtStationMap);
+    if (allDistrictStations.length > 0) {
+      drawFlares(allDistrictStations, districtBoluses, getDistrictBolusScreenPos);
+    }
+
+    // District boluses
+    drawBolusSet(districtBoluses, getDistrictBolusScreenPos, DISTRICT_BOLUS_COLOURS);
 
     // Check for new train data
     const ts = getTrainState();
@@ -368,7 +518,7 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     animFrame = requestAnimationFrame(draw);
   }
 
-  // ── Map event wiring ────────────────────────────────────────────────────────
+  // ── Map event wiring ─────────────────────────────────────────────────────────
 
   map.on('moveend zoomend', () => {
     computePositions();
@@ -378,7 +528,7 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     computePositions();
   });
 
-  // ── Public API ──────────────────────────────────────────────────────────────
+  // ── Public API ───────────────────────────────────────────────────────────────
 
   return {
     start() {
