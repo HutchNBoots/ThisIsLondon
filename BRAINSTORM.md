@@ -220,3 +220,52 @@ TfL arrivals data gives `towards_station_id` and a generic direction, not branch
 2. Shared junction stations (Earl's Court, Hammersmith, Turnham Green) → routed to the Wimbledon spine (highest visual priority)
 
 This means a Richmond-branch train approaching Earl's Court may visually arrive from the Wimbledon direction. Acceptable for a data art installation — the routing approximation affects perhaps 5% of boluses at any moment. Documented in DECISIONS.md.
+
+---
+
+## Phase 3 CX Brainstorm — What does a visitor actually experience?
+
+_Added 2026-06-07. This section is about the customer experience arc, not features._
+
+### The three-minute journey
+
+Imagine someone opening the URL for the first time on their phone, standing on a platform:
+
+**0:00 — First impression.** Dark map. Two arteries pulse — one amber, one teal. Roundel markers dot the geography. Before they read anything, they feel something: this is a living system. The motion is unmistakably biological. They zoom in.
+
+**0:20 — Discovery.** They tap a roundel. The panel slides up (mobile) or in (desktop). They see arrival times — immediately useful. Below it: borough facts they didn't know. "One in three residents here was born outside the UK." They feel slightly surprised. That's the installation working.
+
+**0:45 — Exploration.** They start tapping other stations. Each borough has a different character. Tower Hamlets feels different from Richmond. They begin to feel the demographic gradient the tube compresses into a 45-minute ride.
+
+**1:30 — The thermal moment.** They switch to thermal mode. The map transforms — wealthy areas bloom white and gold. The familiar geography becomes unrecognisable and more honest. The map stops being a transport diagram and starts being a portrait of inequality.
+
+**2:00 — Sound.** They notice a quiet tone each time a bolus arrives at a station. Victoria line higher-pitched, District lower. They realise the installation has been playing a quiet composition since they opened it.
+
+**2:30 — Mode play.** They find the MODE button. Switch to green — the map becomes an emerald city. Blueprint mode makes it feel like infrastructure schematics. They screenshot it.
+
+**3:00 — They share it.** "Look at this."
+
+### CX principles
+
+1. **Immediate legibility.** Motion before explanation. The user should understand "trains are moving" without reading anything.
+2. **Layered depth.** Each additional interaction reveals a new layer. Nothing is dumped upfront.
+3. **Productive friction.** The thermal mode is a reward for those who explore.
+4. **The city as character.** Every feature should make London feel like a specific place, not a generic transport network.
+
+### Surprise Feature 1: Ghost Stations
+
+The London Underground has approximately 40 disused or closed stations — platforms sealed in the 1930s, bombed in the Blitz, left behind when lines were rerouted. Down Street (Churchill's wartime shelter), Brompton Road, York Road, King William Street.
+
+**What the user sees:** Faint, ghostly roundels at the geographic locations of abandoned stations — translucent, slightly flickering, drawn as half-opacity hollow rings. Clicking one opens a "sealed" panel: darker background, dimmer amber text, a single historical fact about why it closed. The arrivals board shows: NO SERVICE. The effect is a city haunted by its own infrastructure history.
+
+**Data required:** Static JSON of ~20 notable ghost stations with lat/lng and a closure fact. No API required.
+
+**Effort:** Low. One data file, a ghost marker variant, a sealed panel state.
+
+### Surprise Feature 2: Borough Pulse Rings
+
+Each station emits a slow ambient ring that expands outward and fades. The ring's **pulse rate** is driven by the borough's population density — Tower Hamlets pulses fast (dense), Richmond breathes slowly (spacious). Ring colour matches the station's halo colour.
+
+**What the user feels:** Without any label, the map communicates density. East-end stations throb. Outer suburban stations breathe. It is a demographic heartbeat made visible. At rush hour the bolus arrivals and pulse rings create overlapping rhythmic textures — the canvas becomes a score.
+
+**Effort:** Low. Pure canvas animation. Borough density is already in demographics.json.

@@ -472,3 +472,136 @@ body {
     display: none !important;
   }
 }
+
+/* ── Title controls group ─────────────────────────────────── */
+
+#title-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+#mode-toggle,
+#thermal-toggle {
+  background: none;
+  border: none;
+  color: #ff9900;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  opacity: 0.6;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 150ms;
+  pointer-events: all;
+}
+
+#mode-toggle:hover,
+#thermal-toggle:hover {
+  opacity: 1;
+}
+
+#thermal-toggle.active {
+  opacity: 1;
+  color: #ff6622;
+}
+
+/* ── Roundel markers ──────────────────────────────────────── */
+
+.roundel-marker {
+  background: none !important;
+  border: none !important;
+}
+
+/* ── Tube line polylines (drawn by Leaflet, not canvas) ───── */
+/* No CSS needed — styled via Leaflet options */
+
+/* ── Map colour modes ────────────────────────────────────── */
+
+body.mode-green #map {
+  filter: hue-rotate(120deg) saturate(0.75) brightness(0.9);
+}
+
+body.mode-green #gauge-bar::after {
+  background: linear-gradient(to top, #00cc66, #00cc6666);
+}
+
+body.mode-blue #map {
+  filter: hue-rotate(200deg) saturate(0.85) brightness(0.85);
+}
+
+body.mode-blue #gauge-bar::after {
+  background: linear-gradient(to top, #0088ff, #0088ff66);
+}
+
+body.mode-mono #map {
+  filter: grayscale(90%) brightness(0.75);
+}
+
+body.mode-mono #gauge-bar::after {
+  background: linear-gradient(to top, #aaaaaa, #aaaaaa66);
+}
+
+/* ── Compare panel ───────────────────────────────────────── */
+
+#compare-toggle {
+  background: none;
+  border: 1px solid #ff990033;
+  color: #ff990066;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  padding: 3px 6px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: all 150ms;
+}
+
+#compare-toggle:hover,
+#compare-toggle.active {
+  color: #ff9900;
+  border-color: #ff990088;
+}
+
+#panel-compare-content {
+  border-top: 1px solid #ff990033;
+  padding-top: 8px;
+  font-size: 10px;
+}
+
+.compare-headers {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.compare-head {
+  color: #ff9900;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.compare-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr;
+  gap: 4px;
+  padding: 3px 0;
+  border-bottom: 1px solid #ff990011;
+}
+
+.compare-label {
+  color: #ff990055;
+  font-size: 8px;
+  letter-spacing: 1px;
+  align-self: center;
+}
+
+.compare-val {
+  color: #ff9900aa;
+  font-size: 9px;
+  text-align: center;
+  letter-spacing: 1px;
+}

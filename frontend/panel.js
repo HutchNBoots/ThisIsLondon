@@ -104,6 +104,59 @@ function renderPlaceSection(data, onThisDay) {
   el.innerHTML = lines.length > 0 ? lines.join('') : '<div class="fact-static">—</div>';
 }
 
+/**
+ * Render a side-by-side comparison of two stations in the compare section.
+ */
+export function renderComparison(dataA, dataB) {
+  const el = document.getElementById('panel-compare-content');
+  if (!el) return;
+
+  const dA = dataA.demographics || {};
+  const dB = dataB.demographics || {};
+
+  function val(obj, key, fmt) {
+    const v = obj[key];
+    return v != null ? fmt(v) : '—';
+  }
+
+  const rows = [
+    ['BOROUGH',  dataA.borough || '—',  dataB.borough || '—'],
+    ['DENSITY',  val(dA, 'population_density_per_km2', v => `${v.toLocaleString()}/km²`),
+                 val(dB, 'population_density_per_km2', v => `${v.toLocaleString()}/km²`)],
+    ['INCOME',   val(dA, 'median_income_gbp', v => `£${v.toLocaleString()}`),
+                 val(dB, 'median_income_gbp', v => `£${v.toLocaleString()}`)],
+    ['MED AGE',  val(dA, 'median_age', v => `${v} yrs`),
+                 val(dB, 'median_age', v => `${v} yrs`)],
+    ['LIFE EXP', val(dA, 'life_expectancy', v => `${v} yrs`),
+                 val(dB, 'life_expectancy', v => `${v} yrs`)],
+    ['GREEN SPC',val(dA, 'green_space_pct', v => `${v}%`),
+                 val(dB, 'green_space_pct', v => `${v}%`)],
+  ];
+
+  const html = rows.map(([label, a, b]) =>
+    `<div class="compare-row">
+      <span class="compare-label">${label}</span>
+      <span class="compare-val">${a.toUpperCase()}</span>
+      <span class="compare-val">${b.toUpperCase()}</span>
+    </div>`
+  ).join('');
+
+  el.innerHTML = `
+    <div class="compare-headers">
+      <span></span>
+      <span class="compare-head">${(dataA.name || '').toUpperCase()}</span>
+      <span class="compare-head">${(dataB.name || '').toUpperCase()}</span>
+    </div>
+    ${html}
+  `;
+  el.style.display = 'block';
+}
+
+export function hideComparison() {
+  const el = document.getElementById('panel-compare-content');
+  if (el) el.style.display = 'none';
+}
+
 function renderRightNowSection(data) {
   const el = document.getElementById('panel-now-content');
   if (!el) return;

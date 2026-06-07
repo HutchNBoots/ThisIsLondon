@@ -1,5 +1,5 @@
-import { initBloodstream, setSoundMuted } from './bloodstream.js';
-import { renderArrivals, renderPanelSections } from './panel.js';
+import { initBloodstream, setSoundMuted, setThermalMode, VICTORIA_SEQUENCE_IDS, DISTRICT_BRANCHES } from './bloodstream.js';
+import { renderArrivals, renderPanelSections, renderComparison, hideComparison } from './panel.js';
 import { initGauge, updateGauge } from './gauge.js';
 
 // ── Config ────────────────────────────────────────────────────────────────────
@@ -11,6 +11,10 @@ let trainState = { fetched_at: null, trains: [] };
 let stationData = {};      // keyed by station_id, all lines
 let pressureState = {};
 const stationMarkers = {};  // keyed by station_id
+let compareMode = false;
+let compareStationId = null;
+let primaryStationId = null;
+let primaryStationData = null;
 
 // ── Map init ──────────────────────────────────────────────────────────────────
 const map = L.map('map', { zoomControl: false });
@@ -78,17 +82,21 @@ async function loadStations() {
       const { name, lat, lng, halo_hex, line } = station;
       stationData[station_id] = station;
 
-      const color = halo_hex || (line === 'district' ? '#0eb882' : '#ff9900');
       const cssClass = line === 'district' ? 'district-station' : 'victoria-station';
+      const roundelColour = line === 'district' ? '#007229' : '#009DDC';
+      const roundelSvg = `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="10" cy="10" r="8" fill="none" stroke="${roundelColour}" stroke-width="3"/>
+        <rect x="1.5" y="7.5" width="17" height="5" fill="${roundelColour}" rx="0.5"/>
+      </svg>`;
+      const icon = L.divIcon({
+        html: roundelSvg,
+        className: `roundel-marker ${cssClass}`,
+        iconSize: [20, 20],
+        iconAnchor: [10, 10],
+        tooltipAnchor: [12, 0],
+      });
 
-      const marker = L.circleMarker([lat, lng], {
-        radius: 5,
-        color: color,
-        fillColor: color,
-        fillOpacity: 0.7,
-        weight: 1.5,
-        className: cssClass,
-      }).addTo(map);
+      const marker = L.marker([lat, lng], { icon }).addTo(map);
 
       marker.on('click', () => openPanel(station_id));
       const fontWeight = station.font_weight || 400;
@@ -114,12 +122,42 @@ async function loadStations() {
       map.fitBounds(bounds, { padding: [50, 50] });
     }
 
+    // Draw official tube line polylines in TfL colours
+    drawTubePolylines();
+
     // Kick off the bloodstream animation
     const bloodstream = initBloodstream(map, canvas, () => trainState, () => stationData);
     bloodstream.start();
     window.__bloodstream = bloodstream;
   } catch (err) {
     console.error('[main] Failed to load stations:', err);
+  }
+}
+
+// ── Tube line polylines ───────────────────────────────────────────────────────
+function drawTubePolylines() {
+  // Victoria line — official TfL blue #009DDC
+  const vCoords = VICTORIA_SEQUENCE_IDS
+    .map(id => stationData[id])
+    .filter(Boolean)
+    .map(s => [s.lat, s.lng]);
+  if (vCoords.length > 1) {
+    L.polyline(vCoords, { color: '#009DDC', weight: 3, opacity: 0.35 }).addTo(map);
+  }
+
+  // District line branches — official TfL green #007229
+  for (const [branch, ids] of Object.entries(DISTRICT_BRANCHES)) {
+    const coords = ids
+      .map(id => stationData[id])
+      .filter(Boolean)
+      .map(s => [s.lat, s.lng]);
+    if (coords.length > 1) {
+      L.polyline(coords, {
+        color: '#007229',
+        weight: branch === 'spine' ? 3 : 2,
+        opacity: branch === 'spine' ? 0.35 : 0.2,
+      }).addTo(map);
+    }
   }
 }
 
@@ -146,15 +184,53 @@ async function pollPressure() {
   }
 }
 
+async function pollWeather() {
+  try {
+    const res = await fetch(`${BACKEND}/api/weather`);
+    if (!res.ok) return;
+    const w = await res.json();
+    applyWeatherAtmosphere(w);
+  } catch (_) {}
+}
+
+function applyWeatherAtmosphere(w) {
+  if (!atmosphereTint) return;
+  const condition = w.condition || 'clear';
+  // Weather modifies the atmosphere tint opacity and hue
+  const weatherOverlay = {
+    clear:   'rgba(10, 5, 0, 0.05)',
+    cloudy:  'rgba(5, 5, 15, 0.12)',
+    fog:     'rgba(20, 20, 10, 0.18)',
+    rain:    'rgba(0, 5, 25, 0.22)',
+    showers: 'rgba(0, 5, 20, 0.18)',
+    snow:    'rgba(10, 10, 30, 0.20)',
+    storm:   'rgba(0, 0, 20, 0.28)',
+  }[condition] || 'rgba(0, 5, 20, 0.10)';
+  atmosphereTint.style.backgroundColor = weatherOverlay;
+  atmosphereTint.title = `London: ${w.temperature_c != null ? w.temperature_c + '°C, ' : ''}${condition}`;
+}
+
 function startPolling() {
   pollTrains();
   pollPressure();
+  pollWeather();
   setInterval(pollTrains, POLL_INTERVAL);
   setInterval(pollPressure, POLL_INTERVAL);
+  setInterval(pollWeather, 30 * 60 * 1000);
 }
 
 // ── Station panel ─────────────────────────────────────────────────────────────
 async function openPanel(stationId) {
+  // Compare mode: second click loads comparison
+  if (compareMode && primaryStationId && stationId !== primaryStationId) {
+    await loadComparison(stationId);
+    return;
+  }
+
+  primaryStationId = stationId;
+  compareStationId = null;
+  hideComparison();
+
   const panel = document.getElementById('station-panel');
   const nameEl = document.getElementById('panel-station-name');
   const boroughEl = document.getElementById('panel-borough-name');
@@ -214,6 +290,7 @@ async function openPanel(stationId) {
 
     // Render enriched panel sections
     renderPanelSections(data, onThisDayEvent);
+    primaryStationData = data;
 
   } catch (err) {
     console.error('[main] openPanel fetch failed:', err);
@@ -224,6 +301,20 @@ async function openPanel(stationId) {
 function closePanel() {
   const panel = document.getElementById('station-panel');
   panel.classList.remove('open');
+}
+
+async function loadComparison(stationId) {
+  compareStationId = stationId;
+  try {
+    const res = await fetch(`${BACKEND}/api/station/${stationId}`);
+    if (res.ok) {
+      const data = await res.json();
+      stationData[stationId] = { ...stationData[stationId], ...data };
+      renderComparison(primaryStationData, data);
+    }
+  } catch (err) {
+    console.warn('[main] comparison fetch failed:', err);
+  }
 }
 
 document.getElementById('panel-close').addEventListener('click', closePanel);
@@ -237,6 +328,44 @@ if (muteBtn) {
     setSoundMuted(soundMuted);
     muteBtn.textContent = soundMuted ? '♪̶' : '♪';
     muteBtn.style.opacity = soundMuted ? '0.35' : '0.7';
+  });
+}
+
+// ── Map mode cycling ──────────────────────────────────────────────────────────
+const MODES = ['amber', 'green', 'blue', 'mono'];
+let currentModeIdx = 0;
+const modeBtn = document.getElementById('mode-toggle');
+if (modeBtn) {
+  modeBtn.addEventListener('click', () => {
+    document.body.classList.remove(`mode-${MODES[currentModeIdx]}`);
+    currentModeIdx = (currentModeIdx + 1) % MODES.length;
+    document.body.classList.add(`mode-${MODES[currentModeIdx]}`);
+    modeBtn.textContent = MODES[currentModeIdx].toUpperCase();
+  });
+}
+
+// ── Thermal mode toggle ───────────────────────────────────────────────────────
+let thermalActive = false;
+const thermalBtn = document.getElementById('thermal-toggle');
+if (thermalBtn) {
+  thermalBtn.addEventListener('click', () => {
+    thermalActive = !thermalActive;
+    setThermalMode(thermalActive);
+    thermalBtn.classList.toggle('active', thermalActive);
+  });
+}
+
+// ── Compare mode toggle ───────────────────────────────────────────────────────
+const compareBtn = document.getElementById('compare-toggle');
+if (compareBtn) {
+  compareBtn.addEventListener('click', () => {
+    compareMode = !compareMode;
+    compareBtn.classList.toggle('active', compareMode);
+    compareBtn.textContent = compareMode ? 'COMPARING… TAP STATION' : 'COMPARE +';
+    if (!compareMode) {
+      compareStationId = null;
+      hideComparison();
+    }
   });
 }
 
