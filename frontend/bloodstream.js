@@ -118,23 +118,51 @@ const DISTRICT_BRANCH_PRIORITY = ['upminster', 'horseshoe', 'richmond', 'ealing'
 const AVG_TRAVEL_MS = 90000;
 const FLARE_WINDOW_MS = 60000;
 
-// Victoria line colours
-const VICTORIA_BOLUS_COLOURS = {
-  core: 'rgba(255, 220, 100, ',
-  mid: 'rgba(255, 160, 40, ',
-  edge: 'rgba(255, 100, 20, 0)',
-  artery_outer: 'rgba(255, 160, 40, 0.12)',
-  artery_inner: 'rgba(255, 160, 40, 0.06)',
+// Line bolus colour palettes
+const LINE_COLOURS = {
+  victoria: { core: 'rgba(255,220,100,', mid: 'rgba(255,160,40,', edge: 'rgba(255,100,20,0)' },
+  district:  { core: 'rgba(100,240,200,', mid: 'rgba(14,184,130,', edge: 'rgba(0,150,110,0)' },
+  central:   { core: 'rgba(255,140,140,', mid: 'rgba(227,32,23,',  edge: 'rgba(180,0,0,0)' },
+  jubilee:   { core: 'rgba(220,220,230,', mid: 'rgba(160,165,169,',edge: 'rgba(100,105,110,0)' },
+  northern:  { core: 'rgba(180,180,180,', mid: 'rgba(100,100,100,',edge: 'rgba(40,40,40,0)' },
 };
 
-// District line colours
-const DISTRICT_BOLUS_COLOURS = {
-  core: 'rgba(100, 240, 200, ',
-  mid: 'rgba(14, 184, 130, ',
-  edge: 'rgba(0, 150, 110, 0)',
-  artery_outer: 'rgba(14, 184, 130, 0.15)',
-  artery_inner: 'rgba(14, 184, 130, 0.07)',
+// Central line sequence (Ealing Broadway → Leytonstone, main spine)
+const CENTRAL_SEQUENCE_IDS = [
+  '940GZZLUEBY','940GZZLUWTA','940GZZLUNAC','940GZZLUECA','940GZZLUWCY',
+  '940GZZLUSBC','940GZZLUHPK','940GZZLUNHG','940GZZLUQWY','940GZZLULGT',
+  '940GZZLUMBA','940GZZLUBND','940GZZLUOXC','940GZZLUTCR','940GZZLUHBN',
+  '940GZZLUCHL','940GZZLUSPU','940GZZLUBNK','940GZZLULVS','940GZZLUBGE',
+  '940GZZLUMLE','940GZZLUSTD','940GZZLULEYT','940GZZLULYS',
+];
+
+// Jubilee line sequence (Stanmore → Stratford)
+const JUBILEE_SEQUENCE_IDS = [
+  '940GZZLUSTM','940GZZLUCNP','940GZZLUQBY','940GZZLUKGB','940GZZLUNDN',
+  '940GZZLUDOH','940GZZLUWLG','940GZZLUKBN','940GZZLUWHS','940GZZLUFYR',
+  '940GZZLUSWC','940GZZLUSJW','940GZZLUBKR','940GZZLUBND','940GZZLUGPK',
+  '940GZZLUWSM','940GZZLUWLO','940GZZLUSWK','940GZZLULNB','940GZZLUBMY',
+  '940GZZLUCWR','940GZZLUCYW','940GZZLUNGW','940GZZLUCGT','940GZZLUWEH',
+  '940GZZLUSTD',
+];
+
+// Northern line — two branch sequences for animation
+const NORTHERN_BRANCHES = {
+  // Main morden → city spine → high barnet
+  morden_bank: [
+    '940GZZLUMDN','940GZZLUSWN','940GZZLUCLW','940GZZLUTBY','940GZZLUTBC',
+    '940GZZLUBLM','940GZZLUCPS','940GZZLUCPC','940GZZLUCPN','940GZZLUSTK',
+    '940GZZLUOVL','940GZZLUKNG','940GZZLUBRO','940GZZLULNB','940GZZLUBNK',
+    '940GZZLUMGT','940GZZLUODS','940GZZLUAGL','940GZZLUKSX','940GZZLUEAC',
+    '940GZZLUWRR','940GZZLUGST','940GZZLUTCR','940GZZLULSC','940GZZLUCGX',
+  ],
+  high_barnet: [
+    '940GZZLUCAR','940GZZLUCAF','940GZZLUBSP','940GZZLUHMPD',
+    '940GZZLUGDG','940GZZLUBCX','940GZZLUHCC','940GZZLUEGW',
+  ],
 };
+
+const NORTHERN_BRANCH_PRIORITY = ['morden_bank', 'high_barnet'];
 
 function hexToRgb(hex) {
   if (!hex) return { r: 255, g: 153, b: 0 };
@@ -218,23 +246,22 @@ export function setSoundMuted(muted) {
 export function initBloodstream(map, canvas, getTrainState, getStationData) {
   const ctx = canvas.getContext('2d');
 
-  // Victoria line stations — ordered array south→north
+  // Ordered station arrays per line
   let victoriaStations = [];
-
-  // District line — one ordered array per branch
-  let districtBranches = {
-    spine: [],
-    upminster: [],
-    richmond: [],
-    ealing: [],
-    horseshoe: [],
-  };
-
-  // All district station positions, keyed by station ID
+  let districtBranches = { spine:[], upminster:[], richmond:[], ealing:[], horseshoe:[] };
   let districtStationMap = {};
+  let centralStations = [];
+  let jubileeStations = [];
+  let northernBranches = { morden_bank:[], high_barnet:[] };
+  let northernStationMap = {};
 
+  // Active bolus sets
   let victoriaBoluses = [];
   let districtBoluses = [];
+  let centralBoluses  = [];
+  let jubileeBoluses  = [];
+  let northernBoluses = [];
+
   let animFrame = null;
   let lastFetchedAt = null;
 
@@ -269,48 +296,54 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     const entries = Object.values(allData);
     if (entries.length === 0) return;
 
-    // Victoria line — build ordered array from VICTORIA_SEQUENCE_IDS
-    const victoriaEntries = entries.filter(e => e.line === 'victoria');
-    const vOrdered = [];
-    for (const id of VICTORIA_SEQUENCE_IDS) {
-      const s = victoriaEntries.find(e => (e.id || e.station_id) === id);
-      if (s) vOrdered.push(stationToPoint(s));
-    }
-    if (vOrdered.length >= 3) {
-      victoriaStations = vOrdered;
-    } else {
-      // Fallback: lat sort
-      victoriaStations = victoriaEntries
-        .filter(e => e.lat)
-        .sort((a, b) => a.lat - b.lat)
-        .map(stationToPoint);
+    function buildSequence(lineEntries, sequenceIds) {
+      const ordered = [];
+      for (const id of sequenceIds) {
+        const s = lineEntries.find(e => (e.id || e.station_id) === id);
+        if (s) ordered.push(stationToPoint(s));
+      }
+      return ordered.length >= 2 ? ordered : lineEntries.filter(e=>e.lat).map(stationToPoint);
     }
 
-    // District line — build ordered arrays for each branch
-    const districtEntries = entries.filter(e => e.line === 'district');
+    const byLine = id => entries.filter(e => e.line === id);
+
+    victoriaStations = buildSequence(byLine('victoria'), VICTORIA_SEQUENCE_IDS);
+
+    // District
+    const districtEntries = byLine('district');
     districtStationMap = {};
-    for (const s of districtEntries) {
-      const pt = stationToPoint(s);
-      districtStationMap[pt.id] = pt;
+    for (const s of districtEntries) { const pt = stationToPoint(s); districtStationMap[pt.id] = pt; }
+    for (const [b, ids] of Object.entries(DISTRICT_BRANCHES)) {
+      districtBranches[b] = ids.map(id => districtStationMap[id]).filter(Boolean);
     }
 
-    for (const [branchName, idList] of Object.entries(DISTRICT_BRANCHES)) {
-      districtBranches[branchName] = idList
-        .map(id => districtStationMap[id])
-        .filter(Boolean);
+    // Central
+    centralStations = buildSequence(byLine('central'), CENTRAL_SEQUENCE_IDS);
+
+    // Jubilee
+    jubileeStations = buildSequence(byLine('jubilee'), JUBILEE_SEQUENCE_IDS);
+
+    // Northern
+    const northernEntries = byLine('northern');
+    northernStationMap = {};
+    for (const s of northernEntries) { const pt = stationToPoint(s); northernStationMap[pt.id] = pt; }
+    for (const [b, ids] of Object.entries(NORTHERN_BRANCHES)) {
+      northernBranches[b] = ids.map(id => northernStationMap[id]).filter(Boolean);
     }
   }
 
-  // ── Find branch for a District line bolus ───────────────────────────────────
-
-  function findDistrictBranch(towards_station_id) {
-    for (const branchName of DISTRICT_BRANCH_PRIORITY) {
-      const seq = DISTRICT_BRANCHES[branchName];
-      if (seq.includes(towards_station_id)) {
-        return branchName;
-      }
+  function findDistrictBranch(id) {
+    for (const b of DISTRICT_BRANCH_PRIORITY) {
+      if (DISTRICT_BRANCHES[b].includes(id)) return b;
     }
     return 'spine';
+  }
+
+  function findNorthernBranch(id) {
+    for (const b of NORTHERN_BRANCH_PRIORITY) {
+      if (NORTHERN_BRANCHES[b].includes(id)) return b;
+    }
+    return 'morden_bank';
   }
 
   // ── Bolus state management ──────────────────────────────────────────────────
@@ -321,10 +354,47 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
 
     victoriaBoluses = [];
     districtBoluses = [];
+    centralBoluses  = [];
+    jubileeBoluses  = [];
+    northernBoluses = [];
     arrivedBoluses.clear();
 
     for (const t of ts.trains) {
       if (t.time_to_station_seconds == null) continue;
+
+      if (t.line === 'central') {
+        const targetIdx = centralStations.findIndex(s => s.id === t.towards_station_id);
+        if (targetIdx >= 0) centralBoluses.push({
+          vehicle_id: t.vehicle_id, target_station_idx: targetIdx,
+          time_to_station_ms: t.time_to_station_seconds * 1000,
+          last_updated: Date.now(), direction: t.direction || 'eastbound',
+        });
+        continue;
+      }
+
+      if (t.line === 'jubilee') {
+        const targetIdx = jubileeStations.findIndex(s => s.id === t.towards_station_id);
+        if (targetIdx >= 0) jubileeBoluses.push({
+          vehicle_id: t.vehicle_id, target_station_idx: targetIdx,
+          time_to_station_ms: t.time_to_station_seconds * 1000,
+          last_updated: Date.now(), direction: t.direction || 'southbound',
+        });
+        continue;
+      }
+
+      if (t.line === 'northern') {
+        const branchName = findNorthernBranch(t.towards_station_id);
+        const seq = northernBranches[branchName];
+        if (!seq || seq.length === 0) continue;
+        const targetIdx = seq.findIndex(s => s.id === t.towards_station_id);
+        if (targetIdx >= 0) northernBoluses.push({
+          vehicle_id: t.vehicle_id, branch: branchName,
+          target_station_idx: targetIdx,
+          time_to_station_ms: t.time_to_station_seconds * 1000,
+          last_updated: Date.now(), direction: t.direction || 'southbound',
+        });
+        continue;
+      }
 
       if (t.line === 'victoria') {
         const targetIdx = victoriaStations.findIndex(
@@ -578,25 +648,61 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
 
   // ── Main draw loop ───────────────────────────────────────────────────────────
 
+  // Generic single-sequence bolus position getter
+  function makeSeqPosGetter(stationSeq) {
+    return (bolus, tOverride) => {
+      const t = tOverride !== undefined ? tOverride : getBolusT(bolus);
+      const ti = bolus.target_station_idx;
+      const prev = (bolus.direction === 'southbound' || bolus.direction === 'westbound')
+        ? ti + 1 : ti - 1;
+      if (prev < 0 || prev >= stationSeq.length) return stationSeq[ti] ? {x:stationSeq[ti].x,y:stationSeq[ti].y} : null;
+      if (!stationSeq[ti] || !stationSeq[prev]) return null;
+      return lerpPoint(stationSeq[prev], stationSeq[ti], t);
+    };
+  }
+
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Victoria line — no canvas artery (Leaflet polylines serve that role)
+    // Victoria
     if (victoriaStations.length > 1) {
       drawFlares(victoriaStations, victoriaBoluses, getVictoriaBolusScreenPos);
-      drawBolusSet(victoriaBoluses, getVictoriaBolusScreenPos, VICTORIA_BOLUS_COLOURS, 'victoria');
+      drawBolusSet(victoriaBoluses, getVictoriaBolusScreenPos, LINE_COLOURS.victoria, 'victoria');
     }
 
-    // District flares — draw for all district stations
+    // District
     const allDistrictStations = Object.values(districtStationMap);
     if (allDistrictStations.length > 0) {
       drawFlares(allDistrictStations, districtBoluses, getDistrictBolusScreenPos);
     }
+    drawBolusSet(districtBoluses, getDistrictBolusScreenPos, LINE_COLOURS.district, 'district');
 
-    // District boluses
-    drawBolusSet(districtBoluses, getDistrictBolusScreenPos, DISTRICT_BOLUS_COLOURS, 'district');
+    // Central
+    if (centralStations.length > 1) {
+      const getPos = makeSeqPosGetter(centralStations);
+      drawFlares(centralStations, centralBoluses, getPos);
+      drawBolusSet(centralBoluses, getPos, LINE_COLOURS.central, 'central');
+    }
 
-    // Borough pulse rings (density-driven ambient animation)
+    // Jubilee
+    if (jubileeStations.length > 1) {
+      const getPos = makeSeqPosGetter(jubileeStations);
+      drawFlares(jubileeStations, jubileeBoluses, getPos);
+      drawBolusSet(jubileeBoluses, getPos, LINE_COLOURS.jubilee, 'jubilee');
+    }
+
+    // Northern
+    const allNorthernStations = Object.values(northernStationMap);
+    if (allNorthernStations.length > 0) {
+      const getNPos = (bolus, tOverride) => {
+        const seq = northernBranches[bolus.branch] || northernBranches.morden_bank;
+        return makeSeqPosGetter(seq)(bolus, tOverride);
+      };
+      drawFlares(allNorthernStations, northernBoluses, getNPos);
+      drawBolusSet(northernBoluses, getNPos, LINE_COLOURS.northern, 'northern');
+    }
+
+    // Borough pulse rings
     drawPulseRings();
 
     // Thermal portrait overlay
@@ -640,4 +746,4 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
   };
 }
 
-export { VICTORIA_SEQUENCE_IDS, DISTRICT_BRANCHES };
+export { VICTORIA_SEQUENCE_IDS, DISTRICT_BRANCHES, CENTRAL_SEQUENCE_IDS, JUBILEE_SEQUENCE_IDS, NORTHERN_BRANCHES };

@@ -1,4 +1,4 @@
-import { initBloodstream, setSoundMuted, setThermalMode, VICTORIA_SEQUENCE_IDS, DISTRICT_BRANCHES } from './bloodstream.js';
+import { initBloodstream, setSoundMuted, setThermalMode, VICTORIA_SEQUENCE_IDS, DISTRICT_BRANCHES, CENTRAL_SEQUENCE_IDS, JUBILEE_SEQUENCE_IDS, NORTHERN_BRANCHES } from './bloodstream.js';
 import { renderArrivals, renderPanelSections, renderComparison, hideComparison, renderBoroughPanel } from './panel.js';
 import { initGauge, updateGauge } from './gauge.js';
 
@@ -6,13 +6,35 @@ import { initGauge, updateGauge } from './gauge.js';
 const BACKEND = window.BACKEND_URL || 'http://localhost:8000';
 const POLL_INTERVAL = 20000;
 
+// ── TfL line colours ──────────────────────────────────────────────────────────
+const LINE_PALETTE = {
+  victoria: '#009DDC',
+  district: '#007229',
+  central:  '#E32017',
+  jubilee:  '#A0A5A9',
+  northern: '#231F20',
+};
+
 // ── State ─────────────────────────────────────────────────────────────────────
 let trainState = { fetched_at: null, trains: [] };
-let stationData = {};      // keyed by station_id, all lines
+let stationData = {};
 let pressureState = {};
-const stationMarkers = {};  // keyed by station_id
+const stationMarkers = {};
 let compareMode = false;
 let compareStationId = null;
+
+// Journey mode
+let journeyMode = false;
+let journeyFromId = null;
+let journeyPolyline = null;
+
+// Overlay modes
+let languagePortraitActive = false;
+let gentrificationActive = false;
+let boroughStoryActive = false;
+let languageData = null;
+let gentrificationData = null;
+let boroughLayer = null;
 let primaryStationId = null;
 let primaryStationData = null;
 
@@ -184,15 +206,16 @@ async function loadBoroughBoundaries() {
 
     boroughLayer = L.geoJSON(geojson, {
       style: {
-        color: '#ff9900',
+        color: 'var(--accent, #ff9900)',
         weight: 0.8,
         opacity: 0.25,
         fillOpacity: 0,
+        fillColor: 'transparent',
       },
       onEachFeature(feature, layer) {
         const name = feature.properties?.NAME || feature.properties?.name || '';
-        layer.on('mouseover', () => layer.setStyle({ opacity: 0.6, weight: 1.2 }));
-        layer.on('mouseout',  () => layer.setStyle({ opacity: 0.25, weight: 0.8 }));
+        layer.on('mouseover', () => { if (!boroughStoryActive) layer.setStyle({ opacity: 0.6, weight: 1.2 }); });
+        layer.on('mouseout',  () => { if (!boroughStoryActive) layer.setStyle({ opacity: 0.25, weight: 0.8 }); });
         layer.on('click', (e) => {
           L.DomEvent.stopPropagation(e);
           if (name) openBoroughPanel(name);
@@ -211,8 +234,14 @@ async function openBoroughPanel(boroughName) {
   panel.getBoundingClientRect();
   panel.classList.add('open');
 
-  const nameEl = document.getElementById('borough-panel-name');
-  if (nameEl) nameEl.textContent = boroughName.toUpperCase();
+  document.getElementById('borough-panel-name').textContent = boroughName.toUpperCase();
+
+  // Story mode button
+  const storyBtn = document.getElementById('borough-story-btn');
+  if (storyBtn) {
+    storyBtn.onclick = () => { closeBoroughPanel(); enterBoroughStoryMode(boroughName); };
+    storyBtn.style.display = 'block';
+  }
 
   try {
     const res = await fetch(`${BACKEND}/api/borough/${encodeURIComponent(boroughName)}`);
@@ -240,38 +269,31 @@ async function loadStations() {
     const victoriaCoords = [];
     const districtCoords = [];
 
+    const allCoords = [];
     stations.forEach((station) => {
       const station_id = station.id;
-      const { name, lat, lng, halo_hex, line } = station;
+      const { name, lat, lng, line } = station;
       stationData[station_id] = station;
 
-      const cssClass = line === 'district' ? 'district-station' : 'victoria-station';
       const icon = makeRoundelIcon(line, map.getZoom(), name);
-
       const marker = L.marker([lat, lng], { icon }).addTo(map);
 
-      marker.on('click', () => openPanel(station_id));
+      marker.on('click', () => {
+        if (journeyMode) { resolveJourney(station_id); return; }
+        openPanel(station_id);
+      });
       const fontWeight = station.font_weight || 400;
       marker.bindTooltip(name, {
-        permanent: false,
-        direction: 'right',
+        permanent: false, direction: 'right',
         className: `station-label weight-${Math.round(fontWeight / 50) * 50}`,
       });
 
       stationMarkers[station_id] = marker;
-
-      if (line === 'victoria') {
-        victoriaCoords.push([lat, lng]);
-      } else {
-        districtCoords.push([lat, lng]);
-      }
+      allCoords.push([lat, lng]);
     });
 
-    // Auto-fit map bounds to all stations from both lines (M3d / fixes Brixton+Walthamstow cutoff)
-    const allCoords = [...victoriaCoords, ...districtCoords];
     if (allCoords.length > 0) {
-      const bounds = L.latLngBounds(allCoords);
-      map.fitBounds(bounds, { padding: [50, 50] });
+      map.fitBounds(L.latLngBounds(allCoords), { padding: [50, 50] });
     }
 
     // Draw official tube line polylines in TfL colours
@@ -288,29 +310,298 @@ async function loadStations() {
 
 // ── Tube line polylines ───────────────────────────────────────────────────────
 function drawTubePolylines() {
-  // Victoria line — official TfL blue #009DDC
-  const vCoords = VICTORIA_SEQUENCE_IDS
-    .map(id => stationData[id])
-    .filter(Boolean)
-    .map(s => [s.lat, s.lng]);
-  if (vCoords.length > 1) {
-    L.polyline(vCoords, { color: '#009DDC', weight: 5, opacity: 0.85 }).addTo(map);
+  function seq(ids) {
+    return ids.map(id => stationData[id]).filter(Boolean).map(s => [s.lat, s.lng]);
   }
 
-  // District line branches — official TfL green #007229
+  // Victoria
+  const vCoords = seq(VICTORIA_SEQUENCE_IDS);
+  if (vCoords.length > 1)
+    L.polyline(vCoords, { color: LINE_PALETTE.victoria, weight: 5, opacity: 0.85 }).addTo(map);
+
+  // District branches
   for (const [branch, ids] of Object.entries(DISTRICT_BRANCHES)) {
-    const coords = ids
-      .map(id => stationData[id])
-      .filter(Boolean)
-      .map(s => [s.lat, s.lng]);
-    if (coords.length > 1) {
-      L.polyline(coords, {
-        color: '#007229',
-        weight: branch === 'spine' ? 5 : 3,
-        opacity: branch === 'spine' ? 0.85 : 0.6,
-      }).addTo(map);
-    }
+    const c = seq(ids);
+    if (c.length > 1)
+      L.polyline(c, { color: LINE_PALETTE.district, weight: branch === 'spine' ? 5 : 3, opacity: branch === 'spine' ? 0.85 : 0.6 }).addTo(map);
   }
+
+  // Central
+  const cCoords = seq(CENTRAL_SEQUENCE_IDS);
+  if (cCoords.length > 1)
+    L.polyline(cCoords, { color: LINE_PALETTE.central, weight: 5, opacity: 0.85 }).addTo(map);
+
+  // Jubilee
+  const jCoords = seq(JUBILEE_SEQUENCE_IDS);
+  if (jCoords.length > 1)
+    L.polyline(jCoords, { color: LINE_PALETTE.jubilee, weight: 4, opacity: 0.75 }).addTo(map);
+
+  // Northern branches
+  for (const [branch, ids] of Object.entries(NORTHERN_BRANCHES)) {
+    const c = seq(ids);
+    if (c.length > 1)
+      L.polyline(c, { color: LINE_PALETTE.northern, weight: branch === 'morden_bank' ? 5 : 3, opacity: 0.8 }).addTo(map);
+  }
+}
+
+// ── Ghost stations ────────────────────────────────────────────────────────────
+async function loadGhostStations() {
+  try {
+    const res = await fetch(`${BACKEND}/api/ghost-stations`);
+    if (!res.ok) return;
+    const ghosts = await res.json();
+    ghosts.forEach(g => {
+      const cs = 14;
+      const svg = `<svg width="${cs}" height="${cs}" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="${cs/2}" cy="${cs/2}" r="${cs*0.45}" fill="none" stroke="#aaaaaa" stroke-width="1.5" opacity="0.5" stroke-dasharray="2,2"/>
+      </svg>`;
+      const icon = L.divIcon({ html: svg, className: 'ghost-station-marker', iconSize:[cs,cs], iconAnchor:[cs/2,cs/2] });
+      const marker = L.marker([g.lat, g.lng], { icon, opacity: 0.6 }).addTo(map);
+      marker.on('click', () => openGhostPanel(g));
+      marker.bindTooltip(g.name, { permanent: false, direction: 'right', className: 'station-label ghost-label' });
+    });
+  } catch (err) {
+    console.warn('[main] ghost stations failed:', err);
+  }
+}
+
+function openGhostPanel(ghost) {
+  const panel = document.getElementById('station-panel');
+  const nameEl = document.getElementById('panel-station-name');
+  const boroughEl = document.getElementById('panel-borough-name');
+  const arrivalsEl = document.getElementById('panel-arrivals');
+
+  panel.classList.remove('hidden');
+  panel.getBoundingClientRect();
+  panel.classList.add('open');
+  panel.classList.add('ghost-mode');
+
+  nameEl.textContent = ghost.name.toUpperCase();
+  boroughEl.textContent = ghost.closed ? `CLOSED ${ghost.closed} · ${ghost.line} LINE` : `PROPOSED · NEVER OPENED`;
+  arrivalsEl.innerHTML = `<div class="ghost-no-service">NO SERVICE</div>`;
+
+  ['panel-people-content','panel-place-content','panel-now-content'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = '';
+  });
+
+  const placeEl = document.getElementById('panel-place-content');
+  if (placeEl) placeEl.innerHTML = `<div class="fact-static ghost-fact">${ghost.fact}</div>`;
+
+  // Disable compare
+  const compareBtn = document.getElementById('compare-toggle');
+  if (compareBtn) compareBtn.style.display = 'none';
+}
+
+// ── Service status banner ─────────────────────────────────────────────────────
+async function pollLineStatus() {
+  try {
+    const res = await fetch(`${BACKEND}/api/line-status`);
+    if (!res.ok) return;
+    const { statuses } = await res.json();
+    renderStatusBanner(statuses || []);
+  } catch (_) {}
+}
+
+function renderStatusBanner(statuses) {
+  const banner = document.getElementById('status-banner');
+  if (!banner) return;
+  const disrupted = statuses.filter(s => s.disrupted);
+  if (disrupted.length === 0) {
+    banner.classList.add('hidden');
+    return;
+  }
+  banner.classList.remove('hidden');
+  banner.innerHTML = disrupted.map(s => {
+    const dot = `<span class="status-dot status-${s.severity <= 5 ? 'red' : 'amber'}"></span>`;
+    const reason = s.reason ? ` — ${s.reason.substring(0, 80)}` : '';
+    return `<span class="status-item">${dot}${s.line.toUpperCase()}: ${s.description}${reason}</span>`;
+  }).join('');
+}
+
+// ── Air quality ───────────────────────────────────────────────────────────────
+async function pollAirQuality() {
+  try {
+    const res = await fetch(`${BACKEND}/api/air-quality`);
+    if (!res.ok) return;
+    const aq = await res.json();
+    applyAirQualityTint(aq);
+  } catch (_) {}
+}
+
+function applyAirQualityTint(aq) {
+  const category = aq.category || 'unknown';
+  const overlays = {
+    good:      null,
+    fair:      null,
+    moderate:  'rgba(180, 150, 20, 0.04)',
+    poor:      'rgba(180, 100, 10, 0.08)',
+    'very poor': 'rgba(150, 50, 0, 0.14)',
+  };
+  const aqIndicator = document.getElementById('aq-indicator');
+  if (aqIndicator) {
+    aqIndicator.textContent = `AQI ${aq.aqi} · ${category.toUpperCase()}`;
+    aqIndicator.className = `aq-${category.replace(' ', '-')}`;
+  }
+}
+
+// ── Language Portrait mode ────────────────────────────────────────────────────
+async function toggleLanguagePortrait() {
+  if (!languageData) {
+    try {
+      const res = await fetch(`${BACKEND}/api/language-map`);
+      languageData = await res.json();
+    } catch (_) { return; }
+  }
+  languagePortraitActive = !languagePortraitActive;
+  gentrificationActive = false;
+  applyBoroughOverlay();
+  document.getElementById('lang-toggle')?.classList.toggle('active', languagePortraitActive);
+  document.getElementById('gent-toggle')?.classList.toggle('active', false);
+}
+
+// ── Gentrification gradient ───────────────────────────────────────────────────
+async function toggleGentrification() {
+  if (!gentrificationData) {
+    try {
+      const res = await fetch(`${BACKEND}/api/gentrification`);
+      gentrificationData = await res.json();
+    } catch (_) { return; }
+  }
+  gentrificationActive = !gentrificationActive;
+  languagePortraitActive = false;
+  applyBoroughOverlay();
+  document.getElementById('gent-toggle')?.classList.toggle('active', gentrificationActive);
+  document.getElementById('lang-toggle')?.classList.toggle('active', false);
+}
+
+function applyBoroughOverlay() {
+  if (!boroughLayer) return;
+  boroughLayer.eachLayer(layer => {
+    const name = layer.feature?.properties?.NAME || layer.feature?.properties?.name || '';
+    let fillColor = 'transparent';
+    let fillOpacity = 0;
+
+    if (languagePortraitActive && languageData) {
+      const entry = languageData.boroughs?.[name];
+      if (entry) { fillColor = entry.colour; fillOpacity = 0.35; }
+    } else if (gentrificationActive && gentrificationData) {
+      const entry = gentrificationData.boroughs?.[name];
+      if (entry) {
+        const ch = entry.change_pct || 0;
+        if (ch >= 25) fillColor = '#ff4400';
+        else if (ch >= 15) fillColor = '#ff8800';
+        else if (ch >= 8)  fillColor = '#ffcc00';
+        else if (ch >= 0)  fillColor = '#aaaaaa';
+        else               fillColor = '#4488ff';
+        fillOpacity = 0.4;
+      }
+    }
+    layer.setStyle({ fillColor, fillOpacity });
+  });
+}
+
+// ── Journey mode ──────────────────────────────────────────────────────────────
+function enterJourneyMode(fromStationId) {
+  journeyMode = true;
+  journeyFromId = fromStationId;
+  const btn = document.getElementById('journey-btn');
+  if (btn) { btn.textContent = 'TAP DESTINATION'; btn.classList.add('active'); }
+  document.getElementById('station-panel')?.classList.remove('open');
+}
+
+async function resolveJourney(toStationId) {
+  if (!journeyFromId || journeyFromId === toStationId) { exitJourneyMode(); return; }
+  try {
+    const res = await fetch(`${BACKEND}/api/journey?from_id=${journeyFromId}&to_id=${toStationId}`);
+    if (!res.ok) { exitJourneyMode(); return; }
+    const data = await res.json();
+    showJourneyResult(data);
+  } catch (_) { exitJourneyMode(); }
+}
+
+function showJourneyResult(data) {
+  exitJourneyMode();
+  if (journeyPolyline) { map.removeLayer(journeyPolyline); journeyPolyline = null; }
+  const coords = data.route.map(id => stationData[id]).filter(Boolean).map(s => [s.lat, s.lng]);
+  if (coords.length > 1) {
+    journeyPolyline = L.polyline(coords, { color: '#ffffff', weight: 3, opacity: 0.9, dashArray: '6 4' }).addTo(map);
+    map.fitBounds(journeyPolyline.getBounds(), { padding: [60, 60] });
+  }
+
+  // Show journey panel
+  const panel = document.getElementById('station-panel');
+  panel.classList.remove('hidden');
+  panel.getBoundingClientRect();
+  panel.classList.add('open');
+
+  document.getElementById('panel-station-name').textContent = `${data.from_name} → ${data.to_name}`.toUpperCase();
+  document.getElementById('panel-borough-name').textContent = `${data.station_count - 1} STOPS · ~${data.approx_minutes} MIN`;
+  document.getElementById('panel-arrivals').innerHTML = '';
+
+  const placeEl = document.getElementById('panel-place-content');
+  if (placeEl) {
+    const delta = data.income_delta;
+    const deltaStr = delta != null
+      ? (delta >= 0 ? `+£${delta.toLocaleString()}` : `-£${Math.abs(delta).toLocaleString()}`)
+      : '—';
+    placeEl.innerHTML = `
+      <div class="fact-static">BOROUGHS CROSSED: ${data.borough_count}</div>
+      <div class="fact-static">${(data.boroughs || []).join(' → ')}</div>
+      ${delta != null ? `<div class="fact-static journey-income">INCOME SHIFT: ${deltaStr} MEDIAN ANNUAL</div>` : ''}
+    `;
+  }
+
+  const clearBtn = document.getElementById('journey-clear');
+  if (clearBtn) { clearBtn.style.display = 'block'; }
+}
+
+function exitJourneyMode() {
+  journeyMode = false;
+  journeyFromId = null;
+  const btn = document.getElementById('journey-btn');
+  if (btn) { btn.textContent = 'JOURNEY FROM HERE'; btn.classList.remove('active'); }
+}
+
+// ── Borough Story Mode ────────────────────────────────────────────────────────
+function enterBoroughStoryMode(boroughName) {
+  if (boroughStoryActive) exitBoroughStoryMode();
+  boroughStoryActive = true;
+  document.body.classList.add('borough-story-mode');
+
+  if (boroughLayer) {
+    boroughLayer.eachLayer(layer => {
+      const name = layer.feature?.properties?.NAME || layer.feature?.properties?.name || '';
+      if (name !== boroughName) {
+        layer.setStyle({ fillColor: '#000', fillOpacity: 0.55, opacity: 0.1 });
+      } else {
+        layer.setStyle({ fillColor: 'transparent', fillOpacity: 0, opacity: 0.8, weight: 2 });
+      }
+    });
+  }
+
+  Object.values(stationMarkers).forEach((m, i) => {
+    const sid = Object.keys(stationMarkers)[i];
+    const s = stationData[sid];
+    if (s?.borough !== boroughName) m.setOpacity(0.15);
+  });
+
+  const exitBtn = document.getElementById('story-exit');
+  if (exitBtn) exitBtn.style.display = 'block';
+}
+
+function exitBoroughStoryMode() {
+  boroughStoryActive = false;
+  document.body.classList.remove('borough-story-mode');
+  if (boroughLayer) {
+    boroughLayer.eachLayer(layer => {
+      layer.setStyle({ color: 'var(--accent,#ff9900)', weight: 0.8, opacity: 0.25, fillOpacity: 0 });
+    });
+    if (languagePortraitActive || gentrificationActive) applyBoroughOverlay();
+  }
+  Object.values(stationMarkers).forEach(m => m.setOpacity(1));
+  const exitBtn = document.getElementById('story-exit');
+  if (exitBtn) exitBtn.style.display = 'none';
 }
 
 // ── Polling ───────────────────────────────────────────────────────────────────
@@ -366,9 +657,13 @@ function startPolling() {
   pollTrains();
   pollPressure();
   pollWeather();
-  setInterval(pollTrains, POLL_INTERVAL);
-  setInterval(pollPressure, POLL_INTERVAL);
-  setInterval(pollWeather, 30 * 60 * 1000);
+  pollLineStatus();
+  pollAirQuality();
+  setInterval(pollTrains,    POLL_INTERVAL);
+  setInterval(pollPressure,  POLL_INTERVAL);
+  setInterval(pollLineStatus, 60 * 1000);
+  setInterval(pollWeather,   30 * 60 * 1000);
+  setInterval(pollAirQuality, 60 * 60 * 1000);
 }
 
 // ── Station panel ─────────────────────────────────────────────────────────────
@@ -536,8 +831,43 @@ if (compareBtn) {
   });
 }
 
+// ── Language / Gentrification toggles ────────────────────────────────────────
+document.getElementById('lang-toggle')?.addEventListener('click', toggleLanguagePortrait);
+document.getElementById('gent-toggle')?.addEventListener('click', toggleGentrification);
+
+// Story exit
+document.getElementById('story-exit')?.addEventListener('click', exitBoroughStoryMode);
+
+// Journey clear
+document.getElementById('journey-clear')?.addEventListener('click', () => {
+  if (journeyPolyline) { map.removeLayer(journeyPolyline); journeyPolyline = null; }
+  closePanel();
+  exitJourneyMode();
+  document.getElementById('journey-clear').style.display = 'none';
+});
+
+// Journey from here button (wired when panel opens)
+document.getElementById('station-panel')?.addEventListener('click', e => {
+  if (e.target.id === 'journey-btn') {
+    enterJourneyMode(primaryStationId);
+  }
+});
+
+// ── B5 — First-time curtain raise ─────────────────────────────────────────────
+function showCurtainRaise() {
+  const el = document.getElementById('curtain-raise');
+  if (!el) return;
+  el.style.opacity = '0';
+  el.style.display = 'block';
+  setTimeout(() => { el.style.opacity = '1'; }, 100);
+  setTimeout(() => { el.style.opacity = '0'; }, 3500);
+  setTimeout(() => { el.style.display = 'none'; }, 5000);
+}
+
 // ── Boot ──────────────────────────────────────────────────────────────────────
 initGauge(document.getElementById('pressure-gauge'));
 loadStations();
 loadBoroughBoundaries();
+loadGhostStations();
 startPolling();
+showCurtainRaise();

@@ -790,3 +790,255 @@ body {
     letter-spacing: 2px;
   }
 }
+
+/* ── B1: Service status banner ───────────────────────────── */
+
+#status-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10, 0, 0, 0.92);
+  border-top: 1px solid #ff440044;
+  color: #ff9900;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 6px 16px;
+  z-index: 1100;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.status-red   { background: #ff2200; }
+.status-amber { background: #ffaa00; }
+
+/* ── B3: Ghost stations ──────────────────────────────────── */
+
+.ghost-station-marker {
+  background: none !important;
+  border: none !important;
+  animation: ghost-flicker 3s ease-in-out infinite;
+}
+
+@keyframes ghost-flicker {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 0.25; }
+  70%       { opacity: 0.55; }
+}
+
+.ghost-label {
+  color: #888888 !important;
+  opacity: 0.7;
+}
+
+#station-panel.ghost-mode {
+  border-left-color: #44444488;
+}
+
+#station-panel.ghost-mode #panel-station-name {
+  color: #888888;
+}
+
+#station-panel.ghost-mode #panel-arrivals {
+  background: #080808;
+  border-color: #333333;
+  color: #555555;
+}
+
+.ghost-no-service {
+  color: #444444;
+  letter-spacing: 4px;
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+.ghost-fact {
+  color: #666666 !important;
+  font-style: italic;
+}
+
+/* ── B5: Curtain raise ───────────────────────────────────── */
+
+#curtain-raise {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#curtain-text {
+  text-align: center;
+}
+
+#curtain-line1 {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 28px;
+  letter-spacing: 12px;
+  color: var(--accent, #ff9900);
+  opacity: 0.9;
+}
+
+#curtain-line2 {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--text-faint, #ff990066);
+  margin-top: 12px;
+}
+
+/* ── B6: Journey mode ────────────────────────────────────── */
+
+#journey-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-faint);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  padding: 5px 8px;
+  cursor: pointer;
+  transition: all 150ms;
+  min-height: 32px;
+  margin-top: 4px;
+}
+
+#journey-btn:hover,
+#journey-btn.active {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+}
+
+#journey-clear {
+  background: none;
+  border: 1px solid #ff440033;
+  color: #ff6644;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  padding: 5px 10px;
+  cursor: pointer;
+  width: 100%;
+  min-height: 32px;
+  transition: all 150ms;
+}
+
+#journey-clear:hover { border-color: #ff6644; }
+
+.journey-income {
+  color: var(--accent) !important;
+  font-weight: bold;
+}
+
+#panel-header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+/* ── B10: Language Portrait / B14: Gentrification toggles ── */
+
+#lang-toggle,
+#gent-toggle {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  opacity: 0.6;
+  cursor: pointer;
+  padding: 4px 6px;
+  transition: all 150ms;
+  pointer-events: all;
+  min-height: 44px;
+}
+
+#lang-toggle:hover, #lang-toggle.active { opacity: 1; color: #ffdd44; }
+#gent-toggle:hover, #gent-toggle.active { opacity: 1; color: #ff6644; }
+
+/* ── B15: Borough Story Mode ────────────────────────────── */
+
+#borough-story-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-faint);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 2px;
+  padding: 5px 8px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 150ms;
+  min-height: 32px;
+}
+
+#borough-story-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+}
+
+#story-exit {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1200;
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 150ms;
+}
+
+#story-exit:hover { border-color: var(--accent); }
+
+body.borough-story-mode #story-exit { display: block !important; }
+
+/* ── Air quality indicator ──────────────────────────────── */
+
+#aq-indicator {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 2px;
+  margin-top: 4px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.aq-good    { color: #00cc66; }
+.aq-fair    { color: #88cc00; }
+.aq-moderate { color: #ffcc00; }
+.aq-poor    { color: #ff8800; }
+.aq-very-poor { color: #ff2200; }
+
+@media (max-width: 600px) {
+  #curtain-line1 { font-size: 18px; letter-spacing: 6px; }
+  #curtain-line2 { font-size: 8px; letter-spacing: 2px; }
+  #status-banner { font-size: 9px; padding: 4px 10px; }
+}
