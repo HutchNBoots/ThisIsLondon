@@ -65,13 +65,13 @@ body {
 #map-container {
   position: absolute;
   inset: 0;
-  touch-action: none;
+  touch-action: auto;
 }
 
 #map {
   width: 100%;
   height: 100%;
-  touch-action: none;
+  touch-action: auto;
 }
 
 /* Atmosphere tint: subliminal colour temperature shift with map position */
@@ -685,48 +685,77 @@ body {
 
 /* ── Mobile responsive ───────────────────────────────────── */
 
+/* ── Mobile drag handle ─────────────────────────────── */
+
+.panel-drag-handle {
+  display: none;
+}
+
 @media (max-width: 600px) {
-  /* Station panel slides up from bottom */
+  /* Drag handle for slide-up panels */
+  .panel-drag-handle {
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: var(--border-mid);
+    border-radius: 2px;
+    margin: 0 auto 12px;
+    flex-shrink: 0;
+  }
+
+  /* Station panel slides up from bottom — half-sheet style */
   #station-panel {
     width: 100vw;
-    height: 72vh;
+    height: 78vh;
     top: auto;
     bottom: 0;
     right: 0;
     border-left: none;
-    border-top: 2px solid var(--border-mid);
+    border-top: 1px solid var(--border-mid);
+    border-radius: 16px 16px 0 0;
     transform: translateY(100%);
-    transition: transform 300ms ease-out;
-    padding: 16px;
-    gap: 10px;
+    transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+    padding: 0 20px 20px;
+    padding-top: 12px;
+    gap: 12px;
   }
 
   #station-panel.open {
     transform: translateY(0);
   }
 
+  #panel-close {
+    top: 12px;
+    right: 16px;
+    font-size: 22px;
+  }
+
   #panel-station-name {
-    font-size: 15px;
+    font-size: 18px;
     letter-spacing: 3px;
   }
 
   #panel-borough-name {
-    font-size: 11px;
+    font-size: 12px;
     letter-spacing: 2px;
+    margin-top: 2px;
   }
 
   #panel-arrivals {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 2;
   }
 
   .arrival-row {
-    font-size: 13px;
-    padding: 7px 0;
+    font-size: 14px;
+    padding: 10px 0;
+    min-height: 44px;
+    align-items: center;
   }
 
   .section-label {
-    font-size: 10px;
+    font-size: 11px;
+    letter-spacing: 2px;
   }
 
   .section-content,
@@ -734,7 +763,8 @@ body {
   .data-label,
   .data-value,
   .fact-static {
-    font-size: 13px;
+    font-size: 14px;
+    line-height: 1.6;
   }
 
   /* Pressure gauge hidden on mobile */
@@ -750,44 +780,76 @@ body {
   /* Borough panel slides up from bottom */
   #borough-panel {
     width: 100vw;
-    height: 65vh;
+    height: 70vh;
     top: auto;
     bottom: 0;
     left: 0;
     border-right: none;
-    border-top: 2px solid var(--border-mid);
+    border-top: 1px solid var(--border-mid);
+    border-radius: 16px 16px 0 0;
     transform: translateY(100%);
-    transition: transform 300ms ease-out;
-    padding: 16px;
+    transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+    padding: 0 20px 20px;
+    padding-top: 12px;
   }
 
   #borough-panel.open {
     transform: translateY(0);
   }
 
+  #borough-panel-close {
+    top: 12px;
+    right: 16px;
+  }
+
   #borough-panel-name {
-    font-size: 14px;
+    font-size: 18px;
+    letter-spacing: 3px;
+  }
+
+  #borough-panel-sub {
+    font-size: 11px;
+    letter-spacing: 2px;
   }
 
   #borough-panel-facts,
   #borough-panel-data {
-    font-size: 13px;
+    font-size: 14px;
+    line-height: 1.7;
   }
 
-  /* Title overlay: smaller, stays readable */
+  /* Title overlay: wordmark only, top-left */
   #title-overlay {
-    top: 12px;
-    left: 12px;
+    top: 16px;
+    left: 16px;
   }
 
   #title-text {
-    font-size: 10px;
-    letter-spacing: 3px;
+    font-size: 11px;
+    letter-spacing: 4px;
   }
 
   #subtitle-text {
-    font-size: 8px;
+    font-size: 9px;
     letter-spacing: 2px;
+  }
+
+  /* Controls move to a bottom bar on mobile — hidden here, shown in fixed bar */
+  #title-controls {
+    display: none;
+  }
+
+  #aq-indicator {
+    display: none;
+  }
+
+  /* Story exit — larger target on mobile */
+  #story-exit {
+    bottom: 80px;
+    right: 16px;
+    font-size: 11px;
+    padding: 12px 20px;
+    min-height: 48px;
   }
 }
 
@@ -1037,10 +1099,101 @@ body.borough-story-mode #story-exit { display: block !important; }
 .aq-poor    { color: #ff8800; }
 .aq-very-poor { color: #ff2200; }
 
+/* ── Mobile bottom control bar ─────────────────────────────── */
+
+#mobile-controls {
+  display: none;
+}
+
 @media (max-width: 600px) {
-  #curtain-line1 { font-size: 18px; letter-spacing: 6px; }
-  #curtain-line2 { font-size: 8px; letter-spacing: 2px; }
-  #status-banner { font-size: 9px; padding: 4px 10px; }
+  #curtain-line1 { font-size: 20px; letter-spacing: 6px; }
+  #curtain-line2 { font-size: 9px; letter-spacing: 2px; }
+
+  /* Status banner on mobile: top strip instead of bottom */
+  #status-banner {
+    bottom: auto;
+    top: 0;
+    font-size: 10px;
+    padding: 6px 12px;
+    gap: 10px;
+    border-top: none;
+    border-bottom: 1px solid #ff440044;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Mobile bottom control bar */
+  #mobile-controls {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--border);
+    z-index: 900;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 8px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .mob-ctrl-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-width: 56px;
+    min-height: 48px;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 6px 4px;
+    transition: opacity 150ms;
+  }
+
+  .mob-ctrl-btn:active,
+  .mob-ctrl-btn.active {
+    opacity: 1;
+    color: var(--accent);
+  }
+
+  .mob-ctrl-icon {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  /* Nudge panels up to clear the control bar */
+  #station-panel,
+  #borough-panel {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Ensure compare & journey buttons are finger-friendly */
+  #compare-toggle,
+  #journey-btn {
+    min-height: 44px;
+    font-size: 10px;
+    padding: 10px 14px;
+  }
+
+  #panel-header-actions {
+    gap: 8px;
+  }
+
+  #borough-story-btn {
+    min-height: 44px;
+    font-size: 10px;
+    padding: 10px 14px;
+  }
 }
 
 /* ── Light mode overrides for map chrome ─────────────────── */

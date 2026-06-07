@@ -835,6 +835,38 @@ if (compareBtn) {
 document.getElementById('lang-toggle')?.addEventListener('click', toggleLanguagePortrait);
 document.getElementById('gent-toggle')?.addEventListener('click', toggleGentrification);
 
+// ── Mobile bottom bar — mirror desktop toggle actions ─────────────────────────
+(function wireMobileControls() {
+  const mobMode = document.getElementById('mob-mode-btn');
+  const mobModeLabel = document.getElementById('mob-mode-label');
+  if (mobMode) {
+    mobMode.addEventListener('click', () => {
+      modeBtn?.click();
+      if (mobModeLabel) mobModeLabel.textContent = MODES[currentModeIdx].toUpperCase();
+    });
+  }
+
+  document.getElementById('mob-thermal-btn')?.addEventListener('click', () => {
+    thermalBtn?.click();
+    document.getElementById('mob-thermal-btn')?.classList.toggle('active', thermalActive);
+  });
+
+  document.getElementById('mob-lang-btn')?.addEventListener('click', () => {
+    toggleLanguagePortrait();
+    document.getElementById('mob-lang-btn')?.classList.toggle('active', languagePortraitActive);
+  });
+
+  document.getElementById('mob-gent-btn')?.addEventListener('click', () => {
+    toggleGentrification();
+    document.getElementById('mob-gent-btn')?.classList.toggle('active', gentrificationActive);
+  });
+
+  document.getElementById('mob-mute-btn')?.addEventListener('click', () => {
+    muteBtn?.click();
+    document.getElementById('mob-mute-btn')?.style.setProperty('opacity', soundMuted ? '0.35' : '0.7');
+  });
+})();
+
 // Story exit
 document.getElementById('story-exit')?.addEventListener('click', exitBoroughStoryMode);
 

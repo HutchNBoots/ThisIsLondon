@@ -43,8 +43,33 @@
     <canvas id="art-layer"></canvas>
   </div>
 
+  <!-- Mobile bottom control bar -->
+  <div id="mobile-controls">
+    <button class="mob-ctrl-btn" id="mob-mode-btn" aria-label="Cycle map mode">
+      <span class="mob-ctrl-icon">🗺</span>
+      <span id="mob-mode-label">LIGHT</span>
+    </button>
+    <button class="mob-ctrl-btn" id="mob-thermal-btn" aria-label="Toggle thermal">
+      <span class="mob-ctrl-icon">🌡</span>
+      <span>THERMAL</span>
+    </button>
+    <button class="mob-ctrl-btn" id="mob-lang-btn" aria-label="Language portrait">
+      <span class="mob-ctrl-icon">💬</span>
+      <span>LANG</span>
+    </button>
+    <button class="mob-ctrl-btn" id="mob-gent-btn" aria-label="Gentrification">
+      <span class="mob-ctrl-icon">📈</span>
+      <span>GENT</span>
+    </button>
+    <button class="mob-ctrl-btn" id="mob-mute-btn" aria-label="Toggle sound">
+      <span class="mob-ctrl-icon">♪</span>
+      <span>SOUND</span>
+    </button>
+  </div>
+
   <!-- Station panel: slides in from right -->
   <div id="station-panel" class="hidden">
+    <div class="panel-drag-handle"></div>
     <div id="panel-close">×</div>
 
     <div id="panel-header">
@@ -86,6 +111,7 @@
 
   <!-- Borough panel: slides in from left -->
   <div id="borough-panel" class="hidden">
+    <div class="panel-drag-handle"></div>
     <div id="borough-panel-close">×</div>
     <div id="borough-panel-header">
       <div id="borough-panel-name"></div>
