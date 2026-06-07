@@ -74,7 +74,8 @@ async function loadStations() {
     const lineCoords = [];
 
     stations.forEach((station) => {
-      const { station_id, name, lat, lng, halo_hex } = station;
+      const station_id = station.id;
+      const { name, lat, lng, halo_hex } = station;
       stationData[station_id] = station;
 
       const color = halo_hex || '#ff9900';
