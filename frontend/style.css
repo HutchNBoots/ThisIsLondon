@@ -25,6 +25,16 @@ body {
   height: 100%;
 }
 
+/* Atmosphere tint: subliminal colour temperature shift with map position */
+#atmosphere-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: multiply;
+  transition: background-color 2s ease;
+}
+
 /* Canvas sits over the map; pointer events pass through */
 #art-layer {
   position: absolute;

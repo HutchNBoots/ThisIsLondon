@@ -26,6 +26,29 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 // Move zoom control to bottom-right, away from the gauge and title
 L.control.zoom({ position: 'bottomright' }).addTo(map);
 
+// ── Atmosphere tint ───────────────────────────────────────────────────────────
+const atmosphereTint = document.getElementById('atmosphere-tint');
+
+function updateAtmosphere() {
+  const centre = map.getCenter();
+  const lat = centre.lat;
+  let tint;
+  if (lat < 51.49) {
+    // Brixton area — warm red-black
+    tint = 'rgba(40, 5, 0, 0.15)';
+  } else if (lat <= 51.52) {
+    // Victoria / Green Park — cool blue-black
+    tint = 'rgba(0, 5, 20, 0.12)';
+  } else {
+    // North — amber-brown
+    tint = 'rgba(20, 10, 0, 0.13)';
+  }
+  if (atmosphereTint) atmosphereTint.style.backgroundColor = tint;
+}
+
+map.on('moveend', updateAtmosphere);
+updateAtmosphere();
+
 // ── Canvas overlay ────────────────────────────────────────────────────────────
 const canvas = document.getElementById('art-layer');
 
@@ -87,7 +110,9 @@ async function loadStations() {
     }
 
     // Kick off the bloodstream art layer now that stations are loaded
-    initBloodstream(map, canvas, () => trainState, () => stationData);
+    const bloodstream = initBloodstream(map, canvas, () => trainState, () => stationData);
+    bloodstream.start();
+    window.__bloodstream = bloodstream; // expose for poll refresh
   } catch (err) {
     console.error('[main] Failed to load stations:', err);
   }
@@ -99,6 +124,7 @@ async function pollTrains() {
     const res = await fetch(`${BACKEND}/api/live-trains`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     trainState = await res.json();
+    if (window.__bloodstream) window.__bloodstream.refresh();
   } catch (err) {
     console.warn('[main] live-trains poll failed:', err);
   }
