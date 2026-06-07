@@ -69,43 +69,76 @@ window.addEventListener('resize', () => {
 
 // ── Roundel markers ───────────────────────────────────────────────────────────
 
-function getRoundelSize(zoom) {
-  if (zoom <= 11) return 10;
-  if (zoom <= 12) return 13;
-  if (zoom <= 13) return 16;
-  if (zoom <= 14) return 20;
-  return 26;
+// TfL colours: red ring + navy bar (authentic Underground roundel, line shown by polyline)
+const ROUNDEL_RED  = '#E21836';
+const ROUNDEL_NAVY = '#003688';
+
+function getRoundelCircleSize(zoom) {
+  if (zoom <= 11) return 12;
+  if (zoom <= 12) return 16;
+  if (zoom <= 13) return 22;
+  if (zoom <= 14) return 30;
+  return 38;
 }
 
-function makeRoundelIcon(line, size) {
-  // Proper TfL roundel: coloured ring + darker bar crossing through centre
-  const ringColour = line === 'district' ? '#007229' : '#009DDC';
-  const barColour  = line === 'district' ? '#003d14' : '#003688';
-  const half = size / 2;
-  const r = (size * 0.36).toFixed(1);
-  const sw = Math.max(1.5, size * 0.19).toFixed(1);
-  const barH = (size * 0.30).toFixed(1);
-  const barY = (half - barH / 2).toFixed(1);
-  // Draw ring twice — before and after bar — so ring visually wraps bar
-  const svg = `<svg width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="${half}" cy="${half}" r="${r}" fill="none" stroke="${ringColour}" stroke-width="${sw}"/>
-    <rect x="0" y="${barY}" width="${size}" height="${barH}" fill="${barColour}"/>
-    <circle cx="${half}" cy="${half}" r="${r}" fill="none" stroke="${ringColour}" stroke-width="${sw}" stroke-dasharray="${Math.PI * r * 2 * 0.42} ${Math.PI * r * 2 * 0.58}" stroke-dashoffset="${-(Math.PI * r * 2 * 0.29)}"/>
-  </svg>`;
+function escSvg(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function makeRoundelIcon(line, zoom, name) {
+  const cs  = getRoundelCircleSize(zoom);   // circle diameter
+  const half = cs / 2;
+  const r   = (cs * 0.37).toFixed(1);
+  const sw  = (cs * 0.22).toFixed(1);
+  const barH = (cs * 0.32).toFixed(1);
+  const barY = (half - cs * 0.16).toFixed(1);
+
+  const showName = zoom >= 13 && name;
+
+  let totalW, cx, svg;
+
+  if (!showName) {
+    // Compact bullseye — bar width = circle diameter
+    totalW = cs;
+    cx = half;
+    svg = `<svg width="${cs}" height="${cs}" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="${barY}" width="${cs}" height="${barH}" fill="${ROUNDEL_NAVY}"/>
+      <circle cx="${half}" cy="${half}" r="${r}" fill="none" stroke="${ROUNDEL_RED}" stroke-width="${sw}"/>
+    </svg>`;
+  } else {
+    // Full TfL roundel: name on bar, bar extends both sides of ring
+    const fontSize = Math.max(10, cs * 0.32);
+    // Monospace char width ≈ 0.61× font-size
+    const textW = name.length * fontSize * 0.61;
+    totalW = Math.max(cs + 16, Math.ceil(textW + cs * 0.5));
+    cx = totalW / 2;
+    const textY = (half + fontSize * 0.36).toFixed(1);
+
+    svg = `<svg width="${totalW}" height="${cs}" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="${barY}" width="${totalW}" height="${barH}" fill="${ROUNDEL_NAVY}"/>
+      <circle cx="${cx.toFixed(1)}" cy="${half}" r="${r}" fill="none" stroke="${ROUNDEL_RED}" stroke-width="${sw}"/>
+      <text x="${cx.toFixed(1)}" y="${textY}"
+            text-anchor="middle" fill="white"
+            font-family="'Share Tech Mono',monospace"
+            font-size="${fontSize.toFixed(1)}"
+            font-weight="bold">${escSvg(name.toUpperCase())}</text>
+    </svg>`;
+  }
+
   return L.divIcon({
     html: svg,
     className: `roundel-marker ${line}-station`,
-    iconSize: [size, size],
-    iconAnchor: [half, half],
-    tooltipAnchor: [half + 2, 0],
+    iconSize: [totalW, cs],
+    iconAnchor: [cx, half],
+    tooltipAnchor: [totalW / 2, -half - 4],
   });
 }
 
 map.on('zoomend', () => {
-  const size = getRoundelSize(map.getZoom());
+  const zoom = map.getZoom();
   Object.entries(stationMarkers).forEach(([id, marker]) => {
     const s = stationData[id];
-    if (s) marker.setIcon(makeRoundelIcon(s.line, size));
+    if (s) marker.setIcon(makeRoundelIcon(s.line, zoom, s.name));
   });
 });
 
@@ -184,7 +217,7 @@ async function loadStations() {
       stationData[station_id] = station;
 
       const cssClass = line === 'district' ? 'district-station' : 'victoria-station';
-      const icon = makeRoundelIcon(line, getRoundelSize(map.getZoom()));
+      const icon = makeRoundelIcon(line, map.getZoom(), name);
 
       const marker = L.marker([lat, lng], { icon }).addTo(map);
 
