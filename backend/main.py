@@ -217,6 +217,23 @@ def station(station_id: str):
     }
 
 
+@app.get("/api/station/{station_id}/arrivals")
+async def station_arrivals(station_id: str):
+    if tfl_client is None:
+        return []
+    raw = await tfl_client.get_station_arrivals(station_id)
+    arrivals = sorted(raw, key=lambda x: x.get("timeToStation", 9999))[:5]
+    return [
+        {
+            "towards_station_name": a.get("destinationName", "Unknown"),
+            "time_to_station_seconds": a.get("timeToStation", 0),
+            "platform_name": a.get("platformName", ""),
+            "current_location": a.get("currentLocation", ""),
+        }
+        for a in arrivals
+    ]
+
+
 @app.get("/api/line-pressure")
 def line_pressure():
     running = len(_train_cache)

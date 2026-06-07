@@ -175,16 +175,22 @@ async function openPanel(stationId) {
     // Update stationData cache
     stationData[stationId] = { ...stationData[stationId], ...data };
 
-    // Arrivals board
-    const arrivals = data.arrivals || [];
+    // Arrivals board — fetch live arrivals from TfL via backend
     const stationName = data.name || (cached ? cached.name : stationId);
+    let arrivals = [];
+    try {
+      const arrRes = await fetch(`${BACKEND}/api/station/${stationId}/arrivals`);
+      if (arrRes.ok) arrivals = await arrRes.json();
+    } catch (_) {}
     renderArrivals(arrivals, stationName);
 
-    // Facts — base sentences
+    // Facts — pull from nested demographics/amenities objects
+    const demo = data.demographics || {};
+    const amenities = data.amenities || {};
     const sentences = [
-      data.fact_sentence,
-      data.history_sentence,
-      data.amenity_sentence,
+      demo.fact_sentence,
+      demo.history_sentence,
+      amenities.amenity_sentence,
     ].filter(Boolean);
 
     // Wikipedia "On This Day" fetch — look for London/Underground mentions

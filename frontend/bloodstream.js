@@ -98,7 +98,7 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
     for (const id of VICTORIA_SEQUENCE_IDS) {
       const s = entries.find(e => e.station_id === id || e.id === id);
       if (s) {
-        const pt = map.latLngToContainerPoint([s.lat, s.lon]);
+        const pt = map.latLngToContainerPoint([s.lat, s.lng]);
         const rgb = hexToRgb(s.halo_hex);
         if (!jitterPhase[id]) {
           jitterPhase[id] = (Math.random() - 0.5) * 400; // ±200ms
@@ -124,7 +124,7 @@ export function initBloodstream(map, canvas, getTrainState, getStationData) {
         .filter(e => e.lat)
         .sort((a, b) => a.lat - b.lat); // south first (lower lat)
       stations = sorted.map((s, i) => {
-        const pt = map.latLngToContainerPoint([s.lat, s.lon]);
+        const pt = map.latLngToContainerPoint([s.lat, s.lng]);
         const rgb = hexToRgb(s.halo_hex);
         return {
           id: s.station_id || s.id,
