@@ -37,6 +37,7 @@ let gentrificationData = null;
 let boroughLayer = null;
 let primaryStationId = null;
 let primaryStationData = null;
+let tubePolylines = []; // { layer, line } — re-styled on mode change
 
 // ── Map init ──────────────────────────────────────────────────────────────────
 const map = L.map('map', {
@@ -314,38 +315,55 @@ async function loadStations() {
 }
 
 // ── Tube line polylines ───────────────────────────────────────────────────────
+
+function polylineStyle(line, isLight) {
+  const colour = LINE_PALETTE[line];
+  // On light tiles, use full opacity and slightly heavier weight
+  return { color: colour, weight: isLight ? 5 : 4, opacity: isLight ? 1 : 0.85 };
+}
+
+function applyPolylineMode(isLight) {
+  tubePolylines.forEach(({ layer, line }) => layer.setStyle(polylineStyle(line, isLight)));
+}
+
 function drawTubePolylines() {
   function seq(ids) {
     return ids.map(id => stationData[id]).filter(Boolean).map(s => [s.lat, s.lng]);
   }
+  const isLight = document.body.classList.contains('mode-light');
 
-  // Victoria
-  const vCoords = seq(VICTORIA_SEQUENCE_IDS);
-  if (vCoords.length > 1)
-    L.polyline(vCoords, { color: LINE_PALETTE.victoria, weight: 5, opacity: 0.85 }).addTo(map);
-
-  // District branches
-  for (const [branch, ids] of Object.entries(DISTRICT_BRANCHES)) {
-    const c = seq(ids);
-    if (c.length > 1)
-      L.polyline(c, { color: LINE_PALETTE.district, weight: branch === 'spine' ? 5 : 3, opacity: branch === 'spine' ? 0.85 : 0.6 }).addTo(map);
+  function addLine(coords, line) {
+    if (coords.length < 2) return;
+    const layer = L.polyline(coords, polylineStyle(line, isLight)).addTo(map);
+    tubePolylines.push({ layer, line });
   }
 
-  // Central
-  const cCoords = seq(CENTRAL_SEQUENCE_IDS);
-  if (cCoords.length > 1)
-    L.polyline(cCoords, { color: LINE_PALETTE.central, weight: 5, opacity: 0.85 }).addTo(map);
+  addLine(seq(VICTORIA_SEQUENCE_IDS), 'victoria');
 
-  // Jubilee
-  const jCoords = seq(JUBILEE_SEQUENCE_IDS);
-  if (jCoords.length > 1)
-    L.polyline(jCoords, { color: LINE_PALETTE.jubilee, weight: 4, opacity: 0.75 }).addTo(map);
+  for (const [branch, ids] of Object.entries(DISTRICT_BRANCHES)) {
+    const c = seq(ids);
+    if (c.length > 1) {
+      const layer = L.polyline(c, {
+        ...polylineStyle('district', isLight),
+        weight: branch === 'spine' ? (isLight ? 5 : 4) : (isLight ? 3 : 2.5),
+        opacity: branch === 'spine' ? (isLight ? 1 : 0.85) : (isLight ? 0.8 : 0.6),
+      }).addTo(map);
+      tubePolylines.push({ layer, line: 'district' });
+    }
+  }
 
-  // Northern branches
+  addLine(seq(CENTRAL_SEQUENCE_IDS), 'central');
+  addLine(seq(JUBILEE_SEQUENCE_IDS), 'jubilee');
+
   for (const [branch, ids] of Object.entries(NORTHERN_BRANCHES)) {
     const c = seq(ids);
-    if (c.length > 1)
-      L.polyline(c, { color: LINE_PALETTE.northern, weight: branch === 'morden_bank' ? 5 : 3, opacity: 0.8 }).addTo(map);
+    if (c.length > 1) {
+      const layer = L.polyline(c, {
+        ...polylineStyle('northern', isLight),
+        weight: branch === 'morden_bank' ? (isLight ? 5 : 4) : (isLight ? 3 : 2.5),
+      }).addTo(map);
+      tubePolylines.push({ layer, line: 'northern' });
+    }
   }
 }
 
@@ -796,6 +814,7 @@ if (modeBtn) {
       subdomains: 'abcd',
       maxZoom: 20,
     }).addTo(map);
+    applyPolylineMode(nextMode === 'light');
     // Ensure tile layer stays below everything else
     currentTileLayer.bringToBack();
   });
