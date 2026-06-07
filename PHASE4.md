@@ -316,4 +316,98 @@ Aim: backend tests < 30s, frontend unit tests < 15s, E2E < 3 minutes. E2E runs o
 
 ---
 
+## 7. Known Bugs to Fix in Phase 4
+
+| ID | Bug | Root Cause | Fix Approach |
+|---|---|---|---|
+| BUG-001 | Borough overlays (LANG/GENT) never render | `boroughLayer` not created — static GeoJSON loads but Leaflet `L.geoJSON()` style function may conflict with `applyBoroughOverlay()` `setStyle()` call; or borough name keys don't match GeoJSON `NAME` property exactly | Add console logging to `applyBoroughOverlay()` to confirm iteration count and name matches; add a visible debug indicator when layer has 0 matched features; cross-check all 33 borough names against both JSON data files |
+| BUG-002 | Lines invisible in light mode on first load | `polylineStyle()` reads `document.body.classList` at draw time but light mode class may not be set yet when `drawTubePolylines()` runs | Call `applyPolylineMode()` after a short `setTimeout` post draw, or read mode from a module-level variable set before station load |
+| BUG-003 | Mobile bottom bar overlaps slide-up panel content | Panel `padding-bottom` calculation doesn't account for iOS safe area on all devices | Test on iPhone 14 Pro (Dynamic Island); may need larger `env(safe-area-inset-bottom)` value |
+
+---
+
+## 8. Wild Features (Brainstorm)
+
+Five deliberately ambitious, unconventional ideas. Not constrained by effort or feasibility. Meant to spark discussion.
+
+---
+
+### WILD-001 — Tube Séance: Time-Travel the Network
+
+**The idea:** A timeline scrubber (1863 → present) that morphs the map to show the tube network as it existed in any given year. Stations appear and disappear. Lines grow in real time as you drag the slider — the Metropolitan opening in 1863, the Jubilee Extension appearing in 1999. 
+
+**Why it's wild:** Requires a complete historical dataset of every station opening/closure date, every line extension. Boluses animate on the historically-correct topology, not today's. The map itself visually ages — sepia at 1863, faded colour by 1950, full colour by 1980.
+
+**Data source:** Wikipedia / TfL historical records; partially available via Wikidata SPARQL queries. Station opening dates scraped from structured data.
+
+**Technical hook:** `YEAR_FILTER` state variable; station JSON gains `opened_year` and `closed_year` fields; `drawTubePolylines()` filters by year; `stationMarkers` toggled by year range.
+
+---
+
+### WILD-002 — The Commuter Genome
+
+**The idea:** Every line segment between two adjacent stations has a "genome" — a fingerprint of who statistically travels it. Age distribution, income band, top profession, dominant language, average commute time. Click any segment between two stations and see a side-by-side portrait of the people moving through that exact stretch of tunnel.
+
+**Why it's wild:** It makes invisible social geography physical. The 1.5 minutes between Bank and London Bridge is one of the sharpest class transitions in the city. You can feel the city's social fault lines as tube segments.
+
+**Data source:** ONS Census 2021 travel-to-work flows, TfL Oyster anonymised journey data (published annually), LSOA-level income/occupation data.
+
+**Technical hook:** Edge-level data structure (not station-level); segment clicked via nearest-point-on-polyline calculation; panel shows demographic bar charts rendered on canvas.
+
+---
+
+### WILD-003 — Heartbeat City
+
+**The idea:** The bolus animation speed and density is driven by the actual live heartbeat of the city — not just train data, but layered rhythms. At 08:45 the network pulses fast. At 14:30 it slows. At 23:00 it fades to almost nothing. Emergency events (terrorism alerts, strikes, major incidents) trigger a visual shock — all boluses freeze, then restart slowly.
+
+Underneath, a slow sine-wave "breath" shifts the atmosphere tint over 24 hours: dawn is rose-gold, midday is bleached white, evening turns deep amber, night collapses to near-black.
+
+**Why it's wild:** Transforms a data viz into something genuinely felt. The map becomes a living organism with circadian rhythms.
+
+**Data source:** TfL aggregate entry/exit counts by hour (published as open data, updated daily). Historical hourly patterns used as a baseline; live data overlaid when available. Time-of-day drives the base animation; actual train density modulates it.
+
+**Technical hook:** `CITY_RHYTHM` lookup table keyed by hour; `bolus.speed` multiplier derived from rhythm × actual train count; atmosphere tint interpolated on a 24-point colour gradient.
+
+---
+
+### WILD-004 — Tube Orchestra
+
+**The idea:** Every line is an instrument. Victoria is a cello — deep, smooth, north-south. Northern is a double bass. Central is a trumpet cutting east-west. District is a violin section, sprawling and branching. Jubilee is a muted horn.
+
+Every time a bolus crosses a station, it plays a note. The pitch is determined by the station's position on the line (terminus = low, midpoint = high). Density of trains = volume. Disruptions introduce dissonance — a scraping string, a missed beat.
+
+You can listen to London commute.
+
+**Why it's wild:** Pure synesthesia. The audio layer becomes a real-time sonic portrait of the city's movement. Rush hour sounds like an orchestra tuning up. 3am sounds like a single cello note.
+
+**Data source:** Web Audio API (no external data needed). Existing TfL train positions drive the audio engine. Station sequence position maps to MIDI note on a pentatonic scale (avoids dissonance).
+
+**Technical hook:** Extend `playArrivalTone()` in `bloodstream.js` into a full `TubeOrchestra` class; each line gets an `OscillatorNode` with distinct waveform and envelope; station position on sequence maps to frequency via `lerp(rootNote, rootNote * 2, seqPosition / seqLength)`.
+
+---
+
+### WILD-005 — The Invisible City: Dead Drops and Secret Stations
+
+**The idea:** Unlock a hidden layer — accessible only by entering a code or shaking the phone — that reveals things the official map doesn't show. Churchill's wartime bunker connected to Down Street. The MI6 tunnels under Vauxhall. The Mail Rail running parallel to the Central Line. The dead letter drops and cache points used during Cold War London.
+
+Layer on modern urban mythology: the "ghost frequency" between stations (real electromagnetic anomalies reported by drivers), the spots where the underground floods in heavy rain, the maintenance shafts that open onto ordinary streets.
+
+**Why it's wild:** Turns the data art piece into an alternate reality game. People share the unlock code. Each visit might reveal something different — a new "discovered" location, a redacted document, a sound recording from deep in the tunnel.
+
+**Data source:** Historic England Listed Buildings API, Wikipedia/Wikidata for historical locations, crowd-sourced urban exploration community data (with permission). Some content hand-authored for dramatic effect.
+
+**Technical hook:** `UNLOCKED` localStorage flag; shake detection via `DeviceMotionEvent`; `ghost-layer` separate Leaflet pane at z-index 500; marker icons use a distinct "classified document" aesthetic with redaction bars.
+
+---
+
+| ID | Wild Feature | Wow Factor | Effort | Data Available |
+|---|---|---|---|---|
+| WILD-001 | Tube Séance — time-travel the network | ★★★★★ | XL | Partial (Wikidata) |
+| WILD-002 | Commuter Genome — social fingerprint of every segment | ★★★★★ | L | Yes (ONS/TfL) |
+| WILD-003 | Heartbeat City — circadian rhythm animation | ★★★★☆ | M | Yes (TfL open data) |
+| WILD-004 | Tube Orchestra — the network as live music | ★★★★☆ | M | No external needed |
+| WILD-005 | Invisible City — secret layers and dead drops | ★★★★★ | L | Partial + hand-authored |
+
+---
+
 *End of PHASE4.md*
