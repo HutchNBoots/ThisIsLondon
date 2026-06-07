@@ -354,6 +354,11 @@ body {
   left: 24px;
   z-index: 1000;
   pointer-events: none;
+  background: var(--bg-panel);
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  opacity: 0.92;
 }
 
 #title-text {
@@ -361,14 +366,14 @@ body {
   font-size: 11px;
   letter-spacing: 4px;
   color: var(--text);
-  opacity: 0.9;
+  opacity: 1;
 }
 
 #subtitle-text {
   display: block;
   font-size: 9px;
   letter-spacing: 3px;
-  color: var(--text-faint);
+  color: var(--text-dim);
   margin-top: 4px;
 }
 
@@ -944,10 +949,14 @@ body {
   z-index: 2000;
   display: none;
   pointer-events: none;
+  opacity: 0;
   transition: opacity 1.2s ease;
-  display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#curtain-raise.visible {
+  display: flex;
 }
 
 #curtain-text {

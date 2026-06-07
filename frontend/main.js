@@ -889,11 +889,10 @@ document.getElementById('station-panel')?.addEventListener('click', e => {
 function showCurtainRaise() {
   const el = document.getElementById('curtain-raise');
   if (!el) return;
-  el.style.opacity = '0';
-  el.style.display = 'block';
-  setTimeout(() => { el.style.opacity = '1'; }, 100);
-  setTimeout(() => { el.style.opacity = '0'; }, 3500);
-  setTimeout(() => { el.style.display = 'none'; }, 5000);
+  el.classList.add('visible');
+  requestAnimationFrame(() => { el.style.opacity = '1'; });
+  setTimeout(() => { el.style.opacity = '0'; }, 3000);
+  setTimeout(() => { el.classList.remove('visible'); }, 4400);
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
