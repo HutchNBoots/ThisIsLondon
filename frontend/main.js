@@ -406,7 +406,9 @@ async function loadStations() {
     });
 
     if (allCoords.length > 0) {
-      map.fitBounds(L.latLngBounds(allCoords), { padding: [50, 50] });
+      // Cap zoom — Elizabeth line surface stations reach Reading/Shenfield,
+      // which would zoom out to show all of SE England without this guard.
+      map.fitBounds(L.latLngBounds(allCoords), { padding: [40, 40], maxZoom: 11 });
     }
 
     // Draw official tube line polylines in TfL colours
@@ -1093,6 +1095,11 @@ document.getElementById('gent-toggle')?.addEventListener('click', toggleGentrifi
   document.getElementById('mob-thermal-btn')?.addEventListener('click', () => {
     thermalBtn?.click();
     document.getElementById('mob-thermal-btn')?.classList.toggle('active', thermalActive);
+  });
+
+  document.getElementById('mob-typo-btn')?.addEventListener('click', () => {
+    typoBtn?.click();
+    document.getElementById('mob-typo-btn')?.classList.toggle('active', window.__typomap?.isActive());
   });
 
   document.getElementById('mob-lang-btn')?.addEventListener('click', () => {
