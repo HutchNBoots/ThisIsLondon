@@ -958,6 +958,147 @@ document.getElementById('station-panel')?.addEventListener('click', e => {
   }
 });
 
+// ── WILD-005: Invisible City ──────────────────────────────────────────────────
+let secretUnlocked = false;
+let titleTapCount = 0;
+let titleTapTimer = null;
+let secretLocations = [];
+
+async function loadSecretLocations() {
+  try {
+    const res = await fetch('./data/secret-locations.json');
+    const data = await res.json();
+    secretLocations = data.locations || [];
+  } catch (_) {}
+}
+
+function unlockInvisibleCity() {
+  if (secretUnlocked) return;
+  secretUnlocked = true;
+  const overlay = document.getElementById('title-overlay');
+  if (overlay) {
+    overlay.style.borderColor = '#cc3300';
+    setTimeout(() => { overlay.style.borderColor = ''; }, 2000);
+  }
+  renderSecretMarkers();
+}
+
+function renderSecretMarkers() {
+  const secretPane = map.createPane('secretPane');
+  secretPane.style.zIndex = 650;
+
+  secretLocations.forEach(loc => {
+    const svg = `<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="10" cy="10" r="8" fill="none" stroke="#cc3300" stroke-width="1" stroke-dasharray="3,2" opacity="0.8"/>
+      <text x="10" y="14" text-anchor="middle" fill="#cc3300" font-size="9" font-family="monospace">◈</text>
+    </svg>`;
+    const icon = L.divIcon({ html: svg, className: 'secret-marker', iconSize: [20,20], iconAnchor: [10,10] });
+    L.marker([loc.lat, loc.lng], { icon, pane: 'secretPane' })
+      .on('click', () => openSecretPanel(loc))
+      .addTo(map);
+  });
+}
+
+function openSecretPanel(loc) {
+  document.getElementById('secret-classification').textContent = loc.classification;
+  document.getElementById('secret-name').textContent = loc.name;
+  document.getElementById('secret-subtitle').textContent = loc.subtitle;
+  document.getElementById('secret-body').textContent = loc.body;
+  const panel = document.getElementById('secret-panel');
+  panel.classList.remove('hidden');
+  requestAnimationFrame(() => panel.classList.add('open'));
+}
+
+document.getElementById('secret-panel-close')?.addEventListener('click', () => {
+  const panel = document.getElementById('secret-panel');
+  panel.classList.remove('open');
+  setTimeout(() => panel.classList.add('hidden'), 350);
+});
+
+// Unlock: tap title text 5 times quickly, or shake on mobile
+document.getElementById('title-text')?.addEventListener('click', () => {
+  titleTapCount++;
+  clearTimeout(titleTapTimer);
+  if (titleTapCount >= 5) { titleTapCount = 0; unlockInvisibleCity(); return; }
+  titleTapTimer = setTimeout(() => { titleTapCount = 0; }, 2000);
+});
+
+if (typeof DeviceMotionEvent !== 'undefined') {
+  let lastShake = 0;
+  window.addEventListener('devicemotion', e => {
+    const a = e.accelerationIncludingGravity;
+    if (!a) return;
+    const force = Math.abs(a.x) + Math.abs(a.y) + Math.abs(a.z);
+    if (force > 45 && Date.now() - lastShake > 3000) {
+      lastShake = Date.now();
+      unlockInvisibleCity();
+    }
+  });
+}
+
+// ── WILD-002: Commuter Genome ─────────────────────────────────────────────────
+function openGenomePanel(fromStation, toStation) {
+  const s1 = stationData[fromStation];
+  const s2 = stationData[toStation];
+  if (!s1 || !s2) return;
+
+  const avgIncome = Math.round(((s1.median_income_gbp || 35000) + (s2.median_income_gbp || 35000)) / 2);
+  const avgDeprivation = (((s1.deprivation_index || 0.5) + (s2.deprivation_index || 0.5)) / 2).toFixed(2);
+  const avgDensity = Math.round(((s1.population_density_per_km2 || 8000) + (s2.population_density_per_km2 || 8000)) / 2).toLocaleString();
+  const avgBornAbroad = Math.round(((s1.pct_born_outside_uk || 0.3) + (s2.pct_born_outside_uk || 0.3)) / 2 * 100);
+  const incomeJump = Math.abs((s1.median_income_gbp || 35000) - (s2.median_income_gbp || 35000));
+  const langs = [...new Set([...(s1.top_languages||[]), ...(s2.top_languages||[])])].filter(l => l !== 'English').slice(0,4);
+
+  document.getElementById('genome-title').textContent =
+    `${s1.name.toUpperCase()} ↔ ${s2.name.toUpperCase()}`;
+
+  document.getElementById('genome-content').innerHTML = `
+    <div class="genome-stat"><span class="genome-label">SEGMENT</span><span class="genome-value">${s1.line?.toUpperCase() || ''} LINE</span></div>
+    <div class="genome-stat"><span class="genome-label">MEDIAN INCOME</span><span class="genome-value">£${avgIncome.toLocaleString()}/yr</span></div>
+    <div class="genome-stat"><span class="genome-label">INCOME JUMP</span><span class="genome-value">£${incomeJump.toLocaleString()} across this segment</span></div>
+    <div class="genome-stat"><span class="genome-label">BORN OUTSIDE UK</span><span class="genome-value">${avgBornAbroad}%</span></div>
+    <div class="genome-stat"><span class="genome-label">POP. DENSITY</span><span class="genome-value">${avgDensity}/km²</span></div>
+    <div class="genome-bar-wrap">
+      <div class="genome-bar-label">DEPRIVATION INDEX (${avgDeprivation})</div>
+      <div class="genome-bar-track"><div class="genome-bar-fill" style="width:${avgDeprivation*100}%"></div></div>
+    </div>
+    <div class="genome-stat"><span class="genome-label">LANGUAGES</span><span class="genome-value">${langs.length ? langs.join(', ') : 'Data unavailable'}</span></div>
+    ${s1.fact_sentence ? `<p style="font-size:11px;color:var(--text-faint);margin-top:8px;line-height:1.7">${s1.fact_sentence}</p>` : ''}
+    ${s2.fact_sentence ? `<p style="font-size:11px;color:var(--text-faint);margin-top:4px;line-height:1.7">${s2.fact_sentence}</p>` : ''}
+  `;
+
+  const panel = document.getElementById('genome-panel');
+  panel.classList.remove('hidden');
+  requestAnimationFrame(() => panel.classList.add('open'));
+}
+
+document.getElementById('genome-panel-close')?.addEventListener('click', () => {
+  const panel = document.getElementById('genome-panel');
+  panel.classList.remove('open');
+  setTimeout(() => panel.classList.add('hidden'), 350);
+});
+
+function addGenomeClicksToPolylines() {
+  // Attach after polylines are drawn — pairs adjacent stations in each sequence
+  function wireLine(ids) {
+    for (let i = 0; i < ids.length - 1; i++) {
+      const from = ids[i], to = ids[i+1];
+      if (!stationData[from] || !stationData[to]) continue;
+      const midLat = (stationData[from].lat + stationData[to].lat) / 2;
+      const midLng = (stationData[from].lng + stationData[to].lng) / 2;
+      // Invisible click-target on each segment midpoint
+      L.circle([midLat, midLng], { radius: 300, opacity: 0, fillOpacity: 0 })
+        .on('click', () => openGenomePanel(from, to))
+        .addTo(map);
+    }
+  }
+  wireLine(VICTORIA_SEQUENCE_IDS);
+  wireLine(CENTRAL_SEQUENCE_IDS);
+  wireLine(JUBILEE_SEQUENCE_IDS);
+  Object.values(DISTRICT_BRANCHES).forEach(wireLine);
+  Object.values(NORTHERN_BRANCHES).forEach(wireLine);
+}
+
 // ── B5 — First-time curtain raise ─────────────────────────────────────────────
 function showCurtainRaise() {
   const el = document.getElementById('curtain-raise');
@@ -973,8 +1114,9 @@ const buildEl = document.getElementById('build-id');
 if (buildEl && window.BUILD_ID) buildEl.textContent = window.BUILD_ID;
 
 initGauge(document.getElementById('pressure-gauge'));
-loadStations();
+loadStations().then(() => addGenomeClicksToPolylines());
 loadBoroughBoundaries();
 loadGhostStations();
+loadSecretLocations();
 startPolling();
 showCurtainRaise();

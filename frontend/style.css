@@ -1235,3 +1235,201 @@ body.mode-light .leaflet-popup-content-wrapper {
 body.mode-light #curtain-raise {
   background: rgba(245, 240, 232, 0.85);
 }
+
+/* ── WILD-005: Invisible City panel ────────────────────────── */
+
+#secret-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 360px;
+  background: #080808;
+  border-left: 1px solid #444444;
+  transform: translateX(100%);
+  transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+#secret-panel.open {
+  transform: translateX(0);
+  display: flex !important;
+}
+
+#secret-panel-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 26px;
+  color: #444;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#secret-panel-close:hover { color: #888; }
+
+#secret-classification {
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: #cc3300;
+  border: 1px solid #cc330066;
+  padding: 4px 8px;
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 20px;
+}
+
+#secret-name {
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: #aaaaaa;
+  text-transform: uppercase;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+#secret-subtitle {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #555;
+  text-transform: uppercase;
+}
+
+#secret-body {
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #888;
+  line-height: 1.8;
+}
+
+#secret-footer {
+  font-size: 7px;
+  letter-spacing: 3px;
+  color: #333;
+  margin-top: auto;
+  text-align: center;
+  border-top: 1px solid #222;
+  padding-top: 12px;
+}
+
+.secret-marker {
+  background: none !important;
+  border: none !important;
+}
+
+/* ── WILD-002: Commuter Genome panel ───────────────────────── */
+
+#genome-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 360px;
+  background: var(--bg-panel);
+  border-left: 1px solid var(--border);
+  transform: translateX(100%);
+  transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#genome-panel.open {
+  transform: translateX(0);
+  display: flex !important;
+}
+
+#genome-panel-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 26px;
+  color: var(--accent-dim);
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#genome-panel-close:hover { color: var(--accent); }
+
+#genome-title {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-mid);
+  padding-bottom: 10px;
+  margin-top: 20px;
+}
+
+#genome-content {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.genome-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--accent-ghost);
+}
+
+.genome-label { color: var(--text-faint); font-size: 9px; letter-spacing: 1px; }
+.genome-value { color: var(--text); font-size: 11px; }
+
+.genome-bar-wrap {
+  margin: 6px 0 10px;
+}
+
+.genome-bar-label {
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--text-faint);
+  margin-bottom: 3px;
+}
+
+.genome-bar-track {
+  height: 4px;
+  background: var(--accent-ghost);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.genome-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+@media (max-width: 600px) {
+  #secret-panel, #genome-panel {
+    width: 100vw;
+    height: 78vh;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: 1px solid var(--border-mid);
+    border-radius: 16px 16px 0 0;
+    transform: translateY(100%);
+  }
+  #secret-panel.open, #genome-panel.open { transform: translateY(0); }
+}
