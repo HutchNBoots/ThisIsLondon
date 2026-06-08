@@ -1,8 +1,124 @@
 # PHASE4.md — This is London: Phase 4 Planning Document
 
 **Prepared:** 2026-06-07  
-**Status:** Draft for human review  
-**Scope:** All remaining tube lines, line visibility controls, new data sources, UX improvements beyond UX_BACKLOG.md, test strategy, and a prioritised ticket list.
+**Last updated:** 2026-06-08  
+**Status:** In progress — see COMPLETED section below  
+
+---
+
+## ✅ COMPLETED (2026-06-08)
+
+| Item | Notes |
+|---|---|
+| All 12 tube line JSON data files | bakerloo, piccadilly, waterloo_city, hammersmith_city, circle, metropolitan, elizabeth |
+| ACTIVE_LINES updated to 12 lines | backend/tfl.py polls all 12 from TfL |
+| Backend loads all 12 in startup() | Graceful skip if file missing |
+| _all_lines() returns all 12 | Stations endpoint returns all 12 |
+| LINE_PALETTE + LINE_PALETTE_LIGHT for all 12 | Light mode high-contrast variants |
+| Polyline rendering for all 12 | drawTubePolylines() draws all new lines |
+| Per-line toggle pills | 12 colour-coded pills in title overlay, toggleLine() function |
+| LINE_COLOURS in bloodstream.js for all 12 | Ready for bolus animation extension |
+| Shared-station deduplication in frontend | Only one marker per station ID |
+| 48 pytest tests — all passing | test_endpoints.py, test_tfl.py, test_data.py |
+| GitHub Actions CI | backend-tests + frontend-syntax jobs |
+| Frontend ESM syntax checker fixed | Uses node --input-type=module --check |
+| WILD-005 Invisible City | Shake/5-tap unlock, 10 secret locations, classified panel |
+| WILD-002 Commuter Genome | Midpoint genome panel on polyline segment click |
+| Mobile UX overhaul | Bottom bar, half-sheet panels, drag handles, pinch-zoom fixed |
+| Light mode line colours fixed | LINE_PALETTE_LIGHT, atmosphere tint disabled in light mode |
+| Borough LANG/GENT overlays | Static GeoJSON bundled, ensureBoroughLayer() retry |
+| Station on/off toggle | STATIONS button + mob-stations-btn |
+| Build ID in subtitle | BUILD_ID from config.js |
+| Zoom-gated rendering | Stations + boluses hidden ≤ zoom 12 |
+
+---
+
+## 🔲 REMAINING: Bolus animation for new 7 lines
+
+Victoria, District, Central, Jubilee, Northern are animated. The remaining 7 lines have data and polylines but **no bolus animation yet**.
+
+Priority order for bolus implementation:
+1. **Bakerloo** — simple single trunk, easiest to add (copy Victoria pattern)
+2. **Piccadilly** — single trunk + Heathrow/Uxbridge branch (copy District branch pattern)
+3. **Waterloo & City** — shuttle: 2 stations, bounces; add rush-hour-only guard
+4. **Hammersmith & City** — single trunk, shares stations with Circle
+5. **Circle** — no terminus, continuous circulation; direction from `towards_station_id`
+6. **Metropolitan** — 4 branches
+7. **Elizabeth** — mixed NaPTAN; surface sections; most complex
+
+---
+
+## 🔲 REMAINING: UI / UX
+
+### High priority
+- **N-02** — Tooltip on polyline tap: line name + current status
+- **N-08** — Interchange station expanded panel (tabbed arrivals by line)
+- **N-05** — Zoom-to-line button on toggle pills
+- **N-13** — Station search bar (keyboard `/` to focus)
+- **N-14** — Flash animation when hiding a line's exclusive stations
+- **N-18** — Offline graceful degradation (`SIGNAL LOST` banner + freeze boluses)
+
+### Medium priority
+- **N-01** — First-use line reveal animation (stroke-dasharray draw-on)
+- **N-04** — "Last updated" pulse on arrivals board
+- **N-11** — Per-line pressure bars below gauge
+- **N-12** — Night mode auto-trigger 23:00–05:30
+- **N-15** — 1-hour sparkline in gauge area
+- **N-17** — Bolus trail colour fade by age (urgency encoding)
+
+### Lower priority
+- **N-03** — Per-line ambient sound themes
+- **N-06** — Borough spotlight mode
+- **N-07** — Journey waypoint count badge
+- **N-09** — Ghost station "why closed" tooltip
+- **N-10** — Bolus speed micro-legend (first visit only)
+- **N-16** — Borough-to-borough comparison mode
+- **N-19** — Accessibility high-contrast mode
+- **N-20** — Cursor-follows-bolus demo/tour mode
+
+---
+
+## 🔲 REMAINING: Data sources
+
+### Easy / free (no auth needed)
+| Source | Endpoint | What it adds |
+|---|---|---|
+| TfL Crowding API | `api.tfl.gov.uk/crowding/{naptan}/Live` | Station crowding intensity → marker brightness |
+| TfL Bike Point | `api.tfl.gov.uk/BikePoint` | Bike availability badge in station panel |
+| TfL Step-Free Access | `api.tfl.gov.uk/StopPoint/{id}/AccessibilityClaims` | Accessibility badge on marker |
+| Wikimedia Commons — Station Photos | `commons.wikimedia.org/w/api.php` | Photo in station panel header |
+
+### Medium effort
+| Source | Notes |
+|---|---|
+| Police Data API — Street Crime | Crime density borough overlay |
+| DEFRA Air Quality | NO₂/PM2.5 → AQI shown in Right Now panel |
+| ONS Nomis — Unemployment | Unemployment rate borough overlay |
+| London Datastore — House Prices | Supplement gentrification overlay |
+
+### Requires auth
+| Source | Notes |
+|---|---|
+| Met Office Weather | API key (free tier) — temperature → atmosphere tint |
+| Eventbrite | OAuth2 — events near station in Right Now panel |
+
+---
+
+## 🔲 REMAINING: Test coverage gaps
+
+- Frontend integration test (Playwright or similar) — no browser tests yet
+- Bloodstream bolus logic unit tests (pure JS, no DOM)
+- Journey planner BFS unit tests  
+- localStorage persistence for line visibility
+- Night mode scheduling logic
+
+---
+
+## 🔲 REMAINING: Wild features not yet started
+
+- **WILD-001** Tube Séance (ghost train data overlay)
+- **WILD-003** Heartbeat City (city pulse sonification)
+- **WILD-004** Tube Orchestra (arrival chords per line)
 
 ---
 
