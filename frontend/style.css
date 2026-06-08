@@ -99,6 +99,21 @@ body.mode-light #map {
   touch-action: auto;
 }
 
+/* POSTER-020: Paper grain texture — SVG feTurbulence noise at low opacity */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+body.mode-light::after {
+  opacity: 0.045;
+}
+
 /* Atmosphere tint: subliminal colour temperature shift with map position */
 #atmosphere-tint {
   position: absolute;
@@ -165,6 +180,16 @@ body.mode-light #map {
 
 #panel-close:hover {
   color: var(--accent);
+}
+
+/* POSTER-018: Coloured line band at top of station panel */
+#station-panel::before {
+  content: '';
+  display: block;
+  height: 6px;
+  background: var(--station-line-colour, var(--accent));
+  margin: -20px -20px 0;
+  flex-shrink: 0;
 }
 
 /* Panel header: station name + borough */
@@ -247,16 +272,19 @@ body.mode-light #map {
   flex-shrink: 0;
 }
 
+/* POSTER-025: Section headers as bold banner strips */
 .section-label {
   font-family: var(--display-font);
-  font-size: 14px;
+  font-size: 13px;
   letter-spacing: 4px;
-  color: var(--accent);
+  color: var(--bg-panel);
+  background: var(--accent);
   text-transform: uppercase;
-  border-top: 2px solid var(--accent);
-  padding-top: 6px;
-  margin-bottom: 6px;
-  line-height: 1;
+  padding: 4px 8px;
+  margin-bottom: 8px;
+  margin-left: -20px;
+  margin-right: -20px;
+  line-height: 1.4;
 }
 
 .section-content {
@@ -328,32 +356,49 @@ body.mode-light #map {
   padding-top: 6px;
 }
 
-/* ── Pressure gauge ───────────────────────────────────── */
+/* ── Pressure gauge — Art Deco barometer face ─────────── */
 
 #pressure-gauge {
   position: fixed;
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  width: 32px;
-  height: 200px;
+  width: 44px;
+  height: 240px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
+/* Tick marks column alongside the bar */
 #gauge-bar {
   flex: 1;
-  width: 6px;
+  width: 10px;
   background: var(--accent-ghost);
-  border: 1px solid var(--accent-faint);
-  border-radius: 3px;
+  border: 2px solid var(--accent-faint);
+  border-radius: 0;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
+/* Five Art Deco tick marks at 0%, 25%, 50%, 75%, 100% */
+#gauge-bar::before {
+  content: '';
+  position: absolute;
+  right: -8px;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background:
+    linear-gradient(var(--accent-faint) 1px, transparent 1px) 0 0 / 6px 25%,
+    linear-gradient(var(--accent-dim) 2px, transparent 2px) 0 0 / 6px 50%,
+    linear-gradient(var(--accent-faint) 1px, transparent 1px) 0 12.5% / 6px 25%;
+  background-repeat: repeat-y, no-repeat, repeat-y;
+}
+
+/* Fill column */
 #gauge-bar::after {
   content: '';
   position: absolute;
@@ -361,18 +406,21 @@ body.mode-light #map {
   left: 0;
   right: 0;
   height: 40%;
-  background: linear-gradient(to top, var(--accent), var(--accent-dim));
-  border-radius: 0 0 3px 3px;
+  background: var(--accent);
   transition: height 1s ease;
 }
 
 #gauge-label {
-  font-size: 7px;
-  letter-spacing: 2px;
-  color: var(--text-faint);
+  font-family: var(--display-font);
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: var(--accent);
   writing-mode: vertical-lr;
   text-orientation: mixed;
   transform: rotate(180deg);
+  border-top: 2px solid var(--accent);
+  padding-top: 4px;
+  margin-top: 2px;
 }
 
 /* ── Title overlay — poster banner ───────────────────────── */
@@ -500,18 +548,19 @@ body.mode-light #map {
 
 /* ── Station label typography ─────────────────────────── */
 
+/* POSTER-024: Station labels — all-caps, generous spacing */
 .station-label {
-  font-family: 'Share Tech Mono', monospace !important;
+  font-family: var(--display-font) !important;
   color: var(--text) !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  font-size: 10px !important;
-  letter-spacing: 2px !important;
+  font-size: 11px !important;
+  letter-spacing: 3px !important;
   text-transform: uppercase !important;
   padding: 0 !important;
   white-space: nowrap;
-  border-radius: 4px !important;
+  border-radius: 0 !important;
 }
 
 .station-label.leaflet-tooltip {
@@ -645,6 +694,13 @@ body.mode-light #map {
   border-color: #fff;
 }
 
+/* POSTER-021: Art Deco double-rule border on panels (inner hairline) */
+#station-panel,
+#borough-panel {
+  outline: 1px solid var(--border);
+  outline-offset: -6px;
+}
+
 /* ── Roundel markers ──────────────────────────────────────── */
 
 .roundel-marker {
@@ -764,8 +820,18 @@ body.mode-light #map {
   color: var(--accent);
 }
 
+/* POSTER-019: Borough panel banner strip */
+#borough-panel::before {
+  content: '';
+  display: block;
+  height: 6px;
+  background: var(--accent);
+  margin: -20px -20px 0;
+  flex-shrink: 0;
+}
+
 #borough-panel-header {
-  border-bottom: 1px solid var(--border-mid);
+  border-bottom: 2px solid var(--accent);
   padding-bottom: 10px;
   padding-right: 24px;
 }

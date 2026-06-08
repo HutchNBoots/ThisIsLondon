@@ -887,6 +887,9 @@ async function openPanel(stationId) {
   panel.classList.add('open');
 
   const cached = stationData[stationId];
+  // POSTER-018: set line colour band at panel top
+  const lineColour = cached ? (LINE_PALETTE[cached.line] || LINE_PALETTE_LIGHT[cached.line] || '') : '';
+  panel.style.setProperty('--station-line-colour', lineColour);
   nameEl.textContent = cached ? cached.name.toUpperCase() : stationId;
   boroughEl.textContent = cached ? (cached.borough || '').toUpperCase() : '';
   arrivalsEl.textContent = 'FETCHING...';
