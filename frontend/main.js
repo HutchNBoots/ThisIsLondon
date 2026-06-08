@@ -59,12 +59,12 @@ const POLL_INTERVAL = 20000;
 
 // ── TfL line colours ──────────────────────────────────────────────────────────
 const LINE_PALETTE = {
-  victoria: '#009DDC',
-  district: '#007229',
+  victoria: '#0098D4',
+  district: '#00782A',
   central:  '#E32017',
-  jubilee:  '#868F98',
-  northern: '#1C1C1C',
-  bakerloo: '#894E24',
+  jubilee:  '#A0A5A9',
+  northern: '#000000',
+  bakerloo: '#B36305',
   piccadilly: '#003688',
   'hammersmith-city': '#F3A9BB',
   circle:   '#FFD300',
@@ -73,20 +73,20 @@ const LINE_PALETTE = {
   'waterloo-city': '#95CDBA',
 };
 
-// Light-tile palette: higher contrast against beige CartoDB background
+// Light mode: exact TfL colours, with minor adjustments for legibility on white tiles
 const LINE_PALETTE_LIGHT = {
-  victoria: '#0071A4',
-  district: '#005C1F',
-  central:  '#C0120C',
-  jubilee:  '#4A5056',
-  northern: '#000000',
-  bakerloo: '#6B3C1C',
-  piccadilly: '#002266',
-  'hammersmith-city': '#C87090',
-  circle:   '#C8A800',
-  metropolitan: '#780040',
-  elizabeth: '#503880',
-  'waterloo-city': '#60A090',
+  victoria: '#0098D4',
+  district: '#00782A',
+  central:  '#E32017',
+  jubilee:  '#6E7278',   // A0A5A9 is too pale on white
+  northern: '#1A1A1A',   // pure black invisible on map labels
+  bakerloo: '#B36305',
+  piccadilly: '#003688',
+  'hammersmith-city': '#C4607A', // F3A9BB too pale on white
+  circle:   '#B89B00',   // FFD300 invisible on white — darken
+  metropolitan: '#9B0056',
+  elizabeth: '#6950A1',
+  'waterloo-city': '#5A9080', // 95CDBA too pale
 };
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -367,14 +367,20 @@ async function loadStations() {
     const victoriaCoords = [];
     const districtCoords = [];
 
+    // Deduplicate by ~100m grid square — handles mismatched NaPTAN IDs across line files
+    const seenPos = {};
     const allCoords = [];
     stations.forEach((station) => {
       const station_id = station.id;
       const { name, lat, lng, line } = station;
-      // Merge: keep all line associations but only one marker per station
-      if (stationData[station_id]) {
-        return; // duplicate shared station — skip marker creation
+      const posKey = `${Math.round(lat * 1000)},${Math.round(lng * 1000)}`;
+      const canonical = seenPos[posKey];
+      if (canonical) {
+        // Alias this ID to the canonical station so seq() lookups work for polylines
+        stationData[station_id] = canonical;
+        return;
       }
+      seenPos[posKey] = station;
       stationData[station_id] = station;
 
       const zoom = map.getZoom();
@@ -414,12 +420,35 @@ async function loadStations() {
 // ── Tube line polylines ───────────────────────────────────────────────────────
 
 function polylineStyle(line, isLight) {
-  const colour = isLight ? LINE_PALETTE_LIGHT[line] : LINE_PALETTE[line];
-  return { color: colour, weight: isLight ? 6 : 4, opacity: 1 };
+  const colour = isLight ? (LINE_PALETTE_LIGHT[line] || LINE_PALETTE[line]) : LINE_PALETTE[line];
+  return { color: colour || '#888', weight: isLight ? 4 : 3, opacity: 1 };
 }
 
 function applyPolylineMode(isLight) {
   tubePolylines.forEach(({ layer, line }) => layer.setStyle(polylineStyle(line, isLight)));
+}
+
+// Catmull-Rom spline interpolation through station waypoints
+function smoothLine(latLngs, steps = 8) {
+  if (latLngs.length < 2) return latLngs;
+  const pts = latLngs.map(([lat, lng]) => ({ lat, lng }));
+  const out = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[Math.max(0, i - 1)];
+    const p1 = pts[i];
+    const p2 = pts[i + 1];
+    const p3 = pts[Math.min(pts.length - 1, i + 2)];
+    for (let s = 0; s < steps; s++) {
+      const t = s / steps;
+      const t2 = t * t, t3 = t2 * t;
+      out.push([
+        0.5 * ((2 * p1.lat) + (-p0.lat + p2.lat) * t + (2 * p0.lat - 5 * p1.lat + 4 * p2.lat - p3.lat) * t2 + (-p0.lat + 3 * p1.lat - 3 * p2.lat + p3.lat) * t3),
+        0.5 * ((2 * p1.lng) + (-p0.lng + p2.lng) * t + (2 * p0.lng - 5 * p1.lng + 4 * p2.lng - p3.lng) * t2 + (-p0.lng + 3 * p1.lng - 3 * p2.lng + p3.lng) * t3),
+      ]);
+    }
+  }
+  out.push(latLngs[latLngs.length - 1]);
+  return out;
 }
 
 function drawTubePolylines() {
@@ -428,47 +457,55 @@ function drawTubePolylines() {
   }
   const isLight = document.body.classList.contains('mode-light');
 
-  function addLine(coords, line) {
+  function addLine(coords, line, extraStyle = {}) {
     if (coords.length < 2) return;
-    const layer = L.polyline(coords, polylineStyle(line, isLight)).addTo(map);
+    const layer = L.polyline(smoothLine(coords), { ...polylineStyle(line, isLight), ...extraStyle }).addTo(map);
     tubePolylines.push({ layer, line });
   }
 
-  addLine(seq(VICTORIA_SEQUENCE_IDS), 'victoria');
+  // Draw order: least-prominent lines first, most-prominent on top
+  // Elizabeth (wide, surface route) and Metropolitan (outer branches) go deepest
+  addLine(seq(ELIZABETH_SEQUENCE_IDS), 'elizabeth');
+  addLine(seq(METROPOLITAN_SEQUENCE_IDS), 'metropolitan');
+  addLine(seq(WATERLOO_CITY_SEQUENCE_IDS), 'waterloo-city');
 
+  // Piccadilly under District/Circle (shares track in west London)
+  addLine(seq(PICCADILLY_SEQUENCE_IDS), 'piccadilly');
+
+  // Northern and Jubilee
+  for (const [branch, ids] of Object.entries(NORTHERN_BRANCHES)) {
+    const c = seq(ids);
+    if (c.length > 1) {
+      const layer = L.polyline(smoothLine(c), {
+        ...polylineStyle('northern', isLight),
+        weight: branch === 'morden_bank' ? (isLight ? 4 : 3) : (isLight ? 3 : 2),
+      }).addTo(map);
+      tubePolylines.push({ layer, line: 'northern' });
+    }
+  }
+  addLine(seq(JUBILEE_SEQUENCE_IDS), 'jubilee');
+  addLine(seq(BAKERLOO_SEQUENCE_IDS), 'bakerloo');
+  addLine(seq(CENTRAL_SEQUENCE_IDS), 'central');
+
+  // H&C under Circle (share most track)
+  addLine(seq(HAMMERSMITH_CITY_SEQUENCE_IDS), 'hammersmith-city');
+
+  // District branches
   for (const [branch, ids] of Object.entries(DISTRICT_BRANCHES)) {
     const c = seq(ids);
     if (c.length > 1) {
-      const layer = L.polyline(c, {
+      const layer = L.polyline(smoothLine(c), {
         ...polylineStyle('district', isLight),
-        weight: branch === 'spine' ? (isLight ? 5 : 4) : (isLight ? 3 : 2.5),
-        opacity: branch === 'spine' ? (isLight ? 1 : 0.85) : (isLight ? 0.8 : 0.6),
+        weight: branch === 'spine' ? (isLight ? 4 : 3) : (isLight ? 3 : 2),
+        opacity: branch === 'spine' ? 1 : (isLight ? 0.8 : 0.65),
       }).addTo(map);
       tubePolylines.push({ layer, line: 'district' });
     }
   }
 
-  addLine(seq(CENTRAL_SEQUENCE_IDS), 'central');
-  addLine(seq(JUBILEE_SEQUENCE_IDS), 'jubilee');
-
-  for (const [branch, ids] of Object.entries(NORTHERN_BRANCHES)) {
-    const c = seq(ids);
-    if (c.length > 1) {
-      const layer = L.polyline(c, {
-        ...polylineStyle('northern', isLight),
-        weight: branch === 'morden_bank' ? (isLight ? 5 : 4) : (isLight ? 3 : 2.5),
-      }).addTo(map);
-      tubePolylines.push({ layer, line: 'northern' });
-    }
-  }
-
-  addLine(seq(BAKERLOO_SEQUENCE_IDS), 'bakerloo');
-  addLine(seq(PICCADILLY_SEQUENCE_IDS), 'piccadilly');
-  addLine(seq(HAMMERSMITH_CITY_SEQUENCE_IDS), 'hammersmith-city');
+  // Victoria and Circle on top — most used / most recognisable
+  addLine(seq(VICTORIA_SEQUENCE_IDS), 'victoria');
   addLine(seq(CIRCLE_SEQUENCE_IDS), 'circle');
-  addLine(seq(METROPOLITAN_SEQUENCE_IDS), 'metropolitan');
-  addLine(seq(ELIZABETH_SEQUENCE_IDS), 'elizabeth');
-  addLine(seq(WATERLOO_CITY_SEQUENCE_IDS), 'waterloo-city');
 }
 
 function toggleLine(lineName) {
