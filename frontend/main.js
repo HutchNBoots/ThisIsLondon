@@ -367,20 +367,23 @@ async function loadStations() {
     const victoriaCoords = [];
     const districtCoords = [];
 
-    // Deduplicate by ~100m grid square — handles mismatched NaPTAN IDs across line files
-    const seenPos = {};
+    // Deduplicate by normalised name — LU station names are unique across the network.
+    // The same physical station appears multiple times when shared between lines, with
+    // slightly different coordinates and different NaPTAN IDs per data file.
+    // Aliases all IDs to the canonical station so seq() polyline lookups still work.
+    function normName(n) { return n.toLowerCase().replace(/[^a-z0-9]/g, ''); }
+    const seenByName = {}; // normName -> canonical station object
     const allCoords = [];
     stations.forEach((station) => {
       const station_id = station.id;
       const { name, lat, lng, line } = station;
-      const posKey = `${Math.round(lat * 1000)},${Math.round(lng * 1000)}`;
-      const canonical = seenPos[posKey];
+      const key = normName(name);
+      const canonical = seenByName[key];
       if (canonical) {
-        // Alias this ID to the canonical station so seq() lookups work for polylines
         stationData[station_id] = canonical;
         return;
       }
-      seenPos[posKey] = station;
+      seenByName[key] = station;
       stationData[station_id] = station;
 
       const zoom = map.getZoom();
