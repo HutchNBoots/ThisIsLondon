@@ -1386,6 +1386,24 @@ body.borough-story-mode #story-exit { display: block !important; }
   }
 }
 
+/* ── Typographic Map mode ────────────────────────────────── */
+
+/* In typo mode the canvas IS the map — hide Leaflet chrome */
+body.mode-typo .leaflet-control-container {
+  display: none;
+}
+
+/* Keep title overlay visible so buttons remain accessible */
+body.mode-typo #title-overlay {
+  opacity: 1;
+}
+
+/* Panels stay usable over the canvas */
+body.mode-typo #station-panel,
+body.mode-typo #borough-panel {
+  z-index: 1100;
+}
+
 /* ── Light mode overrides for map chrome ─────────────────── */
 
 /* Status banner on light background */

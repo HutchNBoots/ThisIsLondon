@@ -17,6 +17,7 @@ const FILES = [
   "bloodstream.js",
   "panel.js",
   "gauge.js",
+  "typomap.js",
 ];
 
 let failed = false;

@@ -1,6 +1,7 @@
 import { initBloodstream, setSoundMuted, setThermalMode, VICTORIA_SEQUENCE_IDS, DISTRICT_BRANCHES, CENTRAL_SEQUENCE_IDS, JUBILEE_SEQUENCE_IDS, NORTHERN_BRANCHES } from './bloodstream.js';
 import { renderArrivals, renderPanelSections, renderComparison, hideComparison, renderBoroughPanel } from './panel.js';
 import { initGauge, updateGauge } from './gauge.js';
+import { initTypoMap } from './typomap.js';
 
 // ── Config ────────────────────────────────────────────────────────────────────
 const BACKEND = window.BACKEND_URL || 'http://localhost:8000';
@@ -415,6 +416,16 @@ async function loadStations() {
     const bloodstream = initBloodstream(map, canvas, () => trainState, () => stationData);
     bloodstream.start();
     window.__bloodstream = bloodstream;
+
+    // Typo map — shares canvas, so bloodstream pauses when typo is active
+    window.__typomap = initTypoMap(
+      map, canvas,
+      () => stationData,
+      () => lineVisible,
+      (isLight) => isLight ? LINE_PALETTE_LIGHT : LINE_PALETTE,
+      () => trainState,
+    );
+    window.__typomap._bloodstream = bloodstream;
   } catch (err) {
     console.error('[main] Failed to load stations:', err);
   }
@@ -1018,6 +1029,20 @@ if (thermalBtn) {
     thermalActive = !thermalActive;
     setThermalMode(thermalActive);
     thermalBtn.classList.toggle('active', thermalActive);
+  });
+}
+
+// ── Typographic map toggle ────────────────────────────────────────────────────
+const typoBtn = document.getElementById('typo-toggle');
+if (typoBtn) {
+  typoBtn.addEventListener('click', () => {
+    const tm = window.__typomap;
+    const bs = window.__bloodstream;
+    if (!tm) return;
+    const isNowActive = tm.toggle();
+    typoBtn.classList.toggle('active', isNowActive);
+    // Pause/resume bloodstream so both don't fight over the canvas
+    if (isNowActive) { bs?.stop?.(); } else { bs?.start?.(); }
   });
 }
 
