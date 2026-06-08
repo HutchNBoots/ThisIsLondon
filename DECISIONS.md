@@ -38,7 +38,29 @@ Replaced fixed `setView([51.5, -0.12], 11)` with `map.fitBounds()` after all sta
 ### halo_colours.json District entries
 Added District line halo entries keyed by station ID. Wealth score derived from borough median income (GLA data). Stations sharing a borough share a halo score. Richest: Kensington & Chelsea (`0.90`), Richmond (`0.82`). Poorest: Barking & Dagenham (`0.22`), Newham (`0.24`).
 
-## 2026-06-07: Tile provider and hosting
+## 2026-06-08: All 12 tube lines shipped (Phase 4 sprint)
+
+### New line data files
+Created JSON station files for Bakerloo (25 stations), Piccadilly (52), Waterloo & City (2), Hammersmith & City (32), Circle (41), Metropolitan (39), Elizabeth (34). All use `940GZZLU***` NaPTAN IDs except Elizabeth surface stations (`910G***`). Files live in `backend/data/`.
+
+### Shared-station deduplication
+Circle/Met/H&C share many stations. Frontend `loadStations()` now skips marker creation if `stationData[station_id]` already exists. Only the first line's data is used for the marker; all lines are available via `stationData` for polyline rendering.
+
+### Per-line toggle design
+Implemented as coloured pill buttons (`#line-toggles`) inside `#title-overlay`, not a separate sidebar panel (as PHASE4.md proposed). Rationale: simpler, no extra DOM, consistent with existing control placement. The `lineVisible` state object drives `toggleLine()` which shows/hides both polylines and station markers. localStorage persistence deferred to a future session.
+
+### Sequence IDs for new lines
+Rather than exporting from `bloodstream.js`, new line sequences (BAKERLOO_SEQUENCE_IDS, PICCADILLY_SEQUENCE_IDS, etc.) are defined directly in `main.js`. Bloodstream only needs them if bolus animation is added for those lines — keeping them separate avoids coupling until that work starts.
+
+### Bolus animation — new lines not yet animated
+Polylines and station markers are rendered for all 12 lines. Bolus animation (`bloodstream.js`) still only processes victoria/district/central/jubilee/northern. Extending to remaining 7 lines is Phase 4 follow-on work.
+
+### Test suite
+48 pytest tests: endpoint integration tests (`test_endpoints.py`), TfL client unit tests (`test_tfl.py`), JSON data file validation (`test_data.py`). GitHub Actions CI at `.github/workflows/ci.yml` runs both backend tests and frontend ESM syntax check. Frontend syntax checker fixed to use `node --input-type=module --check` (vm.Script incorrectly rejects ESM import/export).
+
+### ACTIVE_LINES updated to 12
+`backend/tfl.py` ACTIVE_LINES now includes all 12 lines. Backend polls TfL arrivals for all 12 every 20s; only lines with parsed boluses are animated in the frontend for now.
+
 
 - **CartoDB Dark Matter tiles** chosen instead of Mapbox for the PoC. No token required, free, looks great on dark maps. Mapbox can be added in Phase 2 with proper domain restrictions.
 - **Railway.app** chosen for backend hosting. APScheduler requires a persistent process; Vercel serverless 10s limit is incompatible.

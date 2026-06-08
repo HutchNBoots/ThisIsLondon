@@ -25,6 +25,13 @@ _district_line: list[dict] = []
 _central_line: list[dict] = []
 _jubilee_line: list[dict] = []
 _northern_line: list[dict] = []
+_bakerloo_line: list[dict] = []
+_piccadilly_line: list[dict] = []
+_hammersmith_city_line: list[dict] = []
+_circle_line: list[dict] = []
+_metropolitan_line: list[dict] = []
+_elizabeth_line: list[dict] = []
+_waterloo_city_line: list[dict] = []
 _demographics: dict[str, dict] = {}
 _halo_colours: dict[str, dict] = {}
 _ghost_stations: list[dict] = []
@@ -229,6 +236,8 @@ async def _fetch_line_status():
 @app.on_event("startup")
 async def startup():
     global _victoria_line, _district_line, _central_line, _jubilee_line, _northern_line
+    global _bakerloo_line, _piccadilly_line, _hammersmith_city_line, _circle_line
+    global _metropolitan_line, _elizabeth_line, _waterloo_city_line
     global _demographics, _halo_colours, _ghost_stations, _gentrification, _language_map
     global tfl_client
 
@@ -243,6 +252,13 @@ async def startup():
         ("_central_line", "central_line.json"),
         ("_jubilee_line", "jubilee_line.json"),
         ("_northern_line", "northern_line.json"),
+        ("_bakerloo_line", "bakerloo_line.json"),
+        ("_piccadilly_line", "piccadilly_line.json"),
+        ("_hammersmith_city_line", "hammersmith_city_line.json"),
+        ("_circle_line", "circle_line.json"),
+        ("_metropolitan_line", "metropolitan_line.json"),
+        ("_elizabeth_line", "elizabeth_line.json"),
+        ("_waterloo_city_line", "waterloo_city_line.json"),
     ]:
         path = DATA_DIR / fname
         if path.exists():
@@ -333,6 +349,13 @@ def _all_lines() -> list[tuple[str, list[dict], str]]:
         ("central", _central_line, "#E32017"),
         ("jubilee", _jubilee_line, "#A0A5A9"),
         ("northern", _northern_line, "#000000"),
+        ("bakerloo", _bakerloo_line, "#894E24"),
+        ("piccadilly", _piccadilly_line, "#003688"),
+        ("hammersmith-city", _hammersmith_city_line, "#F3A9BB"),
+        ("circle", _circle_line, "#FFD300"),
+        ("metropolitan", _metropolitan_line, "#9B0056"),
+        ("elizabeth", _elizabeth_line, "#6950A1"),
+        ("waterloo-city", _waterloo_city_line, "#95CDBA"),
     ]
 
 

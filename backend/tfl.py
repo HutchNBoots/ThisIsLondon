@@ -34,7 +34,11 @@ LONDON_KEYWORDS = [
     'Brent Cross', 'Hendon', 'Edgware', 'Oval',
 ]
 
-ACTIVE_LINES = ["victoria", "district", "central", "jubilee", "northern"]
+ACTIVE_LINES = [
+    "victoria", "district", "central", "jubilee", "northern",
+    "bakerloo", "piccadilly", "hammersmith-city", "circle", "metropolitan",
+    "elizabeth", "waterloo-city",
+]
 
 
 class TfLClient:

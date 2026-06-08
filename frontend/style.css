@@ -1,23 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&display=swap');
 
 /* ── CSS custom properties (theming) ─────────────────────── */
+/* Palette drawn from Alan Rogers "Speed Underground" (1930):  */
+/* cream ground, deep charcoal, TfL red, powder blue, grey     */
 
 :root {
-  --accent:       #ff9900;
-  --accent-dim:   #ff990088;
-  --accent-faint: #ff990033;
-  --accent-ghost: #ff990011;
-  --bg-body:      #0a0a0a;
-  --bg-panel:     #0d0d0d;
-  --bg-arrivals:  #0a0500;
-  --text:         #ff9900;
-  --text-dim:     #ff9900aa;
-  --text-faint:   #ff990066;
-  --border:       #ff990033;
-  --border-mid:   #ff990044;
+  /* Poster palette */
+  --poster-cream:    #F0EAD6;
+  --poster-charcoal: #1C1F2A;
+  --poster-red:      #C8102E;
+  --poster-blue:     #4F9ED4;
+  --poster-grey:     #8E9198;
+  --poster-ink:      #2B2D3A;
+
+  /* Dark / Underground mode (default) */
+  --accent:       var(--poster-blue);
+  --accent-dim:   #4F9ED488;
+  --accent-faint: #4F9ED433;
+  --accent-ghost: #4F9ED411;
+  --bg-body:      #0E1018;
+  --bg-panel:     var(--poster-charcoal);
+  --bg-arrivals:  #0A0C14;
+  --text:         var(--poster-cream);
+  --text-dim:     #F0EAD6AA;
+  --text-faint:   #F0EAD666;
+  --border:       #4F9ED444;
+  --border-mid:   #4F9ED466;
+  --panel-border: 2px solid #4F9ED466;
+  --display-font: 'Bebas Neue', 'Share Tech Mono', monospace;
 }
 
-/* Green mode — dark map, green accent */
+/* Green mode */
 body.mode-green {
   --accent:       #00cc66;
   --accent-dim:   #00cc6688;
@@ -31,20 +44,21 @@ body.mode-green {
   --bg-arrivals:  #000a05;
 }
 
-/* Light mode — light map, TfL navy accent */
+/* Light / Poster mode */
 body.mode-light {
-  --accent:       #003688;
-  --accent-dim:   #00368888;
-  --accent-faint: #00368833;
-  --accent-ghost: #00368811;
-  --bg-body:      #f5f0e8;
-  --bg-panel:     #ffffff;
-  --bg-arrivals:  #eef0f8;
-  --text:         #003688;
-  --text-dim:     #003688aa;
-  --text-faint:   #00368866;
-  --border:       #00368833;
-  --border-mid:   #00368844;
+  --accent:       var(--poster-red);
+  --accent-dim:   #C8102E99;
+  --accent-faint: #C8102E33;
+  --accent-ghost: #C8102E11;
+  --bg-body:      var(--poster-cream);
+  --bg-panel:     #E8E0C8;
+  --bg-arrivals:  #DDD5BD;
+  --text:         var(--poster-charcoal);
+  --text-dim:     #1C1F2AAA;
+  --text-faint:   #1C1F2A66;
+  --border:       #1C1F2A44;
+  --border-mid:   #1C1F2A66;
+  --panel-border: 3px solid var(--poster-charcoal);
 }
 
 * {
@@ -53,11 +67,22 @@ body.mode-light {
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   background: var(--bg-body);
   font-family: 'Share Tech Mono', monospace;
   color: var(--text);
   overflow: hidden;
+}
+
+/* Warm paper filter on map in poster mode */
+body.mode-light #map {
+  filter: sepia(0.18) contrast(1.06) saturate(0.9);
 }
 
 /* ── Map ──────────────────────────────────────────────── */
@@ -72,6 +97,21 @@ body {
   width: 100%;
   height: 100%;
   touch-action: auto;
+}
+
+/* POSTER-020: Paper grain texture — SVG feTurbulence noise at low opacity */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+body.mode-light::after {
+  opacity: 0.045;
 }
 
 /* Atmosphere tint: subliminal colour temperature shift with map position */
@@ -104,7 +144,7 @@ body {
   height: 100vh;
   width: 360px;
   background: var(--bg-panel);
-  border-left: 1px solid var(--border);
+  border-left: var(--panel-border);
   transform: translateX(100%);
   transition: transform 300ms ease-out;
   z-index: 1000;
@@ -142,6 +182,16 @@ body {
   color: var(--accent);
 }
 
+/* POSTER-018: Coloured line band at top of station panel */
+#station-panel::before {
+  content: '';
+  display: block;
+  height: 6px;
+  background: var(--station-line-colour, var(--accent));
+  margin: -20px -20px 0;
+  flex-shrink: 0;
+}
+
 /* Panel header: station name + borough */
 #panel-header {
   padding-right: 24px;
@@ -150,10 +200,12 @@ body {
 }
 
 #panel-station-name {
-  font-size: 16px;
-  letter-spacing: 4px;
+  font-family: var(--display-font);
+  font-size: 24px;
+  letter-spacing: 5px;
   color: var(--text);
   text-transform: uppercase;
+  line-height: 1;
 }
 
 #panel-borough-name {
@@ -220,14 +272,19 @@ body {
   flex-shrink: 0;
 }
 
+/* POSTER-025: Section headers as bold banner strips */
 .section-label {
-  font-size: 8px;
-  letter-spacing: 3px;
-  color: var(--text-faint);
+  font-family: var(--display-font);
+  font-size: 13px;
+  letter-spacing: 4px;
+  color: var(--bg-panel);
+  background: var(--accent);
   text-transform: uppercase;
-  border-top: 1px solid var(--accent-ghost);
-  padding-top: 8px;
-  margin-bottom: 6px;
+  padding: 4px 8px;
+  margin-bottom: 8px;
+  margin-left: -20px;
+  margin-right: -20px;
+  line-height: 1.4;
 }
 
 .section-content {
@@ -299,32 +356,49 @@ body {
   padding-top: 6px;
 }
 
-/* ── Pressure gauge ───────────────────────────────────── */
+/* ── Pressure gauge — Art Deco barometer face ─────────── */
 
 #pressure-gauge {
   position: fixed;
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  width: 32px;
-  height: 200px;
+  width: 44px;
+  height: 240px;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 }
 
+/* Tick marks column alongside the bar */
 #gauge-bar {
   flex: 1;
-  width: 6px;
+  width: 10px;
   background: var(--accent-ghost);
-  border: 1px solid var(--accent-faint);
-  border-radius: 3px;
+  border: 2px solid var(--accent-faint);
+  border-radius: 0;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
+/* Five Art Deco tick marks at 0%, 25%, 50%, 75%, 100% */
+#gauge-bar::before {
+  content: '';
+  position: absolute;
+  right: -8px;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background:
+    linear-gradient(var(--accent-faint) 1px, transparent 1px) 0 0 / 6px 25%,
+    linear-gradient(var(--accent-dim) 2px, transparent 2px) 0 0 / 6px 50%,
+    linear-gradient(var(--accent-faint) 1px, transparent 1px) 0 12.5% / 6px 25%;
+  background-repeat: repeat-y, no-repeat, repeat-y;
+}
+
+/* Fill column */
 #gauge-bar::after {
   content: '';
   position: absolute;
@@ -332,44 +406,75 @@ body {
   left: 0;
   right: 0;
   height: 40%;
-  background: linear-gradient(to top, var(--accent), var(--accent-dim));
-  border-radius: 0 0 3px 3px;
+  background: var(--accent);
   transition: height 1s ease;
 }
 
 #gauge-label {
-  font-size: 7px;
-  letter-spacing: 2px;
-  color: var(--text-faint);
+  font-family: var(--display-font);
+  font-size: 8px;
+  letter-spacing: 3px;
+  color: var(--accent);
   writing-mode: vertical-lr;
   text-orientation: mixed;
   transform: rotate(180deg);
+  border-top: 2px solid var(--accent);
+  padding-top: 4px;
+  margin-top: 2px;
 }
 
-/* ── Title overlay ────────────────────────────────────── */
+/* ── Title overlay — poster banner ───────────────────────── */
 
 #title-overlay {
   position: fixed;
-  top: 24px;
-  left: 24px;
+  top: 20px;
+  left: 20px;
   z-index: 1000;
   pointer-events: none;
+  background: var(--bg-panel);
+  padding: 10px 16px 12px;
+  border: var(--panel-border);
+  border-radius: 0;
+  opacity: 0.97;
+  max-width: 320px;
+}
+
+/* Top rule — double-line poster header decoration */
+#title-overlay::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: var(--accent);
+  margin-bottom: 8px;
 }
 
 #title-text {
   display: block;
-  font-size: 11px;
-  letter-spacing: 4px;
+  font-family: var(--display-font);
+  font-size: 26px;
+  letter-spacing: 6px;
   color: var(--text);
-  opacity: 0.9;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 #subtitle-text {
   display: block;
-  font-size: 9px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 8px;
   letter-spacing: 3px;
-  color: var(--text-faint);
-  margin-top: 4px;
+  color: var(--text-dim);
+  margin-top: 5px;
+  text-transform: uppercase;
+}
+
+/* Bottom rule */
+#title-overlay::after {
+  content: '';
+  display: block;
+  height: 2px;
+  background: var(--border-mid);
+  margin-top: 8px;
 }
 
 /* ── Station markers ──────────────────────────────────── */
@@ -443,18 +548,19 @@ body {
 
 /* ── Station label typography ─────────────────────────── */
 
+/* POSTER-024: Station labels — all-caps, generous spacing */
 .station-label {
-  font-family: 'Share Tech Mono', monospace !important;
+  font-family: var(--display-font) !important;
   color: var(--text) !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  font-size: 10px !important;
-  letter-spacing: 2px !important;
+  font-size: 11px !important;
+  letter-spacing: 3px !important;
   text-transform: uppercase !important;
   padding: 0 !important;
   white-space: nowrap;
-  border-radius: 4px !important;
+  border-radius: 0 !important;
 }
 
 .station-label.leaflet-tooltip {
@@ -501,36 +607,98 @@ body {
 
 #title-controls {
   display: flex;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 6px;
+  margin-top: 8px;
   flex-wrap: wrap;
   align-items: center;
 }
 
+#mute-toggle,
 #mode-toggle,
-#thermal-toggle {
-  background: none;
-  border: none;
+#thermal-toggle,
+#stations-toggle,
+#lang-toggle,
+#gent-toggle {
+  background: transparent;
+  border: 1px solid var(--border-mid);
   color: var(--text);
   font-family: 'Share Tech Mono', monospace;
-  font-size: 9px;
+  font-size: 8px;
   letter-spacing: 2px;
-  opacity: 0.6;
+  opacity: 0.75;
   cursor: pointer;
-  padding: 4px 6px;
-  transition: opacity 150ms;
+  padding: 4px 8px;
+  transition: all 100ms;
   pointer-events: all;
-  min-height: 44px;
+  min-height: 28px;
+  text-transform: uppercase;
+  border-radius: 0;
 }
 
+#mute-toggle:hover,
 #mode-toggle:hover,
-#thermal-toggle:hover {
+#thermal-toggle:hover,
+#stations-toggle:hover,
+#lang-toggle:hover,
+#gent-toggle:hover {
   opacity: 1;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-#thermal-toggle.active {
+#thermal-toggle.active,
+#stations-toggle.active,
+#lang-toggle.active,
+#gent-toggle.active {
   opacity: 1;
-  color: #ff6622;
+  background: var(--accent);
+  color: var(--bg-panel);
+  border-color: var(--accent);
+}
+
+/* ── Line toggle labels ────────────────────────────────────── */
+
+#line-toggles {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.line-toggle-btn {
+  background: var(--lc, #888);
+  border: 2px solid transparent;
+  color: #fff;
+  font-family: var(--display-font);
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 2px 7px 0;
+  border-radius: 0;
+  cursor: pointer;
+  opacity: 1;
+  transition: all 100ms;
+  pointer-events: all;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  min-height: 22px;
+  line-height: 20px;
+}
+
+.line-toggle-btn:not(.active) {
+  opacity: 0.22;
+  filter: grayscale(0.6);
+}
+
+.line-toggle-btn:hover {
+  opacity: 1;
+  filter: none;
+  border-color: #fff;
+}
+
+/* POSTER-021: Art Deco double-rule border on panels (inner hairline) */
+#station-panel,
+#borough-panel {
+  outline: 1px solid var(--border);
+  outline-offset: -6px;
 }
 
 /* ── Roundel markers ──────────────────────────────────────── */
@@ -616,7 +784,7 @@ body {
   height: 100vh;
   width: 320px;
   background: var(--bg-panel);
-  border-right: 1px solid var(--border);
+  border-right: var(--panel-border);
   transform: translateX(-100%);
   transition: transform 300ms ease-out;
   z-index: 1000;
@@ -652,24 +820,36 @@ body {
   color: var(--accent);
 }
 
+/* POSTER-019: Borough panel banner strip */
+#borough-panel::before {
+  content: '';
+  display: block;
+  height: 6px;
+  background: var(--accent);
+  margin: -20px -20px 0;
+  flex-shrink: 0;
+}
+
 #borough-panel-header {
-  border-bottom: 1px solid var(--border-mid);
+  border-bottom: 2px solid var(--accent);
   padding-bottom: 10px;
   padding-right: 24px;
 }
 
 #borough-panel-name {
-  font-size: 15px;
-  letter-spacing: 3px;
+  font-family: var(--display-font);
+  font-size: 24px;
+  letter-spacing: 4px;
   color: var(--text);
   text-transform: uppercase;
+  line-height: 1;
 }
 
 #borough-panel-sub {
   font-size: 8px;
   letter-spacing: 3px;
   color: var(--text-faint);
-  margin-top: 3px;
+  margin-top: 5px;
   text-transform: uppercase;
 }
 
@@ -711,6 +891,7 @@ body {
     bottom: 0;
     right: 0;
     border-left: none;
+    border-top: 3px solid var(--accent);
     border-top: 1px solid var(--border-mid);
     border-radius: 16px 16px 0 0;
     transform: translateY(100%);
@@ -944,10 +1125,14 @@ body {
   z-index: 2000;
   display: none;
   pointer-events: none;
+  opacity: 0;
   transition: opacity 1.2s ease;
-  display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#curtain-raise.visible {
+  display: flex;
 }
 
 #curtain-text {
@@ -955,19 +1140,21 @@ body {
 }
 
 #curtain-line1 {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 28px;
-  letter-spacing: 12px;
-  color: var(--accent, #ff9900);
-  opacity: 0.9;
+  font-family: var(--display-font);
+  font-size: 52px;
+  letter-spacing: 14px;
+  color: var(--accent, #C8102E);
+  opacity: 1;
+  line-height: 1;
 }
 
 #curtain-line2 {
   font-family: 'Share Tech Mono', monospace;
   font-size: 10px;
-  letter-spacing: 4px;
-  color: var(--text-faint, #ff990066);
-  margin-top: 12px;
+  letter-spacing: 5px;
+  color: var(--text-faint, #F0EAD666);
+  margin-top: 14px;
+  text-transform: uppercase;
 }
 
 /* ── B6: Journey mode ────────────────────────────────────── */
@@ -1106,8 +1293,8 @@ body.borough-story-mode #story-exit { display: block !important; }
 }
 
 @media (max-width: 600px) {
-  #curtain-line1 { font-size: 20px; letter-spacing: 6px; }
-  #curtain-line2 { font-size: 9px; letter-spacing: 2px; }
+  #curtain-line1 { font-size: 36px; letter-spacing: 8px; }
+  #curtain-line2 { font-size: 9px; letter-spacing: 3px; }
 
   /* Status banner on mobile: top strip instead of bottom */
   #status-banner {
@@ -1123,20 +1310,19 @@ body.borough-story-mode #story-exit { display: block !important; }
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Mobile bottom control bar */
+  /* Mobile bottom control bar — poster horizontal strip */
   #mobile-controls {
     display: flex;
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 64px;
+    height: 60px;
     background: var(--bg-panel);
-    border-top: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
     z-index: 900;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-around;
-    padding: 0 8px;
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
@@ -1145,29 +1331,33 @@ body.borough-story-mode #story-exit { display: block !important; }
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3px;
-    min-width: 56px;
-    min-height: 48px;
+    gap: 2px;
+    flex: 1;
+    min-height: 56px;
     background: none;
     border: none;
+    border-right: 1px solid var(--border);
     color: var(--text);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 7px;
+    font-family: var(--display-font);
+    font-size: 10px;
     letter-spacing: 1px;
-    opacity: 0.7;
+    opacity: 0.65;
     cursor: pointer;
-    padding: 6px 4px;
-    transition: opacity 150ms;
+    padding: 6px 0;
+    transition: all 100ms;
   }
+
+  .mob-ctrl-btn:last-child { border-right: none; }
 
   .mob-ctrl-btn:active,
   .mob-ctrl-btn.active {
     opacity: 1;
-    color: var(--accent);
+    background: var(--accent);
+    color: var(--bg-panel);
   }
 
   .mob-ctrl-icon {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1;
   }
 
@@ -1196,6 +1386,24 @@ body.borough-story-mode #story-exit { display: block !important; }
   }
 }
 
+/* ── Typographic Map mode ────────────────────────────────── */
+
+/* In typo mode the canvas IS the map — hide Leaflet chrome */
+body.mode-typo .leaflet-control-container {
+  display: none;
+}
+
+/* Keep title overlay visible so buttons remain accessible */
+body.mode-typo #title-overlay {
+  opacity: 1;
+}
+
+/* Panels stay usable over the canvas */
+body.mode-typo #station-panel,
+body.mode-typo #borough-panel {
+  z-index: 1100;
+}
+
 /* ── Light mode overrides for map chrome ─────────────────── */
 
 /* Status banner on light background */
@@ -1216,7 +1424,208 @@ body.mode-light .leaflet-popup-content-wrapper {
   border-color: var(--accent-dim);
 }
 
-/* Curtain raise readable on light bg */
+/* Curtain raise backgrounds */
+#curtain-raise {
+  background: rgba(14, 16, 24, 0.93);
+}
 body.mode-light #curtain-raise {
-  background: rgba(245, 240, 232, 0.85);
+  background: rgba(240, 234, 214, 0.93);
+}
+
+/* ── WILD-005: Invisible City panel ────────────────────────── */
+
+#secret-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 360px;
+  background: #080808;
+  border-left: 1px solid #444444;
+  transform: translateX(100%);
+  transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+#secret-panel.open {
+  transform: translateX(0);
+  display: flex !important;
+}
+
+#secret-panel-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 26px;
+  color: #444;
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#secret-panel-close:hover { color: #888; }
+
+#secret-classification {
+  font-size: 8px;
+  letter-spacing: 4px;
+  color: #cc3300;
+  border: 1px solid #cc330066;
+  padding: 4px 8px;
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 20px;
+}
+
+#secret-name {
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: #aaaaaa;
+  text-transform: uppercase;
+  border-bottom: 1px solid #333;
+  padding-bottom: 10px;
+}
+
+#secret-subtitle {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #555;
+  text-transform: uppercase;
+}
+
+#secret-body {
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #888;
+  line-height: 1.8;
+}
+
+#secret-footer {
+  font-size: 7px;
+  letter-spacing: 3px;
+  color: #333;
+  margin-top: auto;
+  text-align: center;
+  border-top: 1px solid #222;
+  padding-top: 12px;
+}
+
+.secret-marker {
+  background: none !important;
+  border: none !important;
+}
+
+/* ── WILD-002: Commuter Genome panel ───────────────────────── */
+
+#genome-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 360px;
+  background: var(--bg-panel);
+  border-left: 1px solid var(--border);
+  transform: translateX(100%);
+  transition: transform 320ms cubic-bezier(0.32, 0.72, 0, 1);
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#genome-panel.open {
+  transform: translateX(0);
+  display: flex !important;
+}
+
+#genome-panel-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 26px;
+  color: var(--accent-dim);
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#genome-panel-close:hover { color: var(--accent); }
+
+#genome-title {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-mid);
+  padding-bottom: 10px;
+  margin-top: 20px;
+}
+
+#genome-content {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.genome-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--accent-ghost);
+}
+
+.genome-label { color: var(--text-faint); font-size: 9px; letter-spacing: 1px; }
+.genome-value { color: var(--text); font-size: 11px; }
+
+.genome-bar-wrap {
+  margin: 6px 0 10px;
+}
+
+.genome-bar-label {
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: var(--text-faint);
+  margin-bottom: 3px;
+}
+
+.genome-bar-track {
+  height: 4px;
+  background: var(--accent-ghost);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.genome-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+@media (max-width: 600px) {
+  #secret-panel, #genome-panel {
+    width: 100vw;
+    height: 78vh;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: 1px solid var(--border-mid);
+    border-radius: 16px 16px 0 0;
+    transform: translateY(100%);
+  }
+  #secret-panel.open, #genome-panel.open { transform: translateY(0); }
 }

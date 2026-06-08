@@ -3,3 +3,7 @@ httpx
 apscheduler
 uvicorn[standard]
 python-multipart
+pytest
+pytest-anyio
+respx
+anyio[trio]
