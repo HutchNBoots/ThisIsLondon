@@ -4,6 +4,57 @@ import { initGauge, updateGauge } from './gauge.js';
 
 // ── Config ────────────────────────────────────────────────────────────────────
 const BACKEND = window.BACKEND_URL || 'http://localhost:8000';
+
+// ── New line sequences (NaPTAN IDs ordered terminus→terminus) ─────────────────
+const BAKERLOO_SEQUENCE_IDS = [
+  '940GZZLUHAW','940GZZLUKBN','940GZZLUSOH','940GZZLUNKR','940GZZLUWMB',
+  '940GZZLUSTP','940GZZLUHRW','940GZZLUWJN','940GZZLUKSL','940GZZLUQPW',
+  '940GZZLURSP','940GZZLUMDV','940GZZLUEUS','940GZZLURGE','940GZZLUOXC',
+  '940GZZLUPCC','940GZZLUEMB','940GZZLUWLO','940GZZLULBN','940GZZLUEAC',
+  '940GZZLUEPG',
+];
+const PICCADILLY_SEQUENCE_IDS = [
+  '940GZZLUCKS','940GZZLUOAK','940GZZLUNFD','940GZZLUSBY','940GZZLUTOT',
+  '940GZZLUWGN','940GZZLUBVR','940GZZLUHNX','940GZZLUFPK','940GZZLUARN',
+  '940GZZLUKGH','940GZZLUHSC','940GZZLUHBN','940GZZLURSP','940GZZLUPDG',
+  '940GZZLUHRC','940GZZLUKBY','940GZZLUSKC','940GZZLUGRD','940GZZLUECT',
+  '940GZZLUBBC','940GZZLUHSD','940GZZLUTNG','940GZZLUACT','940GZZLUSSY',
+  '940GZZLUBOS','940GZZLUOSY','940GZZLUHNE','940GZZLUHNC','940GZZLUHWT',
+  '940GZZLUHTN','940GZZLUHR1',
+];
+const HAMMERSMITH_CITY_SEQUENCE_IDS = [
+  '940GZZLUHSD','940GZZLURAV','940GZZLUSTM','940GZZLUTNG','940GZZLUSBC',
+  '940GZZLUWCY','940GZZLULATM','940GZZLUWHL','940GZZLURYL','940GZZLUPDG',
+  '940GZZLUERB','940GZZLUBST','940GZZLUGWR','940GZZLUEUS','940GZZLUKSX',
+  '940GZZLUFCN','940GZZLUBBN','940GZZLUMGT','940GZZLULVS','940GZZLUALD',
+  '940GZZLUSTD','940GZZLUMLE','940GZZLUBWR','940GZZLUBBY','940GZZLUWCH',
+  '940GZZLUPLW','940GZZLUURP','940GZZLUEHA','940GZZLUBRK',
+];
+const CIRCLE_SEQUENCE_IDS = [
+  '940GZZLUHSD','940GZZLURAV','940GZZLUSTM','940GZZLUTNG','940GZZLUCHY',
+  '940GZZLUSBC','940GZZLUWCY','940GZZLULATM','940GZZLUWHL','940GZZLURYL',
+  '940GZZLUPDG','940GZZLUERB','940GZZLUBST','940GZZLUGWR','940GZZLUEUS',
+  '940GZZLUKSX','940GZZLUFCN','940GZZLUBBN','940GZZLUMGT','940GZZLULVS',
+  '940GZZLUALD','940GZZLUTOH','940GZZLUMHS','940GZZLUCST','940GZZLUMSH',
+  '940GZZLUBLF','940GZZLUTPL','940GZZLUEMB','940GZZLUWST','940GZZLUSTJ',
+  '940GZZLUVIC','940GZZLUSSQ','940GZZLUSKC','940GZZLUGRD','940GZZLUECT',
+  '940GZZLUHKN','940GZZLUNKL','940GZZLUBND','940GZZLUPDG',
+];
+const METROPOLITAN_SEQUENCE_IDS = [
+  '940GZZLUALD','940GZZLULVS','940GZZLUMGT','940GZZLUBBN','940GZZLUFCN',
+  '940GZZLUKSX','940GZZLUEUS','940GZZLUGWR','940GZZLUBST','940GZZLUFJY',
+  '940GZZLUWJN','940GZZLUNWP','940GZZLUDOH','940GZZLUWPK','940GZZLUKBY',
+  '940GZZLUWHS','940GZZLUWMB','940GZZLUPRS','940GZZLUNHD','940GZZLUHRW',
+];
+const ELIZABETH_SEQUENCE_IDS = [
+  '910GREADING','910GTWYFRD','910GMDNHEAD','910GTAPLOW','910GBNMFLD',
+  '910GSLOUGH','910GLANGLY','910GIVR','910GWDRSLGH','910GHAYESAH',
+  '940GZZLUPDG','940GZZLUBON','940GZZLULVS','940GZZLUWLO','940GZZLUCGT',
+  '940GZZLUCWR','940GZZLUSDM','940GZZLUILF','940GZZLUGPK',
+];
+const WATERLOO_CITY_SEQUENCE_IDS = [
+  '940GZZLUWLO','940GZZLUBNK',
+];
 const POLL_INTERVAL = 20000;
 
 // ── TfL line colours ──────────────────────────────────────────────────────────
@@ -13,6 +64,13 @@ const LINE_PALETTE = {
   central:  '#E32017',
   jubilee:  '#868F98',
   northern: '#1C1C1C',
+  bakerloo: '#894E24',
+  piccadilly: '#003688',
+  'hammersmith-city': '#F3A9BB',
+  circle:   '#FFD300',
+  metropolitan: '#9B0056',
+  elizabeth: '#6950A1',
+  'waterloo-city': '#95CDBA',
 };
 
 // Light-tile palette: higher contrast against beige CartoDB background
@@ -22,6 +80,13 @@ const LINE_PALETTE_LIGHT = {
   central:  '#C0120C',
   jubilee:  '#4A5056',
   northern: '#000000',
+  bakerloo: '#6B3C1C',
+  piccadilly: '#002266',
+  'hammersmith-city': '#C87090',
+  circle:   '#C8A800',
+  metropolitan: '#780040',
+  elizabeth: '#503880',
+  'waterloo-city': '#60A090',
 };
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -47,6 +112,11 @@ let boroughLayer = null;
 let primaryStationId = null;
 let primaryStationData = null;
 let tubePolylines = []; // { layer, line } — re-styled on mode change
+const lineVisible = {
+  victoria: true, district: true, central: true, jubilee: true, northern: true,
+  bakerloo: true, piccadilly: true, 'hammersmith-city': true, circle: true,
+  metropolitan: true, elizabeth: true, 'waterloo-city': true,
+};
 
 // ── Map init ──────────────────────────────────────────────────────────────────
 const map = L.map('map', {
@@ -76,6 +146,11 @@ L.control.zoom({ position: 'bottomright' }).addTo(map);
 const atmosphereTint = document.getElementById('atmosphere-tint');
 
 function updateAtmosphere() {
+  // Disable tint in light mode — multiply blend washes out polyline colours
+  if (document.body.classList.contains('mode-light')) {
+    if (atmosphereTint) atmosphereTint.style.backgroundColor = 'transparent';
+    return;
+  }
   const centre = map.getCenter();
   const lat = centre.lat;
   let tint;
@@ -296,6 +371,10 @@ async function loadStations() {
     stations.forEach((station) => {
       const station_id = station.id;
       const { name, lat, lng, line } = station;
+      // Merge: keep all line associations but only one marker per station
+      if (stationData[station_id]) {
+        return; // duplicate shared station — skip marker creation
+      }
       stationData[station_id] = station;
 
       const zoom = map.getZoom();
@@ -336,7 +415,7 @@ async function loadStations() {
 
 function polylineStyle(line, isLight) {
   const colour = isLight ? LINE_PALETTE_LIGHT[line] : LINE_PALETTE[line];
-  return { color: colour, weight: isLight ? 5 : 4, opacity: isLight ? 1 : 0.85 };
+  return { color: colour, weight: isLight ? 6 : 4, opacity: 1 };
 }
 
 function applyPolylineMode(isLight) {
@@ -382,6 +461,31 @@ function drawTubePolylines() {
       tubePolylines.push({ layer, line: 'northern' });
     }
   }
+
+  addLine(seq(BAKERLOO_SEQUENCE_IDS), 'bakerloo');
+  addLine(seq(PICCADILLY_SEQUENCE_IDS), 'piccadilly');
+  addLine(seq(HAMMERSMITH_CITY_SEQUENCE_IDS), 'hammersmith-city');
+  addLine(seq(CIRCLE_SEQUENCE_IDS), 'circle');
+  addLine(seq(METROPOLITAN_SEQUENCE_IDS), 'metropolitan');
+  addLine(seq(ELIZABETH_SEQUENCE_IDS), 'elizabeth');
+  addLine(seq(WATERLOO_CITY_SEQUENCE_IDS), 'waterloo-city');
+}
+
+function toggleLine(lineName) {
+  lineVisible[lineName] = !lineVisible[lineName];
+  const show = lineVisible[lineName];
+  tubePolylines.forEach(({ layer, line }) => {
+    if (line === lineName) {
+      if (show) map.addLayer(layer); else map.removeLayer(layer);
+    }
+  });
+  // Hide/show station markers for that line
+  Object.values(stationMarkers).forEach(m => {
+    const data = stationData[m._leaflet_id] || Object.values(stationData).find(s => stationMarkers[s.id] === m);
+    if (data && data.line === lineName) {
+      m.setOpacity(show ? (map.getZoom() > 12 ? 1 : 0) : 0);
+    }
+  });
 }
 
 // ── Ghost stations ────────────────────────────────────────────────────────────
@@ -857,6 +961,7 @@ if (modeBtn) {
       maxZoom: 20,
     }).addTo(map);
     applyPolylineMode(nextMode === 'light');
+    updateAtmosphere();
     // Ensure tile layer stays below everything else
     currentTileLayer.bringToBack();
   });
@@ -1108,6 +1213,15 @@ function showCurtainRaise() {
   setTimeout(() => { el.style.opacity = '0'; }, 3000);
   setTimeout(() => { el.classList.remove('visible'); }, 4400);
 }
+
+// ── Line toggle buttons ───────────────────────────────────────────────────────
+document.querySelectorAll('.line-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const line = btn.dataset.line;
+    toggleLine(line);
+    btn.classList.toggle('active', lineVisible[line]);
+  });
+});
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 const buildEl = document.getElementById('build-id');

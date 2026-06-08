@@ -125,6 +125,13 @@ const LINE_COLOURS = {
   central:   { core: 'rgba(255,140,140,', mid: 'rgba(227,32,23,',  edge: 'rgba(180,0,0,0)' },
   jubilee:   { core: 'rgba(220,220,230,', mid: 'rgba(160,165,169,',edge: 'rgba(100,105,110,0)' },
   northern:  { core: 'rgba(180,180,180,', mid: 'rgba(100,100,100,',edge: 'rgba(40,40,40,0)' },
+  bakerloo:  { core: 'rgba(255,190,120,', mid: 'rgba(137,78,36,',  edge: 'rgba(100,50,20,0)' },
+  piccadilly:{ core: 'rgba(100,130,255,', mid: 'rgba(0,54,136,',   edge: 'rgba(0,30,100,0)' },
+  'hammersmith-city': { core: 'rgba(255,200,220,', mid: 'rgba(243,169,187,', edge: 'rgba(200,100,140,0)' },
+  circle:    { core: 'rgba(255,240,100,', mid: 'rgba(255,211,0,',  edge: 'rgba(200,160,0,0)' },
+  metropolitan: { core: 'rgba(220,100,160,', mid: 'rgba(155,0,86,',edge: 'rgba(120,0,60,0)' },
+  elizabeth: { core: 'rgba(180,150,255,', mid: 'rgba(105,80,161,', edge: 'rgba(70,40,120,0)' },
+  'waterloo-city': { core: 'rgba(180,240,220,', mid: 'rgba(149,205,186,',edge: 'rgba(100,160,140,0)' },
 };
 
 // Central line sequence (Ealing Broadway → Leytonstone, main spine)
